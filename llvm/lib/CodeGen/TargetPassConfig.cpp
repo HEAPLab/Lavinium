@@ -1123,6 +1123,8 @@ static cl::opt<RegisterRegAlloc::FunctionPassCtor, false,
 void TargetPassConfig::addMachinePasses() {
   AddingMachinePasses = true;
 
+  addPass(createWCETEstimatorPass());
+
   // Add passes that optimize machine instructions in SSA form.
   if (getOptLevel() != CodeGenOpt::None) {
     addMachineSSAOptimization();

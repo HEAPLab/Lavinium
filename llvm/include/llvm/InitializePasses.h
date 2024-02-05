@@ -337,6 +337,7 @@ void initializeVerifierLegacyPassPass(PassRegistry&);
 void initializeVirtRegMapPass(PassRegistry&);
 void initializeVirtRegRewriterPass(PassRegistry&);
 void initializeWasmEHPreparePass(PassRegistry&);
+void initializeWCETEstimatorPass(PassRegistry&);
 void initializeWinEHPreparePass(PassRegistry&);
 void initializeWriteBitcodePassPass(PassRegistry&);
 void initializeXRayInstrumentationPass(PassRegistry&);

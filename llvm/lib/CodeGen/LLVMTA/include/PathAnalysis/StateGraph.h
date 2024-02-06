@@ -132,7 +132,7 @@ protected:
 
   std::list<StateGraphConstrCallback *> constructionCallbacks;
   std::list<StateGraphIsEdgeJoinableCallback *> isEdgeJoinableCallbacks;
-  const struct {
+  struct {
     std::string color = "red";
     int thickness = 3;
   } WCETPathStyle;

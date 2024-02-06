@@ -31,6 +31,8 @@
 #include "PartitionUtil/DirectiveHeuristics.h"
 #include "PathAnalysis/LoopBoundInfo.h"
 
+#include "llvm/Pass.h"
+
 namespace llvm {
 
 std::list<FunctionPass *> getTimingAnalysisPasses(TargetMachine &TM) {

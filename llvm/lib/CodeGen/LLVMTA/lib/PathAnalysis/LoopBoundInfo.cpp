@@ -356,7 +356,7 @@ bool LoopBoundInfoPass::getSCEVBoundFromCVDomain(
     const SCEVNAryExpr *NAry = cast<SCEVNAryExpr>(Equation);
     unsigned FinalVal;
     for (auto &I : NAry->operands()) {
-      if (I == *NAry->op_begin()) {
+      if (I == *NAry->operands().begin()) {
         unsigned Tmp;
         // Copy first value as-is
         if (!(Ret = getSCEVBoundFromCVDomain(I, CVDom, Tmp)))

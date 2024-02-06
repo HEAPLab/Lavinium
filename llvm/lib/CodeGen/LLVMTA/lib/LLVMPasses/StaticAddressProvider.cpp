@@ -348,9 +348,7 @@ bool StaticAddressProvider::doInitialization(Module &M) {
     Glvar2addr.insert(std::make_pair(&*Gvi, Startdatasection));
     DEBUG_WITH_TYPE("staddrprov",
                     dbgs() << Startdatasection << ": " << *Gvi << "\n");
-    auto *PtrType = Gvi->getType();
-    assert(PtrType->isPointerTy() && "Global Variable that is not a pointer");
-    auto *ElementType = PtrType->getPointerElementType();
+    auto *ElementType = Gvi->getValueType();
     Startdatasection += M.getDataLayout().getTypeAllocSize(ElementType);
   }
 
@@ -429,7 +427,7 @@ StaticAddressProvider::getGlobalVarAddress(const GlobalVariable *Glvar) {
 }
 
 unsigned StaticAddressProvider::getArraySize(const GlobalVariable *Glvar) {
-  Type *Type = Glvar->getType()->getElementType();
+  Type *Type = Glvar->getValueType();
   assert(Type->isSized());
   unsigned Size = DataLayoutInstance->getTypeAllocSize(Type);
   /* if our size is not divisible by four we have to acccess the

@@ -26,6 +26,7 @@
 #ifndef TARGET_ARM_TIMINGANALYSISPASSES_H
 #define TARGET_ARM_TIMINGANALYSISPASSES_H
 
+#include "llvm/Pass.h"
 #include "llvm/Target/TargetMachine.h"
 #include <list>
 

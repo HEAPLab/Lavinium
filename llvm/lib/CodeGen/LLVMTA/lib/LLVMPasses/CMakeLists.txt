@@ -1,6 +1,6 @@
 message(STATUS "Found LLVM Passes LIB")
 
-add_llvm_library(llvmtaLLVMPasses
+add_llvm_component_library(llvmtaLLVMPasses
 AsmDumpAndCheckPass.cpp
 DispatchFixedLatency.cpp
 DispatchInOrderPipelineCache.cpp

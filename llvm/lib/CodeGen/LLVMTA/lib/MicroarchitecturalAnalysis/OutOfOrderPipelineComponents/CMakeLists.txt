@@ -1,6 +1,6 @@
 message(STATUS "Found Muarch OutOfOrder LIB")
 
-add_llvm_library(llvmtaMicroarchitectureOutOfOrder
+add_llvm_component_library(llvmtaMicroarchitectureOutOfOrder
 BranchFunctionalUnit.cpp
 CommonDataBus.cpp
 FunctionalUnit.cpp

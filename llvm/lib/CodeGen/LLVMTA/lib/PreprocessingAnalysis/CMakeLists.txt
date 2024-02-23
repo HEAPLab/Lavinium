@@ -1,6 +1,6 @@
 message(STATUS "Found Preprocessing Analysis LIB")
 
-add_llvm_library(llvmtaPreprocessing
+add_llvm_component_library(llvmtaPreprocessing
 AddressInformation.cpp
 ConstantValueDomain.cpp
 ConstantValueDomainARM.cpp

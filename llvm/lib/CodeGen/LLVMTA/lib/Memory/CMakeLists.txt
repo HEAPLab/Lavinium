@@ -1,6 +1,6 @@
 message(STATUS "Found Memory LIB")
 
-add_llvm_library(llvmtaMemory
+add_llvm_component_library(llvmtaMemory
 AbstractCache.cpp
 AbstractCyclingMemory.cpp
 BlockingCyclingMemoryConfig.cpp

@@ -52,6 +52,8 @@
 #include <optional>
 #include <string>
 
+#include "LLVMTA/include/LLVMPasses/TimingAnalysisPasses.h"
+
 using namespace llvm;
 
 static cl::opt<bool>
@@ -1123,7 +1125,11 @@ static cl::opt<RegisterRegAlloc::FunctionPassCtor, false,
 void TargetPassConfig::addMachinePasses() {
   AddingMachinePasses = true;
 
-  addPass(createWCETEstimatorPass());
+  for (auto TAPass : getTimingAnalysisPasses(*TM)) {
+    addPass(TAPass);
+  } 
+
+  //addPass(createWCETEstimatorPass());
 
   // Add passes that optimize machine instructions in SSA form.
   if (getOptLevel() != CodeGenOpt::None) {

@@ -1,6 +1,6 @@
 message(STATUS "Found Util LIB")
 
-add_llvm_library(llvmtaUtil
+add_llvm_component_library(llvmtaUtil
 Graph.cpp
 Options.cpp
 PersistenceScope.cpp

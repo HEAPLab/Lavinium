@@ -1,2 +1,6 @@
 build
 build/*
+.cache
+.cache/*
+dist
+dist/*

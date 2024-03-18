@@ -95,6 +95,10 @@ add_llvm_component_library(LLVMCodeGen
   JMCInstrumenter.cpp
   KCFI.cpp
   LatencyPriorityQueue.cpp
+  LaviniumFunctionTrackerImpl.cpp
+  LaviniumPassManagerImpl.cpp
+  LaviniumRescheduler.cpp
+  LaviniumMachineInstCount.cpp
   LazyMachineBlockFrequencyInfo.cpp
   LexicalScopes.cpp
   LiveDebugVariables.cpp
@@ -285,6 +289,7 @@ add_llvm_component_library(LLVMCodeGen
   Target
   TargetParser
   TransformUtils
+  Passes
   )
 
 add_subdirectory(SelectionDAG)

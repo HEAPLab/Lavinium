@@ -10,7 +10,7 @@ void FunctionTrackerImpl::trackFunction(llvm::Function *Function) {
   llvm::ValueToValueMapTy VM;
   auto *ClonedFunction = llvm::CloneFunction(Function, VM);
   ClonedPair = std::pair{Function, ClonedFunction};
-};
+}
 
 bool FunctionTrackerImpl::isTrackingFunction(const llvm::Function *lft) {
   if (!ClonedPair.has_value())

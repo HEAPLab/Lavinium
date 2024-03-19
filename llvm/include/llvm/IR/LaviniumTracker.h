@@ -46,6 +46,16 @@ public:
   }
 
   auto &getIds() const { return this->Ids; }
+  std::string toString() const {
+    std::string name;
+    for (auto [i, Key] : llvm::enumerate(Ids)) {
+      name += Key;
+      if (i < Ids.size() - 1) {
+        llvm::dbgs() << " - ";
+      }
+    }
+    return name;
+  };
 
   bool isEmpty() const { return Ids.empty(); };
   explicit operator bool() const { return this->Ids.size() > 0; };
@@ -100,6 +110,9 @@ public:
     assert(checkInit() && ("Call   before init"));
     Scheduled.pushBack(std::forward<Args>(args)...);
   }
+
+  // Return a reference to the scheduled pass
+  auto &getScheduled() const { return Scheduled; }
 
   // Return if the store has overritten an already present entry
   bool storeMetric(llvm::Function *Function, Metric &M) {

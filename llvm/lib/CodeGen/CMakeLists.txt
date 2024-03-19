@@ -35,6 +35,30 @@ add_llvm_component_library(LLVMCodeGenTypes
   Support
   )
 
+  add_llvm_component_library(LLVMLavinium
+  LaviniumFunctionTrackerImpl.cpp
+  LaviniumPassManagerImpl.cpp
+  
+  PARTIAL_SOURCES_INTENDED
+
+  DEPENDS
+  intrinsics_gen
+  ${MLDeps}
+  vt_gen
+
+
+  LINK_COMPONENTS
+  Passes
+  Core
+  CodeGen
+  Support
+  Analysis
+  TransformUtils
+  
+  )
+
+
+
 add_llvm_component_library(LLVMCodeGen
   AggressiveAntiDepBreaker.cpp
   AllocationOrder.cpp
@@ -95,8 +119,6 @@ add_llvm_component_library(LLVMCodeGen
   JMCInstrumenter.cpp
   KCFI.cpp
   LatencyPriorityQueue.cpp
-  LaviniumFunctionTrackerImpl.cpp
-  LaviniumPassManagerImpl.cpp
   LaviniumRescheduler.cpp
   LaviniumMachineInstCount.cpp
   LazyMachineBlockFrequencyInfo.cpp
@@ -289,7 +311,6 @@ add_llvm_component_library(LLVMCodeGen
   Target
   TargetParser
   TransformUtils
-  Passes
   )
 
 add_subdirectory(SelectionDAG)

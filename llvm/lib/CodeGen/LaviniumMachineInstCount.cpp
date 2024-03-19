@@ -18,6 +18,7 @@ INITIALIZE_PASS(LaviniumMachineInstCount, "LaviniumMachineInstCount",
                 DEBUG_TYPE, false, true)
 
 bool LaviniumMachineInstCount::runOnMachineFunction(llvm::MachineFunction &MF) {
+  count = 0;
   for (auto &MB : MF) {
     for (auto &MI : MB) {
       count++;

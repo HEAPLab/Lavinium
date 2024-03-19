@@ -13,6 +13,7 @@ public:
   virtual bool isTrackingFunction(const llvm::Function *lft) = 0;
   virtual void restoreOriginalFunction(llvm::Function *Function) = 0;
   virtual void untrackFunction(llvm::Function *Function) = 0;
+  virtual ~FunctionTracker() = default;
 
 protected:
   std::optional<std::pair<llvm::Function *, llvm::Function *>> ClonedPair;

@@ -4,6 +4,7 @@ namespace Lavinium {
 
 class FunctionTrackerImpl : public FunctionTracker {
 
+public:
   // Store a copy of a original function to be able to restore for later uses
   void trackFunction(llvm::Function *Function) override;
 
@@ -12,5 +13,7 @@ class FunctionTrackerImpl : public FunctionTracker {
   void restoreOriginalFunction(llvm::Function *Function) override;
 
   void untrackFunction(llvm::Function *Function) override;
+
+  ~FunctionTrackerImpl() = default;
 };
 } // namespace Lavinium

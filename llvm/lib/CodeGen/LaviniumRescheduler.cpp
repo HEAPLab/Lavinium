@@ -1,7 +1,5 @@
 
-#include "LaviniumFunctionTrackerImpl.h"
 #include "LaviniumMachineInstCount.h"
-#include "LaviniumPassManagerImpl.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/Statistic.h"
 #include "llvm/Analysis/BasicAliasAnalysis.h"
@@ -67,11 +65,6 @@ void LaviniumRescheduler::ResetMF(MachineFunction &MF) {
 bool LaviniumRescheduler ::trackCorrectlyInit(llvm::Function *Function) {
 
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-  if (!Tracker.checkInit()) {
-    Tracker.Init(std::make_unique<Lavinium::FunctionTrackerImpl>(),
-                 std::make_unique<Lavinium::PassManagerWrapperImpl>());
-    Tracker.trackFunction(Function);
-  }
   assert(Tracker.checkInit());
   assert(Tracker.isTrackingFunction(Function));
   return true;
@@ -83,14 +76,8 @@ void LaviniumRescheduler::printResult(llvm::Function *Function) {
   llvm::dbgs() << "WCET Result of " << Function->getName() << '\n';
 
   for (auto &[Keys, CachedMetric] : CachedMetrics) {
-    for (auto [i, Key] : llvm::enumerate(Keys.getIds())) {
-      llvm::dbgs() << Key;
-      if (i < Keys.getIds().size() - 1) {
-        llvm::dbgs() << " - ";
-      } else {
-        llvm::dbgs() << ": ";
-      }
-    }
+    llvm::dbgs() << Keys.toString();
+    llvm::dbgs() << ": ";
     llvm::dbgs() << CachedMetric << "\n";
   }
 }
@@ -104,8 +91,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   trackCorrectlyInit(Function);
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
 
-  // Store previus metric given by Previous passes
-  // TODO: Gestire Davvero
+  // Store previus metric given by WCET passes
   auto Wcet = WCETAnalysis.getValue();
   Tracker.storeMetric(Function, Wcet);
 

@@ -28,6 +28,7 @@ set(LLVM_LINK_COMPONENTS
   Target
   TargetParser
   TransformUtils
+  Lavinium
   )
 
 add_clang_library(clangCodeGen

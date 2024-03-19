@@ -15,6 +15,7 @@ class PassManagerWrapperImpl : public PassManagerWrapper {
   getFunctionPassManager(const std::vector<std::string> &Scheduled);
 
 public:
+  ~PassManagerWrapperImpl() override = default;
   PassManagerWrapperImpl();
   virtual void run(llvm::Function *Function,
                    const std::vector<std::string> &Scheduled) override;

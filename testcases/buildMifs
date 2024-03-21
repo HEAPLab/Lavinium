@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+set -u
+
+DIRPATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$DIRPATH/util_scripts/pretty_print.sh"
+source "$DIRPATH/util_scripts/parallel.sh"
+
+check() {
+	tc="$1" && shift
+	print_info "Creating mif for $tc"
+	./runTestcase "$tc" "$@" --disable-hard-floatingpoint --llvmta-build-mif -- --ta-quiet --ta-ana-type=value --ta-strict=false
+	mifName=$(echo "$tc" | sed 's#/#|#g')
+	# Copy the mif
+	cp "Benchmarks/$tc/build/final_binary.mif" "$DIRPATH/resultMifs/$mifName.mif"
+	# Copy the binary for later disassembly
+	cp "Benchmarks/$tc/build/final_binary" "$DIRPATH/resultMifs/$mifName"
+}
+
+export -f print_info
+export -f check
+export DIRPATH
+
+echo $DIRPATH
+mkdir $DIRPATH/resultMifs
+
+run_parallel check "$@"

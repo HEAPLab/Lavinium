@@ -1,39 +1,76 @@
-# The LLVM Compiler Infrastructure
+# LLVMTA
 
-Welcome to the LLVM project!
+This Repository contains LLVMTA a static timing analysis tool based on the LLVM compiler ecosystem.
 
-This repository contains the source code for LLVM, a toolkit for the
-construction of highly optimized compilers, optimizers, and run-time
-environments.
+## Setup with VS Code and Docker development container
 
-The LLVM project has multiple components. The core of the project is
-itself called "LLVM". This contains all of the tools, libraries, and header
-files needed to process intermediate representations and convert them into
-object files. Tools include an assembler, disassembler, bitcode analyzer, and
-bitcode optimizer.
+1.) Get [VS CODE](https://code.visualstudio.com/) and necessary [extensions](https://code.visualstudio.com/docs/remote/remote-overview) for remote container development.
 
-C-like languages use the [Clang](http://clang.llvm.org/) frontend. This
-component compiles C, C++, Objective-C, and Objective-C++ code into LLVM bitcode
--- and from there into object files, using LLVM.
+![alt text](dependencies/img/extension.gif)
 
-Other components include:
-the [libc++ C++ standard library](https://libcxx.llvm.org),
-the [LLD linker](https://lld.llvm.org), and more.
+2.a.) This repository supports VS code development containers. Just press F1 inside VS code and execute "Remote-Containers: Open Worksapce in Container..". Now continue with [building](#build-the-project)  the Project. Should you prefere to build the container yourself continue with the next steps.
 
-## Getting the Source Code and Building LLVM
+![alt text](dependencies/img/open.gif)
 
-Consult the
-[Getting Started with LLVM](https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm)
-page for information on building and running LLVM.
+2.b.) Build the Docker container from the Docker file. The default Dockerfile uses Ubuntu and Dockerfile.Arch uses Arch Linux.
 
-For information on how to contribute to the LLVM project, please take a look at
-the [Contributing to LLVM](https://llvm.org/docs/Contributing.html) guide.
+```
+docker build -t llvmtadocker:latest - < .devcontainer/Dockerfile
+```
+3.) Run the Docker dev container with Repository as Volume. The third line defines an extra Volume for the build folder and is optional.
+```
+docker run -i -d \
+	-v {$path_to_this_repository}:/workspaces/llvmta:rw \
+	-v {$path_to_build_bir}:/workspaces/llvmta/build:rw \
+	--name $name_of_instance llvmtadocker:latest
+```
+4.) Now VS Code can be attached to the container.
 
-## Getting in touch
 
-Join the [LLVM Discourse forums](https://discourse.llvm.org/), [Discord
-chat](https://discord.gg/xS7Z362), or #llvm IRC channel on
-[OFTC](https://oftc.net/).
+## Build the project
 
-The LLVM project has adopted a [code of conduct](https://llvm.org/docs/CodeOfConduct.html) for
-participants to all modes of communication within the project.
+If using VS code all config and build tasks can be triggered by shift+ctr+b.
+
+1.) Config the project with the ./config.sh script. Be aware that llvm and LLVMTA requires a lot or RAM, should your System have only 16GB of RAM choose the "lowRes" configuration.
+```
+Script to configure llvm, clang and LLVMTA:
+  dev | development          Configure for development.
+  rel | release              Configure for Release.
+  lowRes | lowResources      Configure for low Ram PC.
+  distributed | dis          Configure for icecc distributed compiler.
+  clean                      Removes build folder.
+```
+You will be asked to download llvm and clang at the first setup. The script will do so automatically.
+
+![alt text](dependencies/img/config.gif)
+
+3.) Build llvm, clang and LLVMTA with ninja. This is necessary at least once, so that the llvm and LLVMTA toolchain are of the same version.
+```
+cd build
+ninja -j [#CPUs]
+```
+For later rebuilds it is enough to just build LLVMTA.
+```
+cd build
+ninja -j [#CPUs] llvmta
+```
+
+![alt text](dependencies/img/build.gif)
+
+## Using LLVMTA
+This section showcases how to use LLVMTA on a simple test case of a nested loop example. Make sure LLVMTA is compiled and in your $PATH variable.
+
+1.) Change into the testcases folder.
+```
+cd testcases
+```
+2.) Run LLVMTA on the benchmark using the script
+```
+./runTestcase loopexamples/nested
+```
+All test cases are in the Benchmarks folder and only their relative path has to be handed. The full path for the command above ist "testcases/Benchmarks/loopexamples/nested", keep this in mind while using the script.
+
+## Using Gurobi
+
+To use Gurobi, simply place your gurobi.lic file in the dependencies folder.
+The license will not be found, if its not named gurobi.lic! Otherwise LLVMTA will fallback to using LPsolve.

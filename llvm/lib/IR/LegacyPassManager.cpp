@@ -30,6 +30,7 @@
 #include "llvm/Support/Timer.h"
 #include "llvm/Support/raw_ostream.h"
 #include <algorithm>
+#include <string>
 
 using namespace llvm;
 
@@ -49,10 +50,15 @@ enum PassDebugLevel { Disabled, Arguments, Structure, Executions, Details };
 
 /// Lavinium Options
 bool LaviniumEnable;
-static cl::opt<bool, true>
-    lavinium("lavinium-enable",
-             cl::desc("Run live interval analysis earlier in the pipeline"),
-             cl::location(LaviniumEnable), cl::init(false));
+static cl::opt<bool, true> lavinium("lavinium-enable",
+                                    cl::desc("Lavinium WCET scheduler"),
+                                    cl::location(LaviniumEnable),
+                                    cl::init(false));
+
+std::string LaviniumFile;
+static cl::opt<std::string, true>
+    lavfile("lavinium-file", cl::desc("File Containing pass to run"),
+            cl::location(LaviniumFile), cl::init(""));
 
 static cl::opt<enum PassDebugLevel> PassDebugging(
     "debug-pass", cl::Hidden,
@@ -1446,7 +1452,7 @@ bool FPPassManager::runOnFunction(Function &F) {
 
         auto &Tracker =
             Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-        if (Tracker.neetToResetCounter()) {
+        if (Tracker.needToResetCounter()) {
           // Setting the index to 0 restart the passes
           Index = 0;
         }

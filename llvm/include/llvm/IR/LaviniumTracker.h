@@ -1,88 +1,25 @@
 #pragma once
 
 #include "LaviniumFunctionTracker.h"
+#include "LaviniumScheduledPass.h"
+#include "LaviniumStrategy.h"
 #include "llvm/ADT/DenseMap.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/LaviniumPassManagerWrapper.h"
+#include "llvm/IR/LaviniumTypes.h"
 #include "llvm/Pass.h"
 #include <algorithm>
 #include <cassert>
-#include <cstddef>
-#include <functional>
 #include <memory>
-#include <string>
-#include <unordered_map>
 #include <utility>
-#include <vector>
+
+// clang-format off
+// ╦  ┌─┐┬  ┬┬┌┐┌┬┬ ┬┌┬┐╔╦╗┬─┐┌─┐┌─┐┬┌─┌─┐┬─┐
+// ║  ├─┤└┐┌┘││││││ ││││ ║ ├┬┘├─┤│  ├┴┐├┤ ├┬┘
+// ╩═╝┴ ┴ └┘ ┴┘└┘┴└─┘┴ ┴ ╩ ┴└─┴ ┴└─┘┴ ┴└─┘┴└─
+// clang-format on
 
 namespace Lavinium {
-
-class LaviniumScheduledPasses {
-  std::vector<std::string> Ids; // Passes are identified by ID
-
-public:
-  template <typename... Args>
-  LaviniumScheduledPasses(Args &&...args) : Ids{std::forward<Args>(args)...} {}
-  LaviniumScheduledPasses() = default;
-  LaviniumScheduledPasses(const LaviniumScheduledPasses &) = default;
-  LaviniumScheduledPasses(LaviniumScheduledPasses &&) = default;
-  LaviniumScheduledPasses &operator=(const LaviniumScheduledPasses &) = default;
-  LaviniumScheduledPasses &operator=(LaviniumScheduledPasses &&) = default;
-
-  template <typename... Args> void pushBack(Args &&...args) {
-    (Ids.push_back(std::forward<Args>(args)), ...);
-  }
-
-  bool operator==(const LaviniumScheduledPasses &rhs) const {
-    if (this->Ids.size() != rhs.Ids.size())
-      return false;
-    auto size = this->Ids.size();
-    for (size_t i = 0; i < size; i++) {
-      if (this->Ids[i] != rhs.Ids[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  auto &getIds() const { return this->Ids; }
-  std::string toString() const {
-    std::string name;
-    for (auto [i, Key] : llvm::enumerate(Ids)) {
-      name += Key;
-      if (i < Ids.size() - 1) {
-        llvm::dbgs() << " - ";
-      }
-    }
-    return name;
-  };
-
-  bool isEmpty() const { return Ids.empty(); };
-  explicit operator bool() const { return this->Ids.size() > 0; };
-};
-} // namespace Lavinium
-
-template <> struct std::hash<Lavinium::LaviniumScheduledPasses> {
-  std::size_t
-  operator()(const Lavinium::LaviniumScheduledPasses &s) const noexcept {
-
-    auto seed = 0;
-    for (auto &view : s.getIds()) {
-      seed ^= std::hash<std::string>{}(view) + 0x9e3779b9 + (seed << 6) +
-              (seed >> 2);
-    }
-    return seed;
-  }
-};
-
-namespace Lavinium {
-
-template <typename Metric>
-using CachedPassesType = std::unordered_map<LaviniumScheduledPasses, Metric>;
-
-template <typename Metric>
-using CachedFunctionMetric =
-    llvm::DenseMap<llvm::Function *, CachedPassesType<Metric>>;
 
 template <typename Metric> class LaviniumTracker {
 
@@ -95,6 +32,8 @@ private:
     PassManager.swap(PMW);
   }
 
+  void setStrategy(std::unique_ptr<Strategy> &&ST) { Strategy.swap(ST); }
+
 public:
   void Init(std::unique_ptr<FunctionTracker> FT,
             std::unique_ptr<PassManagerWrapper> PMW) {
@@ -103,7 +42,8 @@ public:
   }
 
   bool checkInit() const {
-    return static_cast<bool>(functionTracker) && static_cast<bool>(PassManager);
+    return static_cast<bool>(Strategy) && static_cast<bool>(functionTracker) &&
+           static_cast<bool>(PassManager);
   }
 
   template <typename... Args> void addToSchedule(Args &&...args) {
@@ -111,8 +51,13 @@ public:
     Scheduled.pushBack(std::forward<Args>(args)...);
   }
 
+  // Clear scheduled pass
+  void clearScheduled() { Scheduled.clear(); }
+
   // Return a reference to the scheduled pass
   auto &getScheduled() const { return Scheduled; }
+
+  Strategy &getStrategy() const { return *Strategy; }
 
   // Return if the store has overritten an already present entry
   bool storeMetric(llvm::Function *Function, Metric &M) {
@@ -151,6 +96,7 @@ public:
     return *minimum;
   }
 
+  // Retrive the stored Metrics for a functions
   const CachedPassesType<Metric> &
   getCachedMetrics(llvm::Function *Function) const {
     assert(checkInit() && "Not Init");
@@ -158,8 +104,10 @@ public:
     return cachedFunction;
   }
 
-  bool neetToResetCounter() const { return !Scheduled.isEmpty(); }
+  // Check if a pass is scheduled
+  bool needToResetCounter() const { return !Scheduled.isEmpty(); }
 
+  // Get Instance of the tracker
   static LaviniumTracker &getTrackerInstace() {
     static LaviniumTracker<Metric> instance;
     return instance;
@@ -190,8 +138,7 @@ public:
     functionTracker->untrackFunction(Function);
   }
 
-  bool isFunctionNoTracker() { return static_cast<bool>(functionTracker); }
-
+  // Run scheduled pass on the function
   void run(llvm::Function *Function) {
     assert(checkInit() && "Not Init");
     assert(functionTracker->isTrackingFunction(Function) &&
@@ -210,6 +157,7 @@ private:
   LaviniumScheduledPasses Scheduled;
   std::unique_ptr<FunctionTracker> functionTracker;
   std::unique_ptr<PassManagerWrapper> PassManager;
+  std::unique_ptr<Strategy> Strategy;
   template <typename ANY> friend LaviniumTracker<ANY> getInstace();
 };
 

@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "EasyTest",
+            "program": "/home/ilgeco/opt/Lavinium/build/bin/clang-17",
+            "args": [
+                "-mllvm",
+                "-lavinium-enable",
+                "../main.c",
+            ],
+            "cwd": "/home/ilgeco/Project/tmp/Reschedule/build",
+            "initCommands": [
+                "settings set target.process.follow-fork-mode child"
+            ],
+            "sourceLanguages": [
+                "c"
+            ]
+        }
+    ]
+}

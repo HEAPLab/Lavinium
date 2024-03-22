@@ -82,8 +82,6 @@ void LaviniumRescheduler::printResult(llvm::Function *Function) {
   }
 }
 
-auto SchedPasses = {"dce", "mem2reg", "instsimplify"};
-
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   auto &WCETAnalysis = getAnalysis<Lavinium::LaviniumMachineInstCount>();
 
@@ -100,23 +98,22 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
 
   // Add to the list of passes
   // List Pass Names HERE: ./llvm/lib/Passes/PassRegistry.def
-  for (auto &NamePass : SchedPasses) {
-    if (!Tracker.alreadyRunned(Function, NamePass)) {
-      Tracker.addToSchedule(NamePass);
-      Tracker.run(Function);
-      break;
-      // Create the analysis managers.
-      // Register all the basic analyses with the managers.
+  auto &Strategy = Tracker.getStrategy();
+  std::optional<std::vector<std::string>> NextPasses = Strategy.suggestPasses();
+  if (NextPasses) {
+    for (auto Pass : *NextPasses) {
+      Tracker.addToSchedule(Pass);
     }
-  }
-
-  if (Tracker.neetToResetCounter()) {
+    Tracker.run(Function);
     ResetMF(MF);
   } else {
-    printResult(Function);
+    std::string FinalPass = Strategy.getFinal();
+    Tracker.addToSchedule(FinalPass);
+    Tracker.run(Function);
+    Tracker.clearScheduled();
   }
-
-  return true;
+}
+return true;
 }
 
 void LaviniumRescheduler::getAnalysisUsage(AnalysisUsage &AU) const {

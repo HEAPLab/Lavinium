@@ -122,7 +122,7 @@ MachineFunction &MachineModuleInfo::getOrCreateMachineFunction(Function &F) {
 }
 
 void MachineModuleInfo::deleteMachineFunctionFor(Function &F) {
-  MachineFunctions.erase(&F);
+  //MachineFunctions.erase(&F);
   LastRequest = nullptr;
   LastResult = nullptr;
 }

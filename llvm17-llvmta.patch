@@ -1,0 +1,42 @@
+diff --git a/llvm/include/llvm/Support/GenericLoopInfo.h b/llvm/include/llvm/Support/GenericLoopInfo.h
+index ac4f2d701..b1efe5559 100644
+--- a/llvm/include/llvm/Support/GenericLoopInfo.h
++++ b/llvm/include/llvm/Support/GenericLoopInfo.h
+@@ -567,10 +567,10 @@ public:
+   void releaseMemory() {
+     BBMap.clear();
+ 
+-    for (auto *L : TopLevelLoops)
++    /* for (auto *L : TopLevelLoops)
+       L->~LoopT();
+     TopLevelLoops.clear();
+-    LoopAllocator.Reset();
++    LoopAllocator.Reset(); */
+   }
+ 
+   template <typename... ArgsTy> LoopT *AllocateLoop(ArgsTy &&...Args) {
+diff --git a/llvm/lib/Analysis/ScalarEvolution.cpp b/llvm/lib/Analysis/ScalarEvolution.cpp
+index 39ab48b4a..045714022 100644
+--- a/llvm/lib/Analysis/ScalarEvolution.cpp
++++ b/llvm/lib/Analysis/ScalarEvolution.cpp
+@@ -14259,6 +14259,7 @@ ScalarEvolutionWrapperPass::ScalarEvolutionWrapperPass() : FunctionPass(ID) {
+ }
+ 
+ bool ScalarEvolutionWrapperPass::runOnFunction(Function &F) {
++  SE.release();
+   SE.reset(new ScalarEvolution(
+       F, getAnalysis<TargetLibraryInfoWrapperPass>().getTLI(F),
+       getAnalysis<AssumptionCacheTracker>().getAssumptionCache(F),
+diff --git a/llvm/lib/CodeGen/MachineModuleInfo.cpp b/llvm/lib/CodeGen/MachineModuleInfo.cpp
+index 921feb253..a949d2a6f 100644
+--- a/llvm/lib/CodeGen/MachineModuleInfo.cpp
++++ b/llvm/lib/CodeGen/MachineModuleInfo.cpp
+@@ -122,7 +122,7 @@ MachineFunction &MachineModuleInfo::getOrCreateMachineFunction(Function &F) {
+ }
+ 
+ void MachineModuleInfo::deleteMachineFunctionFor(Function &F) {
+-  MachineFunctions.erase(&F);
++  //MachineFunctions.erase(&F);
+   LastRequest = nullptr;
+   LastResult = nullptr;
+ }

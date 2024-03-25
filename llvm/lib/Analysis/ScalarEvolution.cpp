@@ -14259,6 +14259,7 @@ ScalarEvolutionWrapperPass::ScalarEvolutionWrapperPass() : FunctionPass(ID) {
 }
 
 bool ScalarEvolutionWrapperPass::runOnFunction(Function &F) {
+  SE.release();
   SE.reset(new ScalarEvolution(
       F, getAnalysis<TargetLibraryInfoWrapperPass>().getTLI(F),
       getAnalysis<AssumptionCacheTracker>().getAssumptionCache(F),

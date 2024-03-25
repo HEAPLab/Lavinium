@@ -24,6 +24,7 @@
 #include <cstdint>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 using namespace llvm;
 using namespace Lavinium;
@@ -99,7 +100,8 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   // Add to the list of passes
   // List Pass Names HERE: ./llvm/lib/Passes/PassRegistry.def
   auto &Strategy = Tracker.getStrategy();
-  std::optional<std::vector<std::string>> NextPasses = Strategy.suggestPasses();
+  std::optional<std::vector<std::string>> NextPasses =
+      Strategy.suggestPasses(Function);
   if (NextPasses) {
     for (auto Pass : *NextPasses) {
       Tracker.addToSchedule(Pass);
@@ -107,13 +109,15 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     Tracker.run(Function);
     ResetMF(MF);
   } else {
-    std::string FinalPass = Strategy.getFinal();
-    Tracker.addToSchedule(FinalPass);
+    std::vector<std::string> FinalPass = Strategy.getFinal(Function);
+    for (auto Pass : FinalPass) {
+      Tracker.addToSchedule(Pass);
+    }
     Tracker.run(Function);
     Tracker.clearScheduled();
+    printResult(Function);
   }
-}
-return true;
+  return true;
 }
 
 void LaviniumRescheduler::getAnalysisUsage(AnalysisUsage &AU) const {

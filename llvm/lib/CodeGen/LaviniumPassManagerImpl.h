@@ -10,7 +10,10 @@ namespace Lavinium {
 
 class PassManagerWrapperImpl : public PassManagerWrapper {
   llvm::PassBuilder passBuilder;
+  llvm::LoopAnalysisManager LAM;
   llvm::FunctionAnalysisManager FAM;
+  llvm::CGSCCAnalysisManager CGAM;
+  llvm::ModuleAnalysisManager MAM;
   llvm::FunctionPassManager
   getFunctionPassManager(const std::vector<std::string> &Scheduled);
 

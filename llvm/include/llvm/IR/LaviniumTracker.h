@@ -7,6 +7,7 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/LaviniumPassManagerWrapper.h"
 #include "llvm/IR/LaviniumTypes.h"
+#include "llvm/IR/OptBisect.h"
 #include "llvm/Pass.h"
 #include <algorithm>
 #include <cassert>
@@ -36,9 +37,11 @@ private:
 
 public:
   void Init(std::unique_ptr<FunctionTracker> FT,
-            std::unique_ptr<PassManagerWrapper> PMW) {
+            std::unique_ptr<PassManagerWrapper> PMW,
+            std::unique_ptr<Strategy> ST) {
     setFunctionTracker(std::move(FT));
     setPassManagerWrapper(std::move(PMW));
+    setStrategy(std::move(ST));
   }
 
   bool checkInit() const {
@@ -145,6 +148,8 @@ public:
            "Pass running on an untracked function");
     PassManager->run(Function, Scheduled.getIds());
   }
+
+  auto &getCachedFunctions() { return CachedFunctions; }
 
 private:
   LaviniumTracker()

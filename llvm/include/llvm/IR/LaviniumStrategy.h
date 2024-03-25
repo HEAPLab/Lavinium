@@ -1,9 +1,9 @@
 #pragma once
 
-#include "LaviniumStrategy.h"
-#include "LaviniumTypes.h"
 #include "llvm/IR/Function.h"
 #include <optional>
+#include <string>
+#include <vector>
 
 // clang-format off
 // ╔═╗┌┬┐┬─┐┌─┐┌┬┐┌─┐┌─┐┬ ┬
@@ -17,13 +17,15 @@ namespace Lavinium {
 // List Pass Names HERE: ./llvm/lib/Passes/PassRegistry.def
 class Strategy {
 protected:
-  Strategy() = delete;
+  Strategy() = default;
   Strategy(const Strategy &) = delete;
   Strategy(Strategy &&) = delete;
 
 public:
   virtual ~Strategy() = default;
-  virtual std::optional<std::vector<std::string>> suggestPasses() = 0;
+  virtual std::optional<std::vector<std::string>>
+  suggestPasses(llvm::Function *) = 0;
+  virtual std::vector<std::string> getFinal(llvm::Function *) = 0;
 };
 
 } // namespace Lavinium

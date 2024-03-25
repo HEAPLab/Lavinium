@@ -567,10 +567,10 @@ public:
   void releaseMemory() {
     BBMap.clear();
 
-    for (auto *L : TopLevelLoops)
-      L->~LoopT();
-    TopLevelLoops.clear();
-    LoopAllocator.Reset();
+    /*   for (auto *L : TopLevelLoops)
+          L->~LoopT();
+        TopLevelLoops.clear();
+        LoopAllocator.Reset();*/
   }
 
   template <typename... ArgsTy> LoopT *AllocateLoop(ArgsTy &&...Args) {

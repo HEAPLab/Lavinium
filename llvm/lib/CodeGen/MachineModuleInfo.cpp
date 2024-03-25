@@ -122,7 +122,7 @@ MachineFunction &MachineModuleInfo::getOrCreateMachineFunction(Function &F) {
 }
 
 void MachineModuleInfo::deleteMachineFunctionFor(Function &F) {
-  MachineFunctions.erase(&F);
+  // MachineFunctions.erase(&F);
   LastRequest = nullptr;
   LastResult = nullptr;
 }
@@ -155,9 +155,7 @@ public:
     return true;
   }
 
-  StringRef getPassName() const override {
-    return "Free MachineFunction";
-  }
+  StringRef getPassName() const override { return "Free MachineFunction"; }
 };
 
 } // end anonymous namespace
@@ -225,8 +223,8 @@ bool MachineModuleInfoWrapperPass::doInitialization(Module &M) {
         Ctx.diagnose(
             DiagnosticInfoSrcMgr(SMD, M.getName(), IsInlineAsm, LocCookie));
       });
-  MMI.DbgInfoAvailable = !DisableDebugInfoPrinting &&
-                         !M.debug_compile_units().empty();
+  MMI.DbgInfoAvailable =
+      !DisableDebugInfoPrinting && !M.debug_compile_units().empty();
   return false;
 }
 
@@ -241,7 +239,7 @@ MachineModuleInfo MachineModuleAnalysis::run(Module &M,
                                              ModuleAnalysisManager &) {
   MachineModuleInfo MMI(TM);
   MMI.TheModule = &M;
-  MMI.DbgInfoAvailable = !DisableDebugInfoPrinting &&
-                         !M.debug_compile_units().empty();
+  MMI.DbgInfoAvailable =
+      !DisableDebugInfoPrinting && !M.debug_compile_units().empty();
   return MMI;
 }

@@ -2,6 +2,7 @@
 #pragma once
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/Support/Debug.h"
+#include <cstddef>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,8 @@ public:
     }
     return name;
   };
+
+  size_t size() const { return Ids.size(); }
 
   bool isEmpty() const { return Ids.empty(); };
   void clear() { Ids.clear(); }

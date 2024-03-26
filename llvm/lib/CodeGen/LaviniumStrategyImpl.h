@@ -87,7 +87,23 @@ public:
   }
 
   // return true if can continue scheduling
-  bool cascadeAdvance(llvm::Function *Function, size_t currentLevel) {
+  bool cascadeAdvanceMinimum(llvm::Function *Function, size_t currentLevel) {
+
+    auto &[Its, Depth] = Iterators.getOrInsertDefault(Function);
+    if (Depth == MaxDepth) {
+      return false;
+    } else {
+      auto &minimum_last = findMinimum(Function, Depth)->getIds().back();
+      Its[Depth] = std::find_if(
+          availablePasses.begin(), availablePasses.end(),
+          [&minimum_last](auto &elem) { return elem == minimum_last; });
+      Depth++;
+      return true;
+    }
+  }
+
+  // return true if can continue scheduling
+  bool cascadeAdvanceCartesian(llvm::Function *Function, size_t currentLevel) {
     auto end = availablePasses.end();
     auto begin = availablePasses.begin();
 
@@ -122,13 +138,13 @@ public:
     auto &[Its, Depth] = Iterators.getOrInsertDefault(Function);
 
     std::vector<std::string> res;
-    auto &It = Its.at(Depth);
-    if (It == availablePasses.end()) {
-      bool canContinue = cascadeAdvance(Function, Depth);
+    if (Its.at(Depth) == availablePasses.end()) {
+      bool canContinue = cascadeAdvanceCartesian(Function, Depth);
       if (!canContinue) {
         return std::nullopt;
       }
     }
+    auto &It = Its.at(Depth);
 
     for (size_t i = 0; i <= Depth; i++) {
       res.push_back(Its[i]->c_str());
@@ -139,6 +155,28 @@ public:
 
   std::optional<std::vector<std::string>>
   suggestMinimum(llvm::Function *Function) {
+
+    if (!Iterators.contains(Function)) {
+      initialize(Function);
+    }
+
+    auto &[Its, Depth] = Iterators.getOrInsertDefault(Function);
+
+    std::vector<std::string> res;
+    if (Its.at(Depth) == availablePasses.end()) {
+      bool canContinue = cascadeAdvanceMinimum(Function, Depth);
+      if (!canContinue) {
+        return std::nullopt;
+      }
+    }
+
+    auto &It = Its.at(Depth);
+    for (size_t i = 0; i <= Depth; i++) {
+      res.push_back(Its[i]->c_str());
+    }
+    It = std::next(It);
+    return res;
+
     return std::nullopt;
   }
 
@@ -151,6 +189,33 @@ public:
     if (Type == EXPTYPE::MinimumOnly) {
       return suggestMinimum(Function);
     }
+    return std::nullopt;
+  }
+
+  // Find the minimum wcet for a certain level of depth
+  auto findMinimum(llvm::Function *Function, int Depth) {
+    auto &cachedFunction = cachedFunctionMetric->at(Function);
+    typename CachedPassesType<Metric>::mapped_type min_data;
+    const typename CachedPassesType<Metric>::key_type *min_key;
+    auto begin = cachedFunction.begin();
+    auto end = cachedFunction.end();
+
+    min_data = begin->second;
+    min_key = &(begin->first);
+
+    while (begin != end) {
+      auto &[key, data] = *begin;
+      if (key.size() - 1 != (size_t)Depth) {
+        begin++;
+        continue;
+      }
+      if (min_data > data) {
+        min_data = std::min(data, min_data);
+        min_key = &key;
+      }
+      begin++;
+    }
+    return min_key;
   }
 
   std::vector<std::string> getFinal(llvm::Function *Function) override {
@@ -158,8 +223,13 @@ public:
     assert(cachedFunction.size() > 0 &&
            "Getting the minimum of an empty vector");
     auto minimum = std::min_element(
-        cachedFunction.begin(), cachedFunction.end(),
-        [](auto &lft, auto &rgt) { return lft.second < rgt.second; });
+        cachedFunction.begin(), cachedFunction.end(), [](auto &lft, auto &rgt) {
+          if (lft.second == rgt.second) {
+            return lft.first.size() < rgt.first.size();
+          }
+          return lft.second < rgt.second;
+        });
+
     return minimum->first.getIds();
   }
 

@@ -1177,6 +1177,8 @@ void TargetPassConfig::addMachinePasses() {
   addPostRegAlloc();
 
   if (LaviniumEnable) {
+    // run LLVMTA analysis
+
     addPass(&LaviniumMachineInstCountID);
     addPass(&LaviniumReschedulerID);
   }

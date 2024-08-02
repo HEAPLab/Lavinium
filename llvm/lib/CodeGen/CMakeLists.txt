@@ -291,7 +291,7 @@ add_llvm_component_library(LLVMCodeGen
   ${LLVM_MAIN_INCLUDE_DIR}/llvm/CodeGen
   ${LLVM_MAIN_INCLUDE_DIR}/llvm/CodeGen/PBQP
 
-  LINK_LIBS ${LLVM_PTHREAD_LIB} ${MLLinkDeps}
+  LINK_LIBS ${LLVM_PTHREAD_LIB} ${MLLinkDeps} llvmtaLLVMPasses llvmtaUtil llvmtaPathAnalysis llvmtaAnalysisFramework llvmtaPartitionUtil llvmtaPreprocessing llvmtaMemory llvmtaMicroarchitecture llvmtaMicroarchitectureOutOfOrder llvmtacrpd
 
   DEPENDS
   intrinsics_gen
@@ -312,6 +312,9 @@ add_llvm_component_library(LLVMCodeGen
   TargetParser
   TransformUtils
   )
+
+target_link_libraries(LLVMCodeGen PRIVATE lpsolve55)
+add_subdirectory(LLVMTA)
 
 add_subdirectory(SelectionDAG)
 add_subdirectory(AsmPrinter)

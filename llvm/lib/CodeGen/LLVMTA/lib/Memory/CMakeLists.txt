@@ -1,6 +1,6 @@
 message(STATUS "Found Memory LIB")
 
-add_llvm_library(llvmtaMemory
+add_llvm_component_library(llvmtaMemory
 AbstractCache.cpp
 AbstractCyclingMemory.cpp
 BlockingCyclingMemoryConfig.cpp
@@ -10,6 +10,10 @@ PersistenceScopeInfo.cpp
 SimpleSDRAMCyclingMemory.cpp
 CacheUtils.cpp
 DEPENDS LLVMAnalysis LLVMCodeGen LLVMCore LLVMSupport LLVMTarget
+
+LINK_LIBS llvmtaLLVMPasses llvmtaUtil llvmtaPathAnalysis llvmtaAnalysisFramework llvmtaPartitionUtil llvmtaPreprocessing llvmtaMicroarchitecture llvmtaMicroarchitectureOutOfOrder llvmtacrpd
+
+LINK_COMPONENTS Support
 )
 
 add_subdirectory(crpd)

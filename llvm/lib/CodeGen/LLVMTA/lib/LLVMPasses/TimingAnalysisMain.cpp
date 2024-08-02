@@ -238,7 +238,7 @@ void TimingAnalysisMain::dispatchAnalysisType(AddressInformation &AddressInfo) {
       AnaType.isSet(AnalysisType::CRPD)) {
     auto Bound = dispatchTimingAnalysis(AddressInfo);
     Ar.registerResult("total", Bound);
-    if (Bound) {
+    if (Bound) { // LAVINIUM-TODO: Use `Bound` as the output of the analysis to preform WCET optimizations
       outs() << "Calculated Timing Bound: "
              << llvm::format("%-20.0f", Bound.get().ub) << "\n";
     } else {

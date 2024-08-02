@@ -67,8 +67,10 @@ ReOrderBuffer::ReOrderBuffer() : robTail(0), robHead(0), rst(nullptr) {
 }
 
 ReOrderBuffer::ReOrderBuffer(const ReOrderBuffer &robu)
-    : rob(robu.rob), robTail(robu.robTail), robHead(robu.robHead),
-      rst(nullptr) {}
+    : robTail(robu.robTail), robHead(robu.robHead),
+      rst(nullptr) {
+        memcpy(rob, robu.rob, sizeof(boost::optional<ReOrderBufferElement>) * ROB_SIZE);
+      }
 
 bool ReOrderBuffer::operator==(const ReOrderBuffer &rob) const {
   for (unsigned i = 0; i < ROB_SIZE; i++) {

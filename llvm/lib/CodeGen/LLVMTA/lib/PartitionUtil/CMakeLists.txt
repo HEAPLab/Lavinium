@@ -1,10 +1,14 @@
 message(STATUS "Found Partition Util LIB")
 
-add_llvm_library(llvmtaPartitionUtil
+add_llvm_component_library(llvmtaPartitionUtil
 Context.cpp
 Directive.cpp
 DirectiveHeuristics.cpp
 PartitionToken.cpp
 DEPENDS LLVMAnalysis LLVMCodeGen LLVMCore LLVMSupport LLVMTarget
+
+LINK_LIBS llvmtaLLVMPasses llvmtaUtil llvmtaPathAnalysis llvmtaAnalysisFramework llvmtaPreprocessing llvmtaMemory llvmtaMicroarchitecture llvmtaMicroarchitectureOutOfOrder llvmtacrpd
+
+LINK_COMPONENTS Support
 )
 

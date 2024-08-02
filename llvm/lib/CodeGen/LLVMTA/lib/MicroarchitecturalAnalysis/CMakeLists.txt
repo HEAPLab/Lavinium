@@ -1,10 +1,14 @@
 message(STATUS "Found Muarch LIB")
 
-add_llvm_library(llvmtaMicroarchitecture
+add_llvm_component_library(llvmtaMicroarchitecture
 ExecutionElement.cpp
 FixedLatencyState.cpp
 ProgramCounter.cpp
 DEPENDS LLVMAnalysis LLVMCodeGen LLVMCore LLVMSupport LLVMTarget
+
+LINK_LIBS llvmtaLLVMPasses llvmtaUtil llvmtaPathAnalysis llvmtaAnalysisFramework llvmtaPartitionUtil llvmtaPreprocessing llvmtaMemory llvmtaMicroarchitectureOutOfOrder llvmtacrpd
+
+LINK_COMPONENTS Support
 )
 
 add_subdirectory(OutOfOrderPipelineComponents)

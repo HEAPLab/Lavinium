@@ -28,6 +28,8 @@
 #include "llvm/CodeGen/RegAllocRegistry.h"
 #include "llvm/IR/IRPrintingPasses.h"
 #include "llvm/IR/Lavinium.h"
+#include "LLVMTA/include/LLVMPasses/MachineFunctionCollector.h"
+#include "LLVMTA/include/LLVMPasses/TimingAnalysisPasses.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/PassInstrumentation.h"
 #include "llvm/IR/Verifier.h"
@@ -1178,6 +1180,10 @@ void TargetPassConfig::addMachinePasses() {
 
   if (LaviniumEnable) {
     // run LLVMTA analysis
+    for (auto TAPass : getTimingAnalysisPasses(*TM)) {
+      addPass(TAPass);
+    }
+
 
     addPass(&LaviniumMachineInstCountID);
     addPass(&LaviniumReschedulerID);

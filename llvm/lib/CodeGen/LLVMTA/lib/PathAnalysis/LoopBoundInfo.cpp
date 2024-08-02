@@ -571,7 +571,9 @@ void LoopBoundInfoPass::computeLoopBounds(
         LoopBounds.insert(std::make_pair(Loop.first, CtxBounds));
       } else {
         DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info for bottom\n");
-        unsigned int UpperLoopBound = getLaviniumUpperLoopBound(Loop.first);
+        // LAVINIUM-TODO: implement the function below
+        //unsigned int UpperLoopBound = getLaviniumUpperLoopBound(Loop.first);
+        unsigned int UpperLoopBound = 1;
         ManualUpperLoopBoundsNoCtx.insert(std::make_pair(Loop.first, UpperLoopBound));
         ManualLowerLoopBoundsNoCtx.insert(std::make_pair(Loop.first, UpperLoopBound));
       }
@@ -745,7 +747,7 @@ unsigned LoopBoundInfoPass::getLoopBound(
 }
 
 void LoopBoundInfoPass::dump(std::ostream &Mystream) const {
-  raw_os_ostream Llvmstream(Mystream);
+  static raw_os_ostream Llvmstream(Mystream);
   Llvmstream << "We found the following loop bounds automatically:\n";
   std::set<std::string> OrderedLoopBoundOutput;
   for (auto LoopMap : LoopContextMap) {

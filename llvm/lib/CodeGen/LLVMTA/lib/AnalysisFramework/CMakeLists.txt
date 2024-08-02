@@ -1,9 +1,14 @@
 message(STATUS "Found Analysis Framework LIB")
 
-add_llvm_library(llvmtaAnalysisFramework
+add_llvm_component_library(llvmtaAnalysisFramework
 AnalysisResults.cpp
 CallGraph.cpp
 CollectingContextsDomain.cpp
 DEPENDS LLVMAnalysis LLVMCodeGen LLVMCore LLVMSupport LLVMTarget
+
+LINK_LIBS llvmtaLLVMPasses llvmtaUtil llvmtaPathAnalysis llvmtaPartitionUtil llvmtaPreprocessing llvmtaMemory llvmtaMicroarchitecture llvmtaMicroarchitectureOutOfOrder llvmtacrpd
+
+LINK_COMPONENTS 
+Support
 )
 

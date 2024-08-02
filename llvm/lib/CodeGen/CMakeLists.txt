@@ -22,6 +22,8 @@ if (DEFINED LLVM_HAVE_TF_AOT OR LLVM_HAVE_TFLITE)
   endif()
 endif()
 
+include_directories(${LLVM_BINARY_DIR}/lib/Target/ARM ${LLVM_SOURCE_DIR}/lib/Target/ARM ${LLVM_BINARY_DIR}/lib/Target/RISCV ${LLVM_SOURCE_DIR}/lib/Target/RISCV)
+
 # This provides the implementation of MVT and LLT.
 # Be careful to append deps on this, since Targets' tablegens depend on this.
 add_llvm_component_library(LLVMCodeGenTypes

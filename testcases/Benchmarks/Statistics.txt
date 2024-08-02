@@ -1,0 +1,20 @@
+<measurement>
+<id>Complete Analysis</id>
+<memory>109568</memory>
+<time>14.788276</time>
+</measurement>
+<measurement>
+<id>Timing MuArch Analysis</id>
+<memory>79616</memory>
+<time>5.029775</time>
+</measurement>
+<measurement>
+<id>Timing Path Analysis</id>
+<memory>109568</memory>
+<time>3.583777</time>
+</measurement>
+<measurement>
+<id>Timing Stategraph Generation</id>
+<memory>102144</memory>
+<time>5.860018</time>
+</measurement>

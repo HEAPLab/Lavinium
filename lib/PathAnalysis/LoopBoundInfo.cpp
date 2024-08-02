@@ -149,18 +149,22 @@ void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
                                    << "Adding map for loop: " << *ML << "\n");
   if (SEInfo.hasLoopInvariantBackedgeTakenCount(Loop)) {
     const SCEV *TakenCount = SEInfo.getBackedgeTakenCount(Loop);
+    /* const SCEV *TakenCount = SEInfo.getConstant(
+      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10)); */
     DEBUG_WITH_TYPE("loopbound", dbgs()
                                      << "Loop SCEV: " << *TakenCount << "\n");
     DEBUG_WITH_TYPE("loopbound", dbgs() << "Loop SCEV: " << TakenCount << "\n");
     UpperLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount));
-    LowerLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount));
+    LowerLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount)); 
   } else {
     const SCEV *MaxTakenCount = SEInfo.getConstantMaxBackedgeTakenCount(Loop);
+    /* const SCEV *MaxTakenCount = SEInfo.getConstant(
+      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10)); */
     DEBUG_WITH_TYPE("loopbound", dbgs() << "Non-invariant Loop Bound: "
                                         << *MaxTakenCount << "\n");
     // FIXME do not use max backedge taken count since it returns ridiculous
     // numbers with llvm7 for some of our tests
-    // upperLoopBoundsSCEV.insert(std::make_pair(ML, maxTakenCount));
+    UpperLoopBoundsSCEV.insert(std::make_pair(ML, MaxTakenCount));
     // We don't add the lowerLoopBound here. The SCEV here is not for
     // an exact match on the loop bound, but only offers an upper bound
     // on the number of loop iterations. We could create a new SCEV
@@ -561,12 +565,15 @@ void LoopBoundInfoPass::computeLoopBounds(
     if (CvAnaInfo.hasAnaInfoBefore(FirstInstr)) {
       DEBUG_WITH_TYPE("loopbound", dbgs() << "We have analysis info.\n");
       auto AnaInfoCtx = CvAnaInfo.getAnaInfoBefore(FirstInstr);
-      if (!AnaInfoCtx.isBottom()) {
+      if (!AnaInfoCtx.isBottom() && LoopContextMap.find(Loop.first) != LoopContextMap.end()) { // AnaInfoCtx.partitionedAnalysisInfo is not null
         auto CtxBounds = getContextSensitiveBounds(
             Loop.first, Loop.second, AnaInfoCtx.getAnalysisInfoPerContext());
         LoopBounds.insert(std::make_pair(Loop.first, CtxBounds));
       } else {
         DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info for bottom\n");
+        unsigned int UpperLoopBound = getLaviniumUpperLoopBound(Loop.first);
+        ManualUpperLoopBoundsNoCtx.insert(std::make_pair(Loop.first, UpperLoopBound));
+        ManualLowerLoopBoundsNoCtx.insert(std::make_pair(Loop.first, UpperLoopBound));
       }
     } else {
       DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info available. Will "

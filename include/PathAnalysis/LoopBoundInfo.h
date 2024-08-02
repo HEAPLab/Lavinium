@@ -199,6 +199,8 @@ private:
       unsigned (LoopBoundInfoPass::*GetLoopBoundFkt)(
           const llvm::MachineLoop *Loop, const Context &Ctx) const) const;
 
+  void getUpperLoopBoundsFromMetadata();
+
   void parseManualLoopBounds(
       const char *Filename,
       std::unordered_map<const llvm::MachineLoop *,

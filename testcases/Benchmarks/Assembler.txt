@@ -1,0 +1,1518 @@
+Textual Machine Code Representation
+------------------------------------
+
+# Machine code for function random_set_seed: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-4]
+Constant Pool:
+  cp#0: @z1, align=4
+  cp#1: @z2, align=4
+  cp#2: @z3, align=4
+  cp#3: @z4, align=4
+Function Live Ins: $r0
+
+bb.0 (%ir-block.1):
+  liveins: $r0
+  $sp = frame-setup SUBri killed $sp, 4, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_offset 4
+  STRi12 killed renamable $r0, $sp, 0, 14, $noreg :: (store (s32) into %ir.2)
+  renamable $r0 = LDRi12 $sp, 0, 14, $noreg, debug-location !13 :: (dereferenceable load (s32) from %ir.2); ../simple_random.c:31:12
+  renamable $r0 = ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !14; ../simple_random.c:31:11
+  renamable $r1 = LDRi12 %const.0, 0, 14, $noreg, debug-location !15 :: (load (s32) from constant-pool); ../simple_random.c:31:8
+  STRi12 killed renamable $r0, killed renamable $r1, 0, 14, $noreg, debug-location !15 :: (store (s32) into @z1); ../simple_random.c:31:8
+  renamable $r0 = LDRi12 $sp, 0, 14, $noreg, debug-location !16 :: (dereferenceable load (s32) from %ir.2); ../simple_random.c:32:12
+  renamable $r0 = ADDri killed renamable $r0, 7, 14, $noreg, $noreg, debug-location !17; ../simple_random.c:32:11
+  renamable $r1 = LDRi12 %const.1, 0, 14, $noreg, debug-location !18 :: (load (s32) from constant-pool); ../simple_random.c:32:8
+  STRi12 killed renamable $r0, killed renamable $r1, 0, 14, $noreg, debug-location !18 :: (store (s32) into @z2); ../simple_random.c:32:8
+  renamable $r0 = LDRi12 $sp, 0, 14, $noreg, debug-location !19 :: (dereferenceable load (s32) from %ir.2); ../simple_random.c:33:13
+  renamable $r0 = ADDri killed renamable $r0, 15, 14, $noreg, $noreg, debug-location !20; ../simple_random.c:33:12
+  renamable $r1 = LDRi12 %const.2, 0, 14, $noreg, debug-location !21 :: (load (s32) from constant-pool); ../simple_random.c:33:8
+  STRi12 killed renamable $r0, killed renamable $r1, 0, 14, $noreg, debug-location !21 :: (store (s32) into @z3); ../simple_random.c:33:8
+  renamable $r0 = LDRi12 $sp, 0, 14, $noreg, debug-location !22 :: (dereferenceable load (s32) from %ir.2); ../simple_random.c:34:14
+  renamable $r0 = ADDri killed renamable $r0, 127, 14, $noreg, $noreg, debug-location !23; ../simple_random.c:34:13
+  renamable $r1 = LDRi12 %const.3, 0, 14, $noreg, debug-location !24 :: (load (s32) from constant-pool); ../simple_random.c:34:8
+  STRi12 killed renamable $r0, killed renamable $r1, 0, 14, $noreg, debug-location !24 :: (store (s32) into @z4); ../simple_random.c:34:8
+  $sp = frame-destroy ADDri killed $sp, 4, 14, $noreg, $noreg, debug-location !25; ../simple_random.c:35:1
+  BX_RET 14, $noreg, debug-location !25; ../simple_random.c:35:1
+
+bb.1 (align 4):
+  CONSTPOOL_ENTRY 0, %const.0, 4
+  CONSTPOOL_ENTRY 1, %const.1, 4
+  CONSTPOOL_ENTRY 2, %const.2, 4
+  CONSTPOOL_ENTRY 3, %const.3, 4
+
+# End machine code for function random_set_seed.
+
+# Machine code for function random_get_int: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-12]
+  fi#1: size=4, align=4, at location [SP-4]
+  fi#2: size=4, align=4, at location [SP-8]
+Constant Pool:
+  cp#0: @z1, align=4
+  cp#1: @z2, align=4
+  cp#2: @z3, align=4
+  cp#3: @z4, align=4
+
+bb.0 (%ir-block.0):
+  liveins: $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  $sp = frame-setup SUBri killed $sp, 4, 14, $noreg, $noreg
+  renamable $r0 = LDRi12 %const.0, 0, 14, $noreg, debug-location !27 :: (load (s32) from constant-pool); ../simple_random.c:39:12
+  renamable $r1 = LDRi12 renamable $r0, 0, 14, $noreg, debug-location !27 :: (dereferenceable load (s32) from @z1); ../simple_random.c:39:12
+  renamable $r1 = EORrsi killed renamable $r1, renamable $r1, 50, 14, $noreg, $noreg, debug-location !30; ../simple_random.c:39:21
+  renamable $r1 = MOVsi killed renamable $r1, 107, 14, $noreg, $noreg, debug-location !31; ../simple_random.c:39:27
+  STRi12 killed renamable $r1, $sp, 0, 14, $noreg, debug-location !32 :: (store (s32) into %ir.1); ../simple_random.c:39:8
+  renamable $r1 = LDRi12 renamable $r0, 0, 14, $noreg, debug-location !33 :: (dereferenceable load (s32) from @z1); ../simple_random.c:40:12
+  renamable $r2 = BICri killed renamable $r1, 1, 14, $noreg, $noreg, debug-location !34; ../simple_random.c:40:15
+  renamable $r1 = LDRi12 $sp, 0, 14, $noreg, debug-location !36 :: (dereferenceable load (s32) from %ir.1); ../simple_random.c:40:39
+  renamable $r1 = EORrsi killed renamable $r1, killed renamable $r2, 146, 14, $noreg, $noreg, debug-location !37; ../simple_random.c:40:37
+  STRi12 killed renamable $r1, renamable $r0, 0, 14, $noreg, debug-location !38 :: (store (s32) into @z1); ../simple_random.c:40:8
+  renamable $r3 = LDRi12 %const.1, 0, 14, $noreg, debug-location !39 :: (load (s32) from constant-pool); ../simple_random.c:41:12
+  renamable $r1 = LDRi12 renamable $r3, 0, 14, $noreg, debug-location !39 :: (dereferenceable load (s32) from @z2); ../simple_random.c:41:12
+  renamable $r1 = EORrsi killed renamable $r1, renamable $r1, 18, 14, $noreg, $noreg, debug-location !42; ../simple_random.c:41:21
+  renamable $r1 = MOVsi killed renamable $r1, 219, 14, $noreg, $noreg, debug-location !43; ../simple_random.c:41:27
+  STRi12 killed renamable $r1, $sp, 0, 14, $noreg, debug-location !44 :: (store (s32) into %ir.1); ../simple_random.c:41:8
+  renamable $r1 = LDRi12 renamable $r3, 0, 14, $noreg, debug-location !45 :: (dereferenceable load (s32) from @z2); ../simple_random.c:42:12
+  renamable $r2 = BICri killed renamable $r1, 7, 14, $noreg, $noreg, debug-location !46; ../simple_random.c:42:15
+  renamable $r1 = LDRi12 $sp, 0, 14, $noreg, debug-location !48 :: (dereferenceable load (s32) from %ir.1); ../simple_random.c:42:38
+  renamable $r1 = EORrsi killed renamable $r1, killed renamable $r2, 18, 14, $noreg, $noreg, debug-location !49; ../simple_random.c:42:36
+  STRi12 killed renamable $r1, renamable $r3, 0, 14, $noreg, debug-location !50 :: (store (s32) into @z2); ../simple_random.c:42:8
+  renamable $r2 = LDRi12 %const.2, 0, 14, $noreg, debug-location !51 :: (load (s32) from constant-pool); ../simple_random.c:43:12
+  renamable $r1 = LDRi12 renamable $r2, 0, 14, $noreg, debug-location !51 :: (dereferenceable load (s32) from @z3); ../simple_random.c:43:12
+  renamable $r1 = EORrsi killed renamable $r1, renamable $r1, 106, 14, $noreg, $noreg, debug-location !54; ../simple_random.c:43:22
+  renamable $r1 = MOVsi killed renamable $r1, 171, 14, $noreg, $noreg, debug-location !55; ../simple_random.c:43:28
+  STRi12 killed renamable $r1, $sp, 0, 14, $noreg, debug-location !56 :: (store (s32) into %ir.1); ../simple_random.c:43:8
+  renamable $r1 = LDRi12 renamable $r2, 0, 14, $noreg, debug-location !57 :: (dereferenceable load (s32) from @z3); ../simple_random.c:44:12
+  renamable $r12 = BICri killed renamable $r1, 15, 14, $noreg, $noreg, debug-location !58; ../simple_random.c:44:15
+  renamable $r1 = LDRi12 $sp, 0, 14, $noreg, debug-location !60 :: (dereferenceable load (s32) from %ir.1); ../simple_random.c:44:38
+  renamable $r1 = EORrsi killed renamable $r1, killed renamable $r12, 58, 14, $noreg, $noreg, debug-location !61; ../simple_random.c:44:36
+  STRi12 killed renamable $r1, renamable $r2, 0, 14, $noreg, debug-location !62 :: (store (s32) into @z3); ../simple_random.c:44:8
+  renamable $r1 = LDRi12 %const.3, 0, 14, $noreg, debug-location !63 :: (load (s32) from constant-pool); ../simple_random.c:45:12
+  renamable $r12 = LDRi12 renamable $r1, 0, 14, $noreg, debug-location !63 :: (dereferenceable load (s32) from @z4); ../simple_random.c:45:12
+  renamable $r12 = EORrsi killed renamable $r12, renamable $r12, 26, 14, $noreg, $noreg, debug-location !66; ../simple_random.c:45:21
+  renamable $r12 = MOVsi killed renamable $r12, 99, 14, $noreg, $noreg, debug-location !67; ../simple_random.c:45:27
+  STRi12 killed renamable $r12, $sp, 0, 14, $noreg, debug-location !68 :: (store (s32) into %ir.1); ../simple_random.c:45:8
+  renamable $r12 = LDRi12 renamable $r1, 0, 14, $noreg, debug-location !69 :: (dereferenceable load (s32) from @z4); ../simple_random.c:46:12
+  renamable $lr = BICri killed renamable $r12, 127, 14, $noreg, $noreg, debug-location !70; ../simple_random.c:46:15
+  renamable $r12 = LDRi12 $sp, 0, 14, $noreg, debug-location !72 :: (dereferenceable load (s32) from %ir.1); ../simple_random.c:46:39
+  renamable $r12 = EORrsi killed renamable $r12, killed renamable $lr, 106, 14, $noreg, $noreg, debug-location !73; ../simple_random.c:46:37
+  STRi12 killed renamable $r12, renamable $r1, 0, 14, $noreg, debug-location !74 :: (store (s32) into @z4); ../simple_random.c:46:8
+  renamable $r0 = LDRi12 killed renamable $r0, 0, 14, $noreg, debug-location !75 :: (dereferenceable load (s32) from @z1); ../simple_random.c:47:13
+  renamable $r3 = LDRi12 killed renamable $r3, 0, 14, $noreg, debug-location !76 :: (dereferenceable load (s32) from @z2); ../simple_random.c:47:18
+  renamable $r0 = EORrr killed renamable $r0, killed renamable $r3, 14, $noreg, $noreg, debug-location !77; ../simple_random.c:47:16
+  renamable $r2 = LDRi12 killed renamable $r2, 0, 14, $noreg, debug-location !78 :: (dereferenceable load (s32) from @z3); ../simple_random.c:47:23
+  renamable $r0 = EORrr killed renamable $r0, killed renamable $r2, 14, $noreg, $noreg, debug-location !79; ../simple_random.c:47:21
+  renamable $r1 = LDRi12 killed renamable $r1, 0, 14, $noreg, debug-location !80 :: (dereferenceable load (s32) from @z4); ../simple_random.c:47:28
+  renamable $r0 = EORrr killed renamable $r0, killed renamable $r1, 14, $noreg, $noreg, debug-location !81; ../simple_random.c:47:26
+  $sp = frame-destroy MOVr $r11, 14, $noreg, $noreg, debug-location !82; ../simple_random.c:47:5
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !82; ../simple_random.c:47:5
+  BX_RET 14, $noreg, implicit killed $r0, debug-location !82; ../simple_random.c:47:5
+
+bb.1 (align 4):
+  CONSTPOOL_ENTRY 0, %const.0, 4
+  CONSTPOOL_ENTRY 1, %const.1, 4
+  CONSTPOOL_ENTRY 2, %const.2, 4
+  CONSTPOOL_ENTRY 3, %const.3, 4
+
+# End machine code for function random_get_int.
+
+# Machine code for function random_get: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-4]
+  fi#1: size=4, align=4, at location [SP-8]
+Constant Pool:
+  cp#0: 0x3DF0000000000000, align=8
+
+bb.0 (%ir-block.0):
+  liveins: $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  BL_pred @random_get_int, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit-def $sp, implicit-def $r0, debug-location !84; ../simple_random.c:53:12
+  $s0 = VMOVSR killed $r0, 14, $noreg, debug-location !84; ../simple_random.c:53:12
+  renamable $d16 = VUITOD killed renamable $s0, 14, $noreg, debug-location !84; ../simple_random.c:53:12
+  renamable $d17 = VLDRD %const.0, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d0 = VMULD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !85; ../simple_random.c:53:29
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !86; ../simple_random.c:53:5
+  BX_RET 14, $noreg, implicit killed $d0, debug-location !86; ../simple_random.c:53:5
+
+bb.1 (align 8):
+  CONSTPOOL_ENTRY 0, %const.0, 8
+
+# End machine code for function random_get.
+
+# Machine code for function random_get_array: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-12]
+  fi#1: size=4, align=4, at location [SP-16]
+  fi#2: size=4, align=4, at location [SP-20]
+  fi#3: size=4, align=4, at location [SP-4]
+  fi#4: size=4, align=4, at location [SP-8]
+Function Live Ins: $r0, $r1
+
+bb.0 (%ir-block.2):
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+  liveins: $r0, $r1, $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  $sp = frame-setup SUBri killed $sp, 16, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $r11, -4, 14, $noreg :: (store (s32) into %ir.3)
+  STRi12 killed renamable $r1, $sp, 8, 14, $noreg :: (store (s32) into %ir.4)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !88 :: (store (s32) into %ir.5); ../simple_random.c:58:11
+  B %bb.1, debug-location !89; ../simple_random.c:58:9
+
+bb.1 (%ir-block.6):
+; predecessors: %bb.0, %bb.2
+  successors: %bb.2, %bb.3
+
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !90 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:58:15
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !91 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:58:19
+  CMPrr killed renamable $r0, killed renamable $r1, 14, $noreg, implicit-def $cpsr, debug-location !93; ../simple_random.c:58:5
+  Bcc %bb.3, 10, killed $cpsr, debug-location !93; ../simple_random.c:58:5
+  B %bb.2, debug-location !93; ../simple_random.c:58:5
+
+bb.2 (%ir-block.10):
+; predecessors: %bb.1
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+
+  BL_pred @random_get, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit-def $sp, implicit-def $d0, debug-location !94; ../simple_random.c:59:16
+  renamable $r0 = LDRi12 $r11, -4, 14, $noreg, debug-location !95 :: (dereferenceable load (s32) from %ir.3); ../simple_random.c:59:9
+  renamable $r1 = LDRi12 $sp, 4, 14, $noreg, debug-location !96 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:59:11
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !95; ../simple_random.c:59:9
+  VSTRD killed renamable $d0, killed renamable $r0, 0, 14, $noreg, debug-location !97 :: (store (s64) into %ir.14); ../simple_random.c:59:14
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !98 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:58:25
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !98; ../simple_random.c:58:25
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !98 :: (store (s32) into %ir.5); ../simple_random.c:58:25
+  B %bb.1, debug-location !93; ../simple_random.c:58:5
+
+bb.3 (%ir-block.17):
+; predecessors: %bb.1
+
+  $sp = frame-destroy MOVr $r11, 14, $noreg, $noreg, debug-location !102; ../simple_random.c:61:1
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !102; ../simple_random.c:61:1
+  BX_RET 14, $noreg, debug-location !102; ../simple_random.c:61:1
+
+# End machine code for function random_get_array.
+
+# Machine code for function random_get_sarray: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-12]
+  fi#1: size=4, align=4, at location [SP-16]
+  fi#2: size=4, align=4, at location [SP-20]
+  fi#3: size=4, align=4, at location [SP-4]
+  fi#4: size=4, align=4, at location [SP-8]
+Function Live Ins: $r0, $r1
+
+bb.0 (%ir-block.2):
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+  liveins: $r0, $r1, $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  $sp = frame-setup SUBri killed $sp, 16, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $r11, -4, 14, $noreg :: (store (s32) into %ir.3)
+  STRi12 killed renamable $r1, $sp, 8, 14, $noreg :: (store (s32) into %ir.4)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !104 :: (store (s32) into %ir.5); ../simple_random.c:101:11
+  B %bb.1, debug-location !105; ../simple_random.c:101:9
+
+bb.1 (%ir-block.6):
+; predecessors: %bb.0, %bb.2
+  successors: %bb.2, %bb.3
+
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !106 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:101:15
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !107 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:101:19
+  CMPrr killed renamable $r0, killed renamable $r1, 14, $noreg, implicit-def $cpsr, debug-location !109; ../simple_random.c:101:5
+  Bcc %bb.3, 10, killed $cpsr, debug-location !109; ../simple_random.c:101:5
+  B %bb.2, debug-location !109; ../simple_random.c:101:5
+
+bb.2 (%ir-block.10):
+; predecessors: %bb.1
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+
+  BL_pred @random_get, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit-def $sp, implicit-def $d0, debug-location !110; ../simple_random.c:102:16
+  renamable $r0 = LDRi12 $r11, -4, 14, $noreg, debug-location !111 :: (dereferenceable load (s32) from %ir.3); ../simple_random.c:102:9
+  renamable $r1 = LDRi12 $sp, 4, 14, $noreg, debug-location !112 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:102:11
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !111; ../simple_random.c:102:9
+  VSTRD killed renamable $d0, killed renamable $r0, 0, 14, $noreg, debug-location !113 :: (store (s64) into %ir.14); ../simple_random.c:102:14
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !114 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:101:25
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !114; ../simple_random.c:101:25
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !114 :: (store (s32) into %ir.5); ../simple_random.c:101:25
+  B %bb.1, debug-location !109; ../simple_random.c:101:5
+
+bb.3 (%ir-block.17):
+; predecessors: %bb.1
+
+  renamable $r0 = LDRi12 $r11, -4, 14, $noreg, debug-location !117 :: (dereferenceable load (s32) from %ir.3); ../simple_random.c:105:16
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !118 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:105:20
+  renamable $r2 = SUBri killed renamable $r1, 1, 14, $noreg, $noreg, debug-location !119; ../simple_random.c:105:23
+  renamable $r1 = MOVi 0, 14, $noreg, $noreg
+  BL_pred @quick_sort, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $r1, implicit killed $r2, implicit-def $sp, debug-location !120; ../simple_random.c:105:5
+  $sp = frame-destroy MOVr $r11, 14, $noreg, $noreg, debug-location !121; ../simple_random.c:107:1
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !121; ../simple_random.c:107:1
+  BX_RET 14, $noreg, debug-location !121; ../simple_random.c:107:1
+
+# End machine code for function random_get_sarray.
+
+# Machine code for function quick_sort: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-12]
+  fi#1: size=4, align=4, at location [SP-16]
+  fi#2: size=4, align=4, at location [SP-20]
+  fi#3: size=4, align=4, at location [SP-24]
+  fi#4: size=4, align=4, at location [SP-4]
+  fi#5: size=4, align=4, at location [SP-8]
+Function Live Ins: $r0, $r1, $r2
+
+bb.0 (%ir-block.3):
+  successors: %bb.1, %bb.2
+  liveins: $r0, $r1, $r2, $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  $sp = frame-setup SUBri killed $sp, 16, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $r11, -4, 14, $noreg :: (store (s32) into %ir.4)
+  STRi12 killed renamable $r1, $sp, 8, 14, $noreg :: (store (s32) into %ir.5)
+  STRi12 killed renamable $r2, $sp, 4, 14, $noreg :: (store (s32) into %ir.6)
+  renamable $r0 = LDRi12 $sp, 8, 14, $noreg, debug-location !123 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:90:8
+  renamable $r1 = LDRi12 $sp, 4, 14, $noreg, debug-location !124 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:90:12
+  CMPrr killed renamable $r0, killed renamable $r1, 14, $noreg, implicit-def $cpsr, debug-location !123; ../simple_random.c:90:8
+  Bcc %bb.2, 10, killed $cpsr, debug-location !123; ../simple_random.c:90:8
+  B %bb.1, debug-location !123; ../simple_random.c:90:8
+
+bb.1 (%ir-block.11):
+; predecessors: %bb.0
+  successors: %bb.2(0x80000000); %bb.2(100.00%)
+
+  renamable $r0 = LDRi12 $r11, -4, 14, $noreg, debug-location !126 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:92:25
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !127 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:92:31
+  renamable $r2 = LDRi12 $sp, 4, 14, $noreg, debug-location !128 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:92:35
+  BL_pred @partition, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $r1, implicit killed $r2, implicit-def $sp, implicit-def $r0, debug-location !129; ../simple_random.c:92:15
+  STRi12 killed renamable $r0, $sp, 0, 14, $noreg, debug-location !130 :: (store (s32) into %ir.7); ../simple_random.c:92:14
+  renamable $r0 = LDRi12 $r11, -4, 14, $noreg, debug-location !131 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:93:20
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !132 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:93:26
+  renamable $r2 = LDRi12 $sp, 0, 14, $noreg, debug-location !133 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:93:31
+  renamable $r2 = SUBri killed renamable $r2, 1, 14, $noreg, $noreg, debug-location !134; ../simple_random.c:93:36
+  BL_pred @quick_sort, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $r1, implicit killed $r2, implicit-def $sp, debug-location !135; ../simple_random.c:93:9
+  renamable $r0 = LDRi12 $r11, -4, 14, $noreg, debug-location !136 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:94:20
+  renamable $r1 = LDRi12 $sp, 0, 14, $noreg, debug-location !137 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:94:26
+  renamable $r1 = nsw ADDri killed renamable $r1, 1, 14, $noreg, $noreg, debug-location !138; ../simple_random.c:94:31
+  renamable $r2 = LDRi12 $sp, 4, 14, $noreg, debug-location !139 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:94:34
+  BL_pred @quick_sort, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $r1, implicit killed $r2, implicit-def $sp, debug-location !140; ../simple_random.c:94:9
+  B %bb.2, debug-location !141; ../simple_random.c:95:5
+
+bb.2.._crit_edge:
+; predecessors: %bb.0, %bb.1
+
+  $sp = frame-destroy MOVr $r11, 14, $noreg, $noreg, debug-location !142; ../simple_random.c:97:1
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !142; ../simple_random.c:97:1
+  BX_RET 14, $noreg, debug-location !142; ../simple_random.c:97:1
+
+# End machine code for function quick_sort.
+
+# Machine code for function partition: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-4]
+  fi#1: size=4, align=4, at location [SP-8]
+  fi#2: size=4, align=4, at location [SP-12]
+  fi#3: size=4, align=4, at location [SP-16]
+  fi#4: size=4, align=4, at location [SP-20]
+  fi#5: size=8, align=8, at location [SP-32]
+  fi#6: size=8, align=8, at location [SP-40]
+Function Live Ins: $r0, $r1, $r2
+
+bb.0 (%ir-block.3):
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+  liveins: $r0, $r1, $r2
+  $sp = frame-setup SUBri killed $sp, 40, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_offset 40
+  STRi12 killed renamable $r0, $sp, 36, 14, $noreg :: (store (s32) into %ir.4)
+  STRi12 killed renamable $r1, $sp, 32, 14, $noreg :: (store (s32) into %ir.5)
+  STRi12 killed renamable $r2, $sp, 28, 14, $noreg :: (store (s32) into %ir.6)
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !144 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:66:13
+  renamable $r1 = LDRi12 $sp, 28, 14, $noreg, debug-location !145 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:66:19
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !144; ../simple_random.c:66:13
+  renamable $d16 = VLDRD killed renamable $r0, 0, 14, $noreg, debug-location !144 :: (load (s64) from %ir.13); ../simple_random.c:66:13
+  VSTRD killed renamable $d16, $sp, 2, 14, $noreg, debug-location !146 :: (store (s64) into %ir.9); ../simple_random.c:66:11
+  renamable $r0 = LDRi12 $sp, 32, 14, $noreg, debug-location !147 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:67:7
+  STRi12 killed renamable $r0, $sp, 24, 14, $noreg, debug-location !148 :: (store (s32) into %ir.7); ../simple_random.c:67:6
+  renamable $r0 = LDRi12 $sp, 32, 14, $noreg, debug-location !149 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:68:11
+  STRi12 killed renamable $r0, $sp, 20, 14, $noreg, debug-location !150 :: (store (s32) into %ir.8); ../simple_random.c:68:10
+  B %bb.1, debug-location !151; ../simple_random.c:68:9
+
+bb.1 (%ir-block.17):
+; predecessors: %bb.0, %bb.4
+  successors: %bb.2, %bb.5
+
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !152 :: (dereferenceable load (s32) from %ir.8); ../simple_random.c:68:15
+  renamable $r1 = LDRi12 $sp, 28, 14, $noreg, debug-location !153 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:68:18
+  CMPrr killed renamable $r0, killed renamable $r1, 14, $noreg, implicit-def $cpsr, debug-location !155; ../simple_random.c:68:5
+  Bcc %bb.5, 12, killed $cpsr, debug-location !155; ../simple_random.c:68:5
+  B %bb.2, debug-location !155; ../simple_random.c:68:5
+
+bb.2 (%ir-block.21):
+; predecessors: %bb.1
+  successors: %bb.3, %bb.4
+
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !156 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:69:12
+  renamable $r1 = LDRi12 $sp, 20, 14, $noreg, debug-location !157 :: (dereferenceable load (s32) from %ir.8); ../simple_random.c:69:18
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !156; ../simple_random.c:69:12
+  renamable $d16 = VLDRD killed renamable $r0, 0, 14, $noreg, debug-location !156 :: (load (s64) from %ir.24); ../simple_random.c:69:12
+  renamable $d17 = VLDRD $sp, 2, 14, $noreg, debug-location !158 :: (dereferenceable load (s64) from %ir.9); ../simple_random.c:69:21
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !156; ../simple_random.c:69:12
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !156; ../simple_random.c:69:12
+  Bcc %bb.4, 5, killed $cpsr, debug-location !156; ../simple_random.c:69:12
+  B %bb.3, debug-location !156; ../simple_random.c:69:12
+
+bb.3 (%ir-block.28):
+; predecessors: %bb.2
+  successors: %bb.4(0x80000000); %bb.4(100.00%)
+
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !160 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:70:18
+  renamable $r1 = LDRi12 $sp, 20, 14, $noreg, debug-location !161 :: (dereferenceable load (s32) from %ir.8); ../simple_random.c:70:24
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !160; ../simple_random.c:70:18
+  renamable $d16 = VLDRD killed renamable $r0, 0, 14, $noreg, debug-location !160 :: (load (s64) from %ir.31); ../simple_random.c:70:18
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg, debug-location !162 :: (store (s64) into %ir.10); ../simple_random.c:70:17
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !163 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:71:22
+  renamable $r1 = LDRi12 $sp, 24, 14, $noreg, debug-location !164 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:71:28
+  renamable $r1 = ADDrsi renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !163; ../simple_random.c:71:22
+  renamable $d16 = VLDRD killed renamable $r1, 0, 14, $noreg, debug-location !163 :: (load (s64) from %ir.35); ../simple_random.c:71:22
+  renamable $r1 = LDRi12 $sp, 20, 14, $noreg, debug-location !166 :: (dereferenceable load (s32) from %ir.8); ../simple_random.c:71:19
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !165; ../simple_random.c:71:13
+  VSTRD killed renamable $d16, killed renamable $r0, 0, 14, $noreg, debug-location !167 :: (store (s64) into %ir.39); ../simple_random.c:71:21
+  renamable $d16 = VLDRD $sp, 0, 14, $noreg, debug-location !168 :: (dereferenceable load (s64) from %ir.10); ../simple_random.c:72:22
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !169 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:72:13
+  renamable $r1 = LDRi12 $sp, 24, 14, $noreg, debug-location !170 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:72:19
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !169; ../simple_random.c:72:13
+  VSTRD killed renamable $d16, killed renamable $r0, 0, 14, $noreg, debug-location !171 :: (store (s64) into %ir.43); ../simple_random.c:72:21
+  renamable $r0 = LDRi12 $sp, 24, 14, $noreg, debug-location !172 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:73:14
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !172; ../simple_random.c:73:14
+  STRi12 killed renamable $r0, $sp, 24, 14, $noreg, debug-location !172 :: (store (s32) into %ir.7); ../simple_random.c:73:14
+  B %bb.4, debug-location !173; ../simple_random.c:74:9
+
+bb.4.._crit_edge:
+; predecessors: %bb.2, %bb.3
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !174 :: (dereferenceable load (s32) from %ir.8); ../simple_random.c:68:24
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !174; ../simple_random.c:68:24
+  STRi12 killed renamable $r0, $sp, 20, 14, $noreg, debug-location !174 :: (store (s32) into %ir.8); ../simple_random.c:68:24
+  B %bb.1, debug-location !155; ../simple_random.c:68:5
+
+bb.5 (%ir-block.48):
+; predecessors: %bb.1
+
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !177 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:76:10
+  renamable $r1 = LDRi12 $sp, 24, 14, $noreg, debug-location !178 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:76:16
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !177; ../simple_random.c:76:10
+  renamable $d16 = VLDRD killed renamable $r0, 0, 14, $noreg, debug-location !177 :: (load (s64) from %ir.51); ../simple_random.c:76:10
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg, debug-location !179 :: (store (s64) into %ir.10); ../simple_random.c:76:9
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !180 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:77:14
+  renamable $r1 = LDRi12 $sp, 28, 14, $noreg, debug-location !181 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:77:20
+  renamable $r1 = ADDrsi renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !180; ../simple_random.c:77:14
+  renamable $d16 = VLDRD killed renamable $r1, 0, 14, $noreg, debug-location !180 :: (load (s64) from %ir.55); ../simple_random.c:77:14
+  renamable $r1 = LDRi12 $sp, 24, 14, $noreg, debug-location !183 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:77:11
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !182; ../simple_random.c:77:5
+  VSTRD killed renamable $d16, killed renamable $r0, 0, 14, $noreg, debug-location !184 :: (store (s64) into %ir.59); ../simple_random.c:77:13
+  renamable $d16 = VLDRD $sp, 0, 14, $noreg, debug-location !185 :: (dereferenceable load (s64) from %ir.10); ../simple_random.c:78:17
+  renamable $r0 = LDRi12 $sp, 36, 14, $noreg, debug-location !186 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:78:5
+  renamable $r1 = LDRi12 $sp, 28, 14, $noreg, debug-location !187 :: (dereferenceable load (s32) from %ir.6); ../simple_random.c:78:11
+  renamable $r0 = ADDrsi killed renamable $r0, killed renamable $r1, 26, 14, $noreg, $noreg, debug-location !186; ../simple_random.c:78:5
+  VSTRD killed renamable $d16, killed renamable $r0, 0, 14, $noreg, debug-location !188 :: (store (s64) into %ir.63); ../simple_random.c:78:16
+  renamable $r0 = LDRi12 $sp, 24, 14, $noreg, debug-location !189 :: (dereferenceable load (s32) from %ir.7); ../simple_random.c:80:12
+  $sp = frame-destroy ADDri killed $sp, 40, 14, $noreg, $noreg, debug-location !190; ../simple_random.c:80:5
+  BX_RET 14, $noreg, implicit killed $r0, debug-location !190; ../simple_random.c:80:5
+
+# End machine code for function partition.
+
+# Machine code for function random_get_iarray: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-12]
+  fi#1: size=4, align=4, at location [SP-16]
+  fi#2: size=4, align=4, at location [SP-20]
+  fi#3: size=4, align=4, at location [SP-4]
+  fi#4: size=4, align=4, at location [SP-8]
+Function Live Ins: $r0, $r1
+
+bb.0 (%ir-block.2):
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+  liveins: $r0, $r1, $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  $sp = frame-setup SUBri killed $sp, 16, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $r11, -4, 14, $noreg :: (store (s32) into %ir.3)
+  STRi12 killed renamable $r1, $sp, 8, 14, $noreg :: (store (s32) into %ir.4)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !192 :: (store (s32) into %ir.5); ../simple_random.c:111:11
+  B %bb.1, debug-location !193; ../simple_random.c:111:9
+
+bb.1 (%ir-block.6):
+; predecessors: %bb.0, %bb.2
+  successors: %bb.2, %bb.3
+
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !194 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:111:15
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !195 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:111:19
+  CMPrr killed renamable $r0, killed renamable $r1, 14, $noreg, implicit-def $cpsr, debug-location !197; ../simple_random.c:111:5
+  Bcc %bb.3, 10, killed $cpsr, debug-location !197; ../simple_random.c:111:5
+  B %bb.2, debug-location !197; ../simple_random.c:111:5
+
+bb.2 (%ir-block.10):
+; predecessors: %bb.1
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+
+  BL_pred @random_get_int, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit-def $sp, implicit-def $r0, debug-location !198; ../simple_random.c:112:16
+  renamable $r1 = LDRi12 $r11, -4, 14, $noreg, debug-location !199 :: (dereferenceable load (s32) from %ir.3); ../simple_random.c:112:9
+  renamable $r2 = LDRi12 $sp, 4, 14, $noreg, debug-location !200 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:112:11
+  STRrs killed renamable $r0, killed renamable $r1, killed renamable $r2, 16386, 14, $noreg, debug-location !201 :: (store (s32) into %ir.14); ../simple_random.c:112:14
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !202 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:111:25
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !202; ../simple_random.c:111:25
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !202 :: (store (s32) into %ir.5); ../simple_random.c:111:25
+  B %bb.1, debug-location !197; ../simple_random.c:111:5
+
+bb.3 (%ir-block.17):
+; predecessors: %bb.1
+
+  $sp = frame-destroy MOVr $r11, 14, $noreg, $noreg, debug-location !205; ../simple_random.c:114:1
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !205; ../simple_random.c:114:1
+  BX_RET 14, $noreg, debug-location !205; ../simple_random.c:114:1
+
+# End machine code for function random_get_iarray.
+
+# Machine code for function random_get_barray: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-12]
+  fi#1: size=4, align=4, at location [SP-16]
+  fi#2: size=4, align=4, at location [SP-20]
+  fi#3: size=4, align=4, at location [SP-4]
+  fi#4: size=4, align=4, at location [SP-8]
+Function Live Ins: $r0, $r1
+
+bb.0 (%ir-block.2):
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+  liveins: $r0, $r1, $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 8
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  $r11 = frame-setup MOVr killed $sp, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_register $r11
+  $sp = frame-setup SUBri killed $sp, 16, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $r11, -4, 14, $noreg :: (store (s32) into %ir.3)
+  STRi12 killed renamable $r1, $sp, 8, 14, $noreg :: (store (s32) into %ir.4)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !207 :: (store (s32) into %ir.5); ../simple_random.c:118:11
+  B %bb.1, debug-location !208; ../simple_random.c:118:9
+
+bb.1 (%ir-block.6):
+; predecessors: %bb.0, %bb.2
+  successors: %bb.2, %bb.3
+
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !209 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:118:15
+  renamable $r1 = LDRi12 $sp, 8, 14, $noreg, debug-location !210 :: (dereferenceable load (s32) from %ir.4); ../simple_random.c:118:19
+  CMPrr killed renamable $r0, killed renamable $r1, 14, $noreg, implicit-def $cpsr, debug-location !212; ../simple_random.c:118:5
+  Bcc %bb.3, 10, killed $cpsr, debug-location !212; ../simple_random.c:118:5
+  B %bb.2, debug-location !212; ../simple_random.c:118:5
+
+bb.2 (%ir-block.10):
+; predecessors: %bb.1
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+
+  BL_pred @random_get, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit-def $sp, implicit-def $d0, debug-location !213; ../simple_random.c:119:16
+  renamable $d16 = FCONSTD 96, 14, $noreg
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  VCMPD killed renamable $d0, killed renamable $d16, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !214; ../simple_random.c:119:29
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !214; ../simple_random.c:119:29
+  $r0 = MOVi 1, 12, killed $cpsr, $noreg, implicit renamable $r0, debug-location !214; ../simple_random.c:119:29
+  renamable $r1 = LDRi12 $r11, -4, 14, $noreg, debug-location !215 :: (dereferenceable load (s32) from %ir.3); ../simple_random.c:119:9
+  renamable $r2 = LDRi12 $sp, 4, 14, $noreg, debug-location !216 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:119:11
+  STRrs killed renamable $r0, killed renamable $r1, killed renamable $r2, 16386, 14, $noreg, debug-location !217 :: (store (s32) into %ir.17); ../simple_random.c:119:14
+  renamable $r0 = LDRi12 $sp, 4, 14, $noreg, debug-location !218 :: (dereferenceable load (s32) from %ir.5); ../simple_random.c:118:25
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !218; ../simple_random.c:118:25
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg, debug-location !218 :: (store (s32) into %ir.5); ../simple_random.c:118:25
+  B %bb.1, debug-location !212; ../simple_random.c:118:5
+
+bb.3 (%ir-block.20):
+; predecessors: %bb.1
+
+  $sp = frame-destroy MOVr $r11, 14, $noreg, $noreg, debug-location !221; ../simple_random.c:121:1
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r11, def $lr, debug-location !221; ../simple_random.c:121:1
+  BX_RET 14, $noreg, debug-location !221; ../simple_random.c:121:1
+
+# End machine code for function random_get_barray.
+
+# Machine code for function run_pid: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=4, align=4, at location [SP-4]
+  fi#1: size=8, align=8, at location [SP-16]
+  fi#2: size=8, align=8, at location [SP-24]
+Constant Pool:
+  cp#0: 1.000000e-03, align=8
+Function Live Ins: $r0, $d0
+
+bb.0 (%ir-block.2):
+  liveins: $r0, $d0
+  $sp = frame-setup SUBri killed $sp, 24, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_offset 24
+  STRi12 killed renamable $r0, $sp, 20, 14, $noreg :: (store (s32) into %ir.3)
+  VSTRD killed renamable $d0, $sp, 2, 14, $noreg :: (store (s64) into %ir.4)
+  renamable $d16 = VLDRD $sp, 2, 14, $noreg, debug-location !223 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:44:14
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !224 :: (dereferenceable load (s32) from %ir.3); ../latnav.c:44:22
+  renamable $d17 = VLDRD killed renamable $r0, 0, 14, $noreg, debug-location !225 :: (load (s64) from %ir.8); ../latnav.c:44:27
+  renamable $d16 = VMULD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !226; ../latnav.c:44:20
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg, debug-location !227 :: (store (s64) into %ir.5); ../latnav.c:44:12
+  renamable $d17 = VLDRD $sp, 2, 14, $noreg, debug-location !228 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:45:28
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !229 :: (dereferenceable load (s32) from %ir.3); ../latnav.c:45:36
+  renamable $d19 = VLDRD renamable $r0, 2, 14, $noreg, debug-location !230 :: (load (s64) from %ir.13); ../latnav.c:45:41
+  renamable $d18 = VLDRD renamable $r0, 6, 14, $noreg, debug-location !233 :: (load (s64) from %ir.17); ../latnav.c:45:52
+  renamable $d16 = VLDRD renamable $r0, 10, 14, $noreg, debug-location !241 :: (load (s64) from %ir.26); ../latnav.c:45:23
+  renamable $d20 = VLDRD renamable $r0, 12, 14, $noreg, debug-location !235 :: (load (s64) from %ir.20); ../latnav.c:45:61
+  renamable $d18 = VMULD killed renamable $d18, killed renamable $d20, 14, $noreg, debug-location !236; ../latnav.c:45:54
+  renamable $d18 = VMLAD renamable $d18(tied-def 0), killed renamable $d17, killed renamable $d19, 14, $noreg, debug-location !237; ../latnav.c:45:44
+  renamable $d17 = VLDRD %const.0, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VMLAD renamable $d16(tied-def 0), killed renamable $d18, renamable $d17, 14, $noreg, debug-location !241; ../latnav.c:45:23
+  VSTRD killed renamable $d16, killed renamable $r0, 10, 14, $noreg, debug-location !241 :: (store (s64) into %ir.26); ../latnav.c:45:23
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !242 :: (dereferenceable load (s32) from %ir.3); ../latnav.c:46:15
+  renamable $d18 = VLDRD killed renamable $r0, 10, 14, $noreg, debug-location !243 :: (load (s64) from %ir.30); ../latnav.c:46:20
+  renamable $d16 = VLDRD $sp, 0, 14, $noreg, debug-location !244 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:46:12
+  renamable $d16 = VADDD killed renamable $d16, killed renamable $d18, 14, $noreg, debug-location !244; ../latnav.c:46:12
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg, debug-location !244 :: (store (s64) into %ir.5); ../latnav.c:46:12
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !245 :: (dereferenceable load (s32) from %ir.3); ../latnav.c:48:15
+  renamable $d18 = VLDRD $sp, 2, 14, $noreg, debug-location !247 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:48:25
+  renamable $d16 = VLDRD renamable $r0, 4, 14, $noreg, debug-location !246 :: (load (s64) from %ir.35); ../latnav.c:48:20
+  renamable $d19 = VLDRD killed renamable $r0, 8, 14, $noreg, debug-location !249 :: (load (s64) from %ir.39); ../latnav.c:48:38
+  renamable $d18 = VSUBD killed renamable $d18, killed renamable $d19, 14, $noreg, debug-location !250; ../latnav.c:48:31
+  renamable $d16 = VMULD killed renamable $d16, killed renamable $d18, 14, $noreg, debug-location !251; ../latnav.c:48:22
+  renamable $d17 = VDIVD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !252; ../latnav.c:48:50
+  renamable $d16 = VLDRD $sp, 0, 14, $noreg, debug-location !253 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:48:12
+  renamable $d16 = VADDD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !253; ../latnav.c:48:12
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg, debug-location !253 :: (store (s64) into %ir.5); ../latnav.c:48:12
+  renamable $d16 = VLDRD $sp, 2, 14, $noreg, debug-location !254 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:50:23
+  renamable $r0 = LDRi12 $sp, 20, 14, $noreg, debug-location !255 :: (dereferenceable load (s32) from %ir.3); ../latnav.c:50:5
+  VSTRD killed renamable $d16, killed renamable $r0, 8, 14, $noreg, debug-location !257 :: (store (s64) into %ir.48); ../latnav.c:50:21
+  renamable $d0 = VLDRD $sp, 0, 14, $noreg, debug-location !258 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:52:12
+  $sp = frame-destroy ADDri killed $sp, 24, 14, $noreg, $noreg, debug-location !259; ../latnav.c:52:5
+  BX_RET 14, $noreg, implicit killed $d0, debug-location !259; ../latnav.c:52:5
+
+bb.1 (align 8):
+  CONSTPOOL_ENTRY 0, %const.0, 8
+
+# End machine code for function run_pid.
+
+# Machine code for function roll_limiter: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=8, align=8, at location [SP-8]
+  fi#1: size=8, align=8, at location [SP-16]
+  fi#2: size=8, align=8, at location [SP-24]
+  fi#3: size=8, align=8, at location [SP-32]
+  fi#4: size=8, align=8, at location [SP-40]
+  fi#5: size=8, align=8, at location [SP-48]
+  fi#6: size=8, align=8, at location [SP-56]
+  fi#7: size=8, align=8, at location [SP-64]
+  fi#8: size=8, align=8, at location [SP-72]
+  fi#9: size=8, align=8, at location [SP-80]
+  fi#10: size=8, align=8, at location [SP-88]
+  fi#11: size=8, align=8, at location [SP-96]
+  fi#12: size=8, align=8, at location [SP-104]
+  fi#13: size=8, align=8, at location [SP-112]
+  fi#14: size=8, align=8, at location [SP-120]
+  fi#15: size=8, align=8, at location [SP-128]
+  fi#16: size=8, align=8, at location [SP-136]
+  fi#17: size=8, align=8, at location [SP-144]
+  fi#18: size=8, align=8, at location [SP-152]
+  fi#19: size=8, align=8, at location [SP-160]
+  fi#20: size=8, align=8, at location [SP-168]
+  fi#21: size=8, align=8, at location [SP-176]
+  fi#22: size=8, align=8, at location [SP-184]
+  fi#23: size=8, align=8, at location [SP-192]
+  fi#24: size=8, align=8, at location [SP-200]
+Constant Pool:
+  cp#0: 1.400000e+02, align=8
+  cp#1: 3.000000e+02, align=8
+  cp#2: 2.200000e+02, align=8
+  cp#3: -2.200000e+02, align=8
+  cp#4: 8.000000e+01, align=8
+  cp#5: -1.400000e+02, align=8
+  cp#6: 4.000000e+01, align=8
+  cp#7: 3.700000e+01, align=8
+  cp#8: -4.000000e+01, align=8
+Function Live Ins: $d0, $d1
+
+bb.0 (%ir-block.2):
+  successors: %bb.1, %bb.8
+  liveins: $d0, $d1
+  $sp = frame-setup SUBri killed $sp, 200, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_offset 200
+  VSTRD killed renamable $d0, $sp, 46, 14, $noreg :: (store (s64) into %ir.4)
+  VSTRD killed renamable $d1, $sp, 44, 14, $noreg :: (store (s64) into %ir.5)
+  renamable $d16 = VLDRD $sp, 44, 14, $noreg, debug-location !261 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:58:9
+  renamable $d17 = VLDRD %const.0, 0, 14, $noreg :: (load (s64) from constant-pool)
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !261; ../latnav.c:58:9
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !261; ../latnav.c:58:9
+  Bcc %bb.8, 8, killed $cpsr, debug-location !261; ../latnav.c:58:9
+  B %bb.1, debug-location !261; ../latnav.c:58:9
+
+bb.1 (%ir-block.10):
+; predecessors: %bb.0
+  successors: %bb.2, %bb.3
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !263 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:59:16
+  renamable $d17 = FCONSTD 190, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !263; ../latnav.c:59:16
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !263; ../latnav.c:59:16
+  Bcc %bb.3, 5, killed $cpsr, debug-location !263; ../latnav.c:59:16
+  B %bb.2, debug-location !263; ../latnav.c:59:16
+
+bb.2 (%ir-block.13):
+; predecessors: %bb.1
+  successors: %bb.7(0x80000000); %bb.7(100.00%)
+
+  $r0 = MOVi 4063232, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 3221225472, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 12, 14, $noreg :: (store (s32) into %ir..reg2mem35 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 8, 14, $noreg :: (store (s32) into %ir..reg2mem35, align 8)
+  B %bb.7, debug-location !263; ../latnav.c:59:16
+
+bb.3 (%ir-block.14):
+; predecessors: %bb.1
+  successors: %bb.4, %bb.5
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !263 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:59:16
+  renamable $d17 = FCONSTD 62, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !263; ../latnav.c:59:16
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !263; ../latnav.c:59:16
+  Bcc %bb.5, 13, killed $cpsr, debug-location !263; ../latnav.c:59:16
+  B %bb.4, debug-location !263; ../latnav.c:59:16
+
+bb.4 (%ir-block.17):
+; predecessors: %bb.3
+  successors: %bb.6(0x80000000); %bb.6(100.00%)
+
+  $r0 = MOVi 4063232, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 1073741824, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg :: (store (s32) into %ir..reg2mem37 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 0, 14, $noreg :: (store (s32) into %ir..reg2mem37, align 8)
+  B %bb.6, debug-location !263; ../latnav.c:59:16
+
+bb.5 (%ir-block.18):
+; predecessors: %bb.3
+  successors: %bb.6(0x80000000); %bb.6(100.00%)
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !263 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:59:16
+  VSTRD killed renamable $d16, $sp, 16, 14, $noreg :: (store (s64) into %ir..reg2mem21)
+  renamable $d16 = VLDRD $sp, 16, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem21)
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg :: (store (s64) into %ir..reg2mem37)
+  B %bb.6, debug-location !263; ../latnav.c:59:16
+
+bb.6 (%ir-block.20):
+; predecessors: %bb.5, %bb.4
+  successors: %bb.7(0x80000000); %bb.7(100.00%)
+
+  renamable $d16 = VLDRD $sp, 0, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem37)
+  VSTRD killed renamable $d16, $sp, 18, 14, $noreg :: (store (s64) into %ir..reg2mem19)
+  renamable $d16 = VLDRD $sp, 18, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem19)
+  VSTRD killed renamable $d16, $sp, 2, 14, $noreg :: (store (s64) into %ir..reg2mem35)
+  B %bb.7, debug-location !263; ../latnav.c:59:16
+
+bb.7 (%ir-block.21):
+; predecessors: %bb.6, %bb.2
+  successors: %bb.29(0x80000000); %bb.29(100.00%)
+
+  renamable $d16 = VLDRD $sp, 2, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem35)
+  VSTRD killed renamable $d16, $sp, 48, 14, $noreg, debug-location !264 :: (store (s64) into %ir.3); ../latnav.c:59:9
+  B %bb.29, debug-location !264; ../latnav.c:59:9
+
+bb.8 (%ir-block.22):
+; predecessors: %bb.0
+  successors: %bb.9, %bb.16
+
+  renamable $d16 = VLDRD $sp, 44, 14, $noreg, debug-location !265 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:61:9
+  renamable $d17 = VLDRD %const.1, 0, 14, $noreg :: (load (s64) from constant-pool)
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !265; ../latnav.c:61:9
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !265; ../latnav.c:61:9
+  Bcc %bb.16, 11, killed $cpsr, debug-location !265; ../latnav.c:61:9
+  B %bb.9, debug-location !265; ../latnav.c:61:9
+
+bb.9 (%ir-block.25):
+; predecessors: %bb.8
+  successors: %bb.10, %bb.11
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !267 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:62:16
+  renamable $d17 = VLDRD %const.8, 0, 14, $noreg :: (load (s64) from constant-pool)
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !267; ../latnav.c:62:16
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !267; ../latnav.c:62:16
+  Bcc %bb.11, 5, killed $cpsr, debug-location !267; ../latnav.c:62:16
+  B %bb.10, debug-location !267; ../latnav.c:62:16
+
+bb.10 (%ir-block.28):
+; predecessors: %bb.9
+  successors: %bb.15(0x80000000); %bb.15(100.00%)
+
+  $r0 = MOVi 4456448, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 3221225472, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 28, 14, $noreg :: (store (s32) into %ir..reg2mem31 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 24, 14, $noreg :: (store (s32) into %ir..reg2mem31, align 8)
+  B %bb.15, debug-location !267; ../latnav.c:62:16
+
+bb.11 (%ir-block.29):
+; predecessors: %bb.9
+  successors: %bb.12, %bb.13
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !267 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:62:16
+  renamable $d17 = VLDRD %const.6, 0, 14, $noreg :: (load (s64) from constant-pool)
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !267; ../latnav.c:62:16
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !267; ../latnav.c:62:16
+  Bcc %bb.13, 13, killed $cpsr, debug-location !267; ../latnav.c:62:16
+  B %bb.12, debug-location !267; ../latnav.c:62:16
+
+bb.12 (%ir-block.32):
+; predecessors: %bb.11
+  successors: %bb.14(0x80000000); %bb.14(100.00%)
+
+  $r0 = MOVi 4456448, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 1073741824, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 20, 14, $noreg :: (store (s32) into %ir..reg2mem33 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 16, 14, $noreg :: (store (s32) into %ir..reg2mem33, align 8)
+  B %bb.14, debug-location !267; ../latnav.c:62:16
+
+bb.13 (%ir-block.33):
+; predecessors: %bb.11
+  successors: %bb.14(0x80000000); %bb.14(100.00%)
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !267 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:62:16
+  VSTRD killed renamable $d16, $sp, 20, 14, $noreg :: (store (s64) into %ir..reg2mem17)
+  renamable $d16 = VLDRD $sp, 20, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem17)
+  VSTRD killed renamable $d16, $sp, 4, 14, $noreg :: (store (s64) into %ir..reg2mem33)
+  B %bb.14, debug-location !267; ../latnav.c:62:16
+
+bb.14 (%ir-block.35):
+; predecessors: %bb.13, %bb.12
+  successors: %bb.15(0x80000000); %bb.15(100.00%)
+
+  renamable $d16 = VLDRD $sp, 4, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem33)
+  VSTRD killed renamable $d16, $sp, 22, 14, $noreg :: (store (s64) into %ir..reg2mem15)
+  renamable $d16 = VLDRD $sp, 22, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem15)
+  VSTRD killed renamable $d16, $sp, 6, 14, $noreg :: (store (s64) into %ir..reg2mem31)
+  B %bb.15, debug-location !267; ../latnav.c:62:16
+
+bb.15 (%ir-block.36):
+; predecessors: %bb.14, %bb.10
+  successors: %bb.29(0x80000000); %bb.29(100.00%)
+
+  renamable $d16 = VLDRD $sp, 6, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem31)
+  VSTRD killed renamable $d16, $sp, 48, 14, $noreg, debug-location !268 :: (store (s64) into %ir.3); ../latnav.c:62:9
+  B %bb.29, debug-location !268; ../latnav.c:62:9
+
+bb.16 (%ir-block.37):
+; predecessors: %bb.8
+  successors: %bb.17, %bb.18
+
+  renamable $d16 = VLDRD $sp, 44, 14, $noreg, debug-location !269 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:65:19
+  renamable $d17 = VLDRD %const.2, 0, 14, $noreg :: (load (s64) from constant-pool)
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !271; ../latnav.c:65:18
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !271; ../latnav.c:65:18
+  Bcc %bb.18, 5, killed $cpsr, debug-location !271; ../latnav.c:65:18
+  B %bb.17, debug-location !271; ../latnav.c:65:18
+
+bb.17 (%ir-block.40):
+; predecessors: %bb.16
+  successors: %bb.19(0x80000000); %bb.19(100.00%)
+
+  renamable $d16 = VLDRD $sp, 44, 14, $noreg, debug-location !272 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:65:35
+  renamable $d17 = VLDRD %const.5, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VADDD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !273; ../latnav.c:65:40
+  renamable $d17 = VLDRD %const.4, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VDIVD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !274; ../latnav.c:65:46
+  VSTRD killed renamable $d16, $sp, 24, 14, $noreg :: (store (s64) into %ir..reg2mem13)
+  renamable $d16 = VLDRD $sp, 24, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem13)
+  VSTRD killed renamable $d16, $sp, 8, 14, $noreg :: (store (s64) into %ir..reg2mem29)
+  B %bb.19, debug-location !271; ../latnav.c:65:18
+
+bb.18 (%ir-block.44):
+; predecessors: %bb.16
+  successors: %bb.19(0x80000000); %bb.19(100.00%)
+
+  renamable $d16 = VLDRD $sp, 44, 14, $noreg, debug-location !275 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:65:55
+  renamable $d17 = VLDRD %const.3, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VADDD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !276; ../latnav.c:65:60
+  renamable $d17 = VLDRD %const.4, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VDIVD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !277; ../latnav.c:65:66
+  VSTRD killed renamable $d16, $sp, 26, 14, $noreg :: (store (s64) into %ir..reg2mem11)
+  renamable $d16 = VLDRD $sp, 26, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem11)
+  VSTRD killed renamable $d16, $sp, 8, 14, $noreg :: (store (s64) into %ir..reg2mem29)
+  B %bb.19, debug-location !271; ../latnav.c:65:18
+
+bb.19 (%ir-block.48):
+; predecessors: %bb.18, %bb.17
+  successors: %bb.20, %bb.21
+
+  renamable $d16 = VLDRD $sp, 8, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem29)
+  VSTRD killed renamable $d16, $sp, 42, 14, $noreg, debug-location !278 :: (store (s64) into %ir.6); ../latnav.c:65:16
+  renamable $d16 = VLDRD $sp, 44, 14, $noreg, debug-location !279 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:66:14
+  renamable $d17 = VLDRD %const.2, 0, 14, $noreg :: (load (s64) from constant-pool)
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !281; ../latnav.c:66:13
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !281; ../latnav.c:66:13
+  Bcc %bb.21, 5, killed $cpsr, debug-location !281; ../latnav.c:66:13
+  B %bb.20, debug-location !281; ../latnav.c:66:13
+
+bb.20 (%ir-block.51):
+; predecessors: %bb.19
+  successors: %bb.22(0x80000000); %bb.22(100.00%)
+
+  renamable $d17 = VLDRD $sp, 42, 14, $noreg, debug-location !282 :: (dereferenceable load (s64) from %ir.6); ../latnav.c:66:35
+  renamable $d18 = VLDRD %const.7, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = FCONSTD 62, 14, $noreg
+  renamable $d16 = VMLAD renamable $d16(tied-def 0), killed renamable $d17, killed renamable $d18, 14, $noreg, debug-location !284; ../latnav.c:66:33
+  VSTRD killed renamable $d16, $sp, 28, 14, $noreg :: (store (s64) into %ir..reg2mem9)
+  renamable $d16 = VLDRD $sp, 28, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem9)
+  VSTRD killed renamable $d16, $sp, 10, 14, $noreg :: (store (s64) into %ir..reg2mem27)
+  B %bb.22, debug-location !281; ../latnav.c:66:13
+
+bb.21 (%ir-block.55):
+; predecessors: %bb.19
+  successors: %bb.22(0x80000000); %bb.22(100.00%)
+
+  renamable $d17 = VLDRD $sp, 42, 14, $noreg, debug-location !285 :: (dereferenceable load (s64) from %ir.6); ../latnav.c:66:63
+  renamable $d16 = FCONSTD 112, 14, $noreg
+  renamable $d17 = VSUBD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !286; ../latnav.c:66:62
+  renamable $d18 = FCONSTD 59, 14, $noreg
+  renamable $d16 = VLDRD %const.6, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VMLAD renamable $d16(tied-def 0), killed renamable $d17, killed renamable $d18, 14, $noreg, debug-location !288; ../latnav.c:66:58
+  VSTRD killed renamable $d16, $sp, 30, 14, $noreg :: (store (s64) into %ir..reg2mem7)
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem7)
+  VSTRD killed renamable $d16, $sp, 10, 14, $noreg :: (store (s64) into %ir..reg2mem27)
+  B %bb.22, debug-location !281; ../latnav.c:66:13
+
+bb.22 (%ir-block.60):
+; predecessors: %bb.21, %bb.20
+  successors: %bb.23, %bb.24
+
+  renamable $d16 = VLDRD $sp, 10, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem27)
+  VSTRD killed renamable $d16, $sp, 40, 14, $noreg, debug-location !289 :: (store (s64) into %ir.7); ../latnav.c:66:11
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:68:12
+  renamable $d17 = VLDRD $sp, 40, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.7); ../latnav.c:68:12
+  renamable $d17 = VNEGD killed renamable $d17, 14, $noreg, debug-location !290; ../latnav.c:68:12
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !290; ../latnav.c:68:12
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !290; ../latnav.c:68:12
+  Bcc %bb.24, 5, killed $cpsr, debug-location !290; ../latnav.c:68:12
+  B %bb.23, debug-location !290; ../latnav.c:68:12
+
+bb.23 (%ir-block.65):
+; predecessors: %bb.22
+  successors: %bb.28(0x80000000); %bb.28(100.00%)
+
+  renamable $d16 = VLDRD $sp, 40, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.7); ../latnav.c:68:12
+  renamable $d16 = VNEGD killed renamable $d16, 14, $noreg, debug-location !290; ../latnav.c:68:12
+  VSTRD killed renamable $d16, $sp, 32, 14, $noreg :: (store (s64) into %ir..reg2mem5)
+  renamable $d16 = VLDRD $sp, 32, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem5)
+  VSTRD killed renamable $d16, $sp, 14, 14, $noreg :: (store (s64) into %ir..reg2mem23)
+  B %bb.28, debug-location !290; ../latnav.c:68:12
+
+bb.24 (%ir-block.68):
+; predecessors: %bb.22
+  successors: %bb.25, %bb.26
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:68:12
+  renamable $d17 = VLDRD $sp, 40, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.7); ../latnav.c:68:12
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !290; ../latnav.c:68:12
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !290; ../latnav.c:68:12
+  Bcc %bb.26, 13, killed $cpsr, debug-location !290; ../latnav.c:68:12
+  B %bb.25, debug-location !290; ../latnav.c:68:12
+
+bb.25 (%ir-block.72):
+; predecessors: %bb.24
+  successors: %bb.27(0x80000000); %bb.27(100.00%)
+
+  renamable $d16 = VLDRD $sp, 40, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.7); ../latnav.c:68:12
+  VSTRD killed renamable $d16, $sp, 34, 14, $noreg :: (store (s64) into %ir..reg2mem3)
+  renamable $d16 = VLDRD $sp, 34, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem3)
+  VSTRD killed renamable $d16, $sp, 12, 14, $noreg :: (store (s64) into %ir..reg2mem25)
+  B %bb.27, debug-location !290; ../latnav.c:68:12
+
+bb.26 (%ir-block.74):
+; predecessors: %bb.24
+  successors: %bb.27(0x80000000); %bb.27(100.00%)
+
+  renamable $d16 = VLDRD $sp, 46, 14, $noreg, debug-location !290 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:68:12
+  VSTRD killed renamable $d16, $sp, 36, 14, $noreg :: (store (s64) into %ir..reg2mem1)
+  renamable $d16 = VLDRD $sp, 36, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem1)
+  VSTRD killed renamable $d16, $sp, 12, 14, $noreg :: (store (s64) into %ir..reg2mem25)
+  B %bb.27, debug-location !290; ../latnav.c:68:12
+
+bb.27 (%ir-block.76):
+; predecessors: %bb.26, %bb.25
+  successors: %bb.28(0x80000000); %bb.28(100.00%)
+
+  renamable $d16 = VLDRD $sp, 12, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem25)
+  VSTRD killed renamable $d16, $sp, 38, 14, $noreg :: (store (s64) into %ir..reg2mem)
+  renamable $d16 = VLDRD $sp, 38, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem)
+  VSTRD killed renamable $d16, $sp, 14, 14, $noreg :: (store (s64) into %ir..reg2mem23)
+  B %bb.28, debug-location !290; ../latnav.c:68:12
+
+bb.28 (%ir-block.77):
+; predecessors: %bb.27, %bb.23
+  successors: %bb.29(0x80000000); %bb.29(100.00%)
+
+  renamable $d16 = VLDRD $sp, 14, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem23)
+  VSTRD killed renamable $d16, $sp, 48, 14, $noreg, debug-location !291 :: (store (s64) into %ir.3); ../latnav.c:68:5
+  B %bb.29, debug-location !291; ../latnav.c:68:5
+
+bb.29 (%ir-block.78):
+; predecessors: %bb.28, %bb.15, %bb.7
+
+  renamable $d0 = VLDRD $sp, 48, 14, $noreg, debug-location !292 :: (dereferenceable load (s64) from %ir.3); ../latnav.c:69:1
+  $sp = frame-destroy ADDri killed $sp, 200, 14, $noreg, $noreg, debug-location !292; ../latnav.c:69:1
+  BX_RET 14, $noreg, implicit killed $d0, debug-location !292; ../latnav.c:69:1
+
+bb.30 (align 8):
+  CONSTPOOL_ENTRY 0, %const.0, 8
+  CONSTPOOL_ENTRY 1, %const.1, 8
+  CONSTPOOL_ENTRY 2, %const.2, 8
+  CONSTPOOL_ENTRY 3, %const.3, 8
+  CONSTPOOL_ENTRY 4, %const.4, 8
+  CONSTPOOL_ENTRY 5, %const.5, 8
+  CONSTPOOL_ENTRY 6, %const.6, 8
+  CONSTPOOL_ENTRY 7, %const.7, 8
+  CONSTPOOL_ENTRY 8, %const.8, 8
+
+# End machine code for function roll_limiter.
+
+# Machine code for function roll_rate_limiter: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=8, align=8, at location [SP-8]
+  fi#1: size=8, align=8, at location [SP-16]
+  fi#2: size=8, align=8, at location [SP-24]
+  fi#3: size=8, align=8, at location [SP-32]
+  fi#4: size=8, align=8, at location [SP-40]
+  fi#5: size=8, align=8, at location [SP-48]
+  fi#6: size=8, align=8, at location [SP-56]
+  fi#7: size=8, align=8, at location [SP-64]
+  fi#8: size=8, align=8, at location [SP-72]
+  fi#9: size=8, align=8, at location [SP-80]
+  fi#10: size=8, align=8, at location [SP-88]
+  fi#11: size=8, align=8, at location [SP-96]
+  fi#12: size=8, align=8, at location [SP-104]
+  fi#13: size=8, align=8, at location [SP-112]
+  fi#14: size=8, align=8, at location [SP-120]
+  fi#15: size=8, align=8, at location [SP-128]
+  fi#16: size=8, align=8, at location [SP-136]
+Function Live Ins: $d0, $d1
+
+bb.0 (%ir-block.2):
+  successors: %bb.1, %bb.9
+  liveins: $d0, $d1
+  $sp = frame-setup SUBri killed $sp, 136, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_offset 136
+  VSTRD killed renamable $d0, $sp, 30, 14, $noreg :: (store (s64) into %ir.4)
+  VSTRD killed renamable $d1, $sp, 28, 14, $noreg :: (store (s64) into %ir.5)
+  renamable $d16 = VLDRD $sp, 28, 14, $noreg, debug-location !294 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:72:9
+  VSTRD $d16, $sp, 2, 14, $noreg :: (store (s64) into %stack.15)
+  renamable $d17 = FCONSTD 52, 14, $noreg
+  VCMPD renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !296; ../latnav.c:72:19
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !296; ../latnav.c:72:19
+  Bcc %bb.9, 5, killed $cpsr, debug-location !296; ../latnav.c:72:19
+  B %bb.1, debug-location !296; ../latnav.c:72:19
+
+bb.1 (%ir-block.2):
+; predecessors: %bb.0
+  successors: %bb.2, %bb.9
+
+  $d16 = VLDRD $sp, 2, 14, $noreg :: (load (s64) from %stack.15)
+  renamable $d17 = FCONSTD 180, 14, $noreg
+  VCMPD renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !296; ../latnav.c:72:19
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !296; ../latnav.c:72:19
+  Bcc %bb.9, 13, killed $cpsr, debug-location !296; ../latnav.c:72:19
+  B %bb.2, debug-location !296; ../latnav.c:72:19
+
+bb.2 (%ir-block.10):
+; predecessors: %bb.1
+  successors: %bb.3, %bb.4
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !297 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:73:15
+  renamable $d17 = FCONSTD 148, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !297; ../latnav.c:73:15
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !297; ../latnav.c:73:15
+  Bcc %bb.4, 5, killed $cpsr, debug-location !297; ../latnav.c:73:15
+  B %bb.3, debug-location !297; ../latnav.c:73:15
+
+bb.3 (%ir-block.13):
+; predecessors: %bb.2
+  successors: %bb.8(0x80000000); %bb.8(100.00%)
+
+  $r0 = MOVi 1310720, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 3221225472, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 28, 14, $noreg :: (store (s32) into %ir..reg2mem22 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 24, 14, $noreg :: (store (s32) into %ir..reg2mem22, align 8)
+  B %bb.8, debug-location !297; ../latnav.c:73:15
+
+bb.4 (%ir-block.14):
+; predecessors: %bb.2
+  successors: %bb.5, %bb.6
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !297 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:73:15
+  renamable $d17 = FCONSTD 20, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !297; ../latnav.c:73:15
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !297; ../latnav.c:73:15
+  Bcc %bb.6, 13, killed $cpsr, debug-location !297; ../latnav.c:73:15
+  B %bb.5, debug-location !297; ../latnav.c:73:15
+
+bb.5 (%ir-block.17):
+; predecessors: %bb.4
+  successors: %bb.7(0x80000000); %bb.7(100.00%)
+
+  $r0 = MOVi 1310720, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 1073741824, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 20, 14, $noreg :: (store (s32) into %ir..reg2mem24 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 16, 14, $noreg :: (store (s32) into %ir..reg2mem24, align 8)
+  B %bb.7, debug-location !297; ../latnav.c:73:15
+
+bb.6 (%ir-block.18):
+; predecessors: %bb.4
+  successors: %bb.7(0x80000000); %bb.7(100.00%)
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !297 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:73:15
+  VSTRD killed renamable $d16, $sp, 16, 14, $noreg :: (store (s64) into %ir..reg2mem12)
+  renamable $d16 = VLDRD $sp, 16, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem12)
+  VSTRD killed renamable $d16, $sp, 4, 14, $noreg :: (store (s64) into %ir..reg2mem24)
+  B %bb.7, debug-location !297; ../latnav.c:73:15
+
+bb.7 (%ir-block.20):
+; predecessors: %bb.6, %bb.5
+  successors: %bb.8(0x80000000); %bb.8(100.00%)
+
+  renamable $d16 = VLDRD $sp, 4, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem24)
+  VSTRD killed renamable $d16, $sp, 18, 14, $noreg :: (store (s64) into %ir..reg2mem10)
+  renamable $d16 = VLDRD $sp, 18, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem10)
+  VSTRD killed renamable $d16, $sp, 6, 14, $noreg :: (store (s64) into %ir..reg2mem22)
+  B %bb.8, debug-location !297; ../latnav.c:73:15
+
+bb.8 (%ir-block.21):
+; predecessors: %bb.7, %bb.3
+  successors: %bb.25(0x80000000); %bb.25(100.00%)
+
+  renamable $d16 = VLDRD $sp, 6, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem22)
+  VSTRD killed renamable $d16, $sp, 32, 14, $noreg, debug-location !298 :: (store (s64) into %ir.3); ../latnav.c:73:8
+  B %bb.25, debug-location !298; ../latnav.c:73:8
+
+bb.9.._crit_edge:
+; predecessors: %bb.0, %bb.1
+  successors: %bb.10, %bb.18
+
+  renamable $d16 = VLDRD $sp, 28, 14, $noreg, debug-location !299 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:74:16
+  VSTRD $d16, $sp, 0, 14, $noreg :: (store (s64) into %stack.16)
+  renamable $d17 = FCONSTD 62, 14, $noreg
+  VCMPD renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !301; ../latnav.c:74:26
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !301; ../latnav.c:74:26
+  Bcc %bb.18, 5, killed $cpsr, debug-location !301; ../latnav.c:74:26
+  B %bb.10, debug-location !301; ../latnav.c:74:26
+
+bb.10.._crit_edge:
+; predecessors: %bb.9
+  successors: %bb.11, %bb.18
+
+  $d16 = VLDRD $sp, 0, 14, $noreg :: (load (s64) from %stack.16)
+  renamable $d17 = FCONSTD 190, 14, $noreg
+  VCMPD renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !301; ../latnav.c:74:26
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !301; ../latnav.c:74:26
+  Bcc %bb.18, 13, killed $cpsr, debug-location !301; ../latnav.c:74:26
+  B %bb.11, debug-location !301; ../latnav.c:74:26
+
+bb.11 (%ir-block.26):
+; predecessors: %bb.10
+  successors: %bb.12, %bb.13
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !302 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:75:15
+  renamable $d17 = FCONSTD 136, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !302; ../latnav.c:75:15
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !302; ../latnav.c:75:15
+  Bcc %bb.13, 5, killed $cpsr, debug-location !302; ../latnav.c:75:15
+  B %bb.12, debug-location !302; ../latnav.c:75:15
+
+bb.12 (%ir-block.29):
+; predecessors: %bb.11
+  successors: %bb.17(0x80000000); %bb.17(100.00%)
+
+  $r0 = MOVi 524288, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 3221225472, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 44, 14, $noreg :: (store (s32) into %ir..reg2mem18 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 40, 14, $noreg :: (store (s32) into %ir..reg2mem18, align 8)
+  B %bb.17, debug-location !302; ../latnav.c:75:15
+
+bb.13 (%ir-block.30):
+; predecessors: %bb.11
+  successors: %bb.14, %bb.15
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !302 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:75:15
+  renamable $d17 = FCONSTD 8, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !302; ../latnav.c:75:15
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !302; ../latnav.c:75:15
+  Bcc %bb.15, 13, killed $cpsr, debug-location !302; ../latnav.c:75:15
+  B %bb.14, debug-location !302; ../latnav.c:75:15
+
+bb.14 (%ir-block.33):
+; predecessors: %bb.13
+  successors: %bb.16(0x80000000); %bb.16(100.00%)
+
+  $r0 = MOVi 524288, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 1073741824, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 36, 14, $noreg :: (store (s32) into %ir..reg2mem20 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 32, 14, $noreg :: (store (s32) into %ir..reg2mem20, align 8)
+  B %bb.16, debug-location !302; ../latnav.c:75:15
+
+bb.15 (%ir-block.34):
+; predecessors: %bb.13
+  successors: %bb.16(0x80000000); %bb.16(100.00%)
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !302 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:75:15
+  VSTRD killed renamable $d16, $sp, 20, 14, $noreg :: (store (s64) into %ir..reg2mem8)
+  renamable $d16 = VLDRD $sp, 20, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem8)
+  VSTRD killed renamable $d16, $sp, 8, 14, $noreg :: (store (s64) into %ir..reg2mem20)
+  B %bb.16, debug-location !302; ../latnav.c:75:15
+
+bb.16 (%ir-block.36):
+; predecessors: %bb.15, %bb.14
+  successors: %bb.17(0x80000000); %bb.17(100.00%)
+
+  renamable $d16 = VLDRD $sp, 8, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem20)
+  VSTRD killed renamable $d16, $sp, 22, 14, $noreg :: (store (s64) into %ir..reg2mem6)
+  renamable $d16 = VLDRD $sp, 22, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem6)
+  VSTRD killed renamable $d16, $sp, 10, 14, $noreg :: (store (s64) into %ir..reg2mem18)
+  B %bb.17, debug-location !302; ../latnav.c:75:15
+
+bb.17 (%ir-block.37):
+; predecessors: %bb.16, %bb.12
+  successors: %bb.25(0x80000000); %bb.25(100.00%)
+
+  renamable $d16 = VLDRD $sp, 10, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem18)
+  VSTRD killed renamable $d16, $sp, 32, 14, $noreg, debug-location !303 :: (store (s64) into %ir.3); ../latnav.c:75:8
+  B %bb.25, debug-location !303; ../latnav.c:75:8
+
+bb.18.._crit_edge2:
+; predecessors: %bb.9, %bb.10
+  successors: %bb.19, %bb.20
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !304 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:77:16
+  renamable $d17 = FCONSTD 240, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !304; ../latnav.c:77:16
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !304; ../latnav.c:77:16
+  Bcc %bb.20, 5, killed $cpsr, debug-location !304; ../latnav.c:77:16
+  B %bb.19, debug-location !304; ../latnav.c:77:16
+
+bb.19 (%ir-block.40):
+; predecessors: %bb.18
+  successors: %bb.24(0x80000000); %bb.24(100.00%)
+
+  $r0 = MOVi 267386880, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 2952790016, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 60, 14, $noreg :: (store (s32) into %ir..reg2mem14 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 56, 14, $noreg :: (store (s32) into %ir..reg2mem14, align 8)
+  B %bb.24, debug-location !304; ../latnav.c:77:16
+
+bb.20 (%ir-block.41):
+; predecessors: %bb.18
+  successors: %bb.21, %bb.22
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !304 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:77:16
+  renamable $d17 = FCONSTD 112, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !304; ../latnav.c:77:16
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !304; ../latnav.c:77:16
+  Bcc %bb.22, 13, killed $cpsr, debug-location !304; ../latnav.c:77:16
+  B %bb.21, debug-location !304; ../latnav.c:77:16
+
+bb.21 (%ir-block.44):
+; predecessors: %bb.20
+  successors: %bb.23(0x80000000); %bb.23(100.00%)
+
+  $r0 = MOVi 267386880, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 805306368, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 52, 14, $noreg :: (store (s32) into %ir..reg2mem16 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 48, 14, $noreg :: (store (s32) into %ir..reg2mem16, align 8)
+  B %bb.23, debug-location !304; ../latnav.c:77:16
+
+bb.22 (%ir-block.45):
+; predecessors: %bb.20
+  successors: %bb.23(0x80000000); %bb.23(100.00%)
+
+  renamable $d16 = VLDRD $sp, 30, 14, $noreg, debug-location !304 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:77:16
+  VSTRD killed renamable $d16, $sp, 24, 14, $noreg :: (store (s64) into %ir..reg2mem4)
+  renamable $d16 = VLDRD $sp, 24, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem4)
+  VSTRD killed renamable $d16, $sp, 12, 14, $noreg :: (store (s64) into %ir..reg2mem16)
+  B %bb.23, debug-location !304; ../latnav.c:77:16
+
+bb.23 (%ir-block.47):
+; predecessors: %bb.22, %bb.21
+  successors: %bb.24(0x80000000); %bb.24(100.00%)
+
+  renamable $d16 = VLDRD $sp, 12, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem16)
+  VSTRD killed renamable $d16, $sp, 26, 14, $noreg :: (store (s64) into %ir..reg2mem)
+  renamable $d16 = VLDRD $sp, 26, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem)
+  VSTRD killed renamable $d16, $sp, 14, 14, $noreg :: (store (s64) into %ir..reg2mem14)
+  B %bb.24, debug-location !304; ../latnav.c:77:16
+
+bb.24 (%ir-block.48):
+; predecessors: %bb.23, %bb.19
+  successors: %bb.25(0x80000000); %bb.25(100.00%)
+
+  renamable $d16 = VLDRD $sp, 14, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem14)
+  VSTRD killed renamable $d16, $sp, 32, 14, $noreg, debug-location !305 :: (store (s64) into %ir.3); ../latnav.c:77:9
+  B %bb.25, debug-location !305; ../latnav.c:77:9
+
+bb.25 (%ir-block.49):
+; predecessors: %bb.24, %bb.17, %bb.8
+
+  renamable $d0 = VLDRD $sp, 32, 14, $noreg, debug-location !306 :: (dereferenceable load (s64) from %ir.3); ../latnav.c:79:1
+  $sp = frame-destroy ADDri killed $sp, 136, 14, $noreg, $noreg, debug-location !306; ../latnav.c:79:1
+  BX_RET 14, $noreg, implicit killed $d0, debug-location !306; ../latnav.c:79:1
+
+# End machine code for function roll_rate_limiter.
+
+# Machine code for function ailerons_limiter: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=8, align=8, at location [SP-8]
+  fi#1: size=8, align=8, at location [SP-16]
+  fi#2: size=8, align=8, at location [SP-24]
+  fi#3: size=8, align=8, at location [SP-32]
+  fi#4: size=8, align=8, at location [SP-40]
+Function Live Ins: $d0
+
+bb.0 (%ir-block.1):
+  successors: %bb.1, %bb.2
+  liveins: $d0
+  $sp = frame-setup SUBri killed $sp, 40, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa_offset 40
+  VSTRD killed renamable $d0, $sp, 8, 14, $noreg :: (store (s64) into %ir.2)
+  renamable $d16 = VLDRD $sp, 8, 14, $noreg, debug-location !308 :: (dereferenceable load (s64) from %ir.2); ../latnav.c:82:12
+  renamable $d17 = FCONSTD 190, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !308; ../latnav.c:82:12
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !308; ../latnav.c:82:12
+  Bcc %bb.2, 5, killed $cpsr, debug-location !308; ../latnav.c:82:12
+  B %bb.1, debug-location !308; ../latnav.c:82:12
+
+bb.1 (%ir-block.5):
+; predecessors: %bb.0
+  successors: %bb.6(0x80000000); %bb.6(100.00%)
+
+  $r0 = MOVi 4063232, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 3221225472, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 12, 14, $noreg :: (store (s32) into %ir..reg2mem3 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 8, 14, $noreg :: (store (s32) into %ir..reg2mem3, align 8)
+  B %bb.6, debug-location !308; ../latnav.c:82:12
+
+bb.2 (%ir-block.6):
+; predecessors: %bb.0
+  successors: %bb.3, %bb.4
+
+  renamable $d16 = VLDRD $sp, 8, 14, $noreg, debug-location !308 :: (dereferenceable load (s64) from %ir.2); ../latnav.c:82:12
+  renamable $d17 = FCONSTD 62, 14, $noreg
+  VCMPD killed renamable $d16, killed renamable $d17, 14, $noreg, implicit-def $fpscr_nzcv, debug-location !308; ../latnav.c:82:12
+  FMSTAT 14, $noreg, implicit-def $cpsr, implicit killed $fpscr_nzcv, debug-location !308; ../latnav.c:82:12
+  Bcc %bb.4, 13, killed $cpsr, debug-location !308; ../latnav.c:82:12
+  B %bb.3, debug-location !308; ../latnav.c:82:12
+
+bb.3 (%ir-block.9):
+; predecessors: %bb.2
+  successors: %bb.5(0x80000000); %bb.5(100.00%)
+
+  $r0 = MOVi 4063232, 14, $noreg, $noreg
+  $r0 = ORRri $r0, 1073741824, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 4, 14, $noreg :: (store (s32) into %ir..reg2mem5 + 4, basealign 8)
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 0, 14, $noreg :: (store (s32) into %ir..reg2mem5, align 8)
+  B %bb.5, debug-location !308; ../latnav.c:82:12
+
+bb.4 (%ir-block.10):
+; predecessors: %bb.2
+  successors: %bb.5(0x80000000); %bb.5(100.00%)
+
+  renamable $d16 = VLDRD $sp, 8, 14, $noreg, debug-location !308 :: (dereferenceable load (s64) from %ir.2); ../latnav.c:82:12
+  VSTRD killed renamable $d16, $sp, 4, 14, $noreg :: (store (s64) into %ir..reg2mem1)
+  renamable $d16 = VLDRD $sp, 4, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem1)
+  VSTRD killed renamable $d16, $sp, 0, 14, $noreg :: (store (s64) into %ir..reg2mem5)
+  B %bb.5, debug-location !308; ../latnav.c:82:12
+
+bb.5 (%ir-block.12):
+; predecessors: %bb.4, %bb.3
+  successors: %bb.6(0x80000000); %bb.6(100.00%)
+
+  renamable $d16 = VLDRD $sp, 0, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem5)
+  VSTRD killed renamable $d16, $sp, 6, 14, $noreg :: (store (s64) into %ir..reg2mem)
+  renamable $d16 = VLDRD $sp, 6, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem)
+  VSTRD killed renamable $d16, $sp, 2, 14, $noreg :: (store (s64) into %ir..reg2mem3)
+  B %bb.6, debug-location !308; ../latnav.c:82:12
+
+bb.6 (%ir-block.13):
+; predecessors: %bb.5, %bb.1
+
+  renamable $d0 = VLDRD $sp, 2, 14, $noreg :: (dereferenceable load (s64) from %ir..reg2mem3)
+  $sp = frame-destroy ADDri killed $sp, 40, 14, $noreg, $noreg, debug-location !309; ../latnav.c:82:5
+  BX_RET 14, $noreg, implicit killed $d0, debug-location !309; ../latnav.c:82:5
+
+# End machine code for function ailerons_limiter.
+
+# Machine code for function latnav: NoPHIs, TracksLiveness, NoVRegs, TiedOpsRewritten
+Frame Objects:
+  fi#0: size=56, align=8, at location [SP-72]
+  fi#1: size=56, align=8, at location [SP-128]
+  fi#2: size=56, align=8, at location [SP-184]
+  fi#3: size=8, align=8, at location [SP-192]
+  fi#4: size=8, align=8, at location [SP-200]
+  fi#5: size=8, align=8, at location [SP-208]
+  fi#6: size=4, align=4, at location [SP-212]
+  fi#7: size=8, align=8, at location [SP-224]
+  fi#8: size=8, align=8, at location [SP-232]
+  fi#9: size=8, align=8, at location [SP-240]
+  fi#10: size=8, align=8, at location [SP-248]
+  fi#11: size=8, align=8, at location [SP-256]
+  fi#12: size=8, align=8, at location [SP-264]
+  fi#13: size=4, align=4, at location [SP-268]
+  fi#14: size=8, align=8, at location [SP-280]
+  fi#15: size=4, align=4, at location [SP-4]
+  fi#16: size=4, align=4, at location [SP-8]
+  fi#17: size=4, align=4, at location [SP-12]
+  fi#18: size=4, align=4, at location [SP-16]
+Constant Pool:
+  cp#0: 4.000000e+02, align=8
+  cp#1: 1.000000e-03, align=8
+
+bb.0 (%ir-block.0):
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+  liveins: $r4, $r5, $lr
+  $sp = frame-setup STMDB_UPD $sp(tied-def 0), 14, $noreg, killed $r4, killed $r5, killed $r11, killed $lr
+  frame-setup CFI_INSTRUCTION def_cfa_offset 16
+  frame-setup CFI_INSTRUCTION offset $lr, -4
+  frame-setup CFI_INSTRUCTION offset $r11, -8
+  frame-setup CFI_INSTRUCTION offset $r5, -12
+  frame-setup CFI_INSTRUCTION offset $r4, -16
+  $r11 = frame-setup ADDri killed $sp, 8, 14, $noreg, $noreg
+  frame-setup CFI_INSTRUCTION def_cfa $r11, 8
+  $sp = frame-setup SUBri killed $sp, 264, 14, $noreg, $noreg
+  renamable $r0 = MOVi 0, 14, $noreg, $noreg
+  STRi12 killed renamable $r0, $sp, 68, 14, $noreg, debug-location !311 :: (store (s32) into %ir.7); ../latnav.c:92:10
+  B %bb.1, debug-location !312; ../latnav.c:92:9
+
+bb.1 (%ir-block.14):
+; predecessors: %bb.0, %bb.2
+  successors: %bb.2, %bb.3
+
+  renamable $r0 = LDRi12 $sp, 68, 14, $noreg, debug-location !313 :: (dereferenceable load (s32) from %ir.7); ../latnav.c:92:14
+  CMPri killed renamable $r0, 9, 14, $noreg, implicit-def $cpsr, debug-location !315; ../latnav.c:92:5
+  Bcc %bb.3, 12, killed $cpsr, debug-location !315; ../latnav.c:92:5
+  B %bb.2, debug-location !315; ../latnav.c:92:5
+
+bb.2 (%ir-block.17):
+; predecessors: %bb.1
+  successors: %bb.1(0x80000000); %bb.1(100.00%)
+
+  renamable $d16 = VLDRD $sp, 22, 14, $noreg, debug-location !316 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:96:46
+  VSTRD $d16, $sp, 0, 14, $noreg :: (store (s64) into %stack.14)
+  BL_pred @random_get, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit-def $sp, implicit-def $d0, debug-location !317; ../latnav.c:96:59
+  $d16 = VLDRD $sp, 0, 14, $noreg, debug-location !317 :: (load (s64) from %stack.14); ../latnav.c:96:59
+  renamable $d0 = VSUBD killed renamable $d16, killed renamable $d0, 14, $noreg, debug-location !318; ../latnav.c:96:58
+  renamable $r0 = ADDri $sp, 96, 14, $noreg, $noreg
+  BL_pred @run_pid, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $d0, implicit-def $sp, implicit-def $d0, debug-location !319; ../latnav.c:96:24
+  VSTRD killed renamable $d0, $sp, 14, 14, $noreg, debug-location !320 :: (store (s64) into %ir.8); ../latnav.c:96:22
+  renamable $d0 = VLDRD $sp, 14, 14, $noreg, debug-location !321 :: (dereferenceable load (s64) from %ir.8); ../latnav.c:97:36
+  renamable $d1 = VLDRD %const.0, 0, 14, $noreg :: (load (s64) from constant-pool)
+  BL_pred @roll_limiter, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $d0, implicit killed $d1, implicit-def $sp, implicit-def $d0, debug-location !322; ../latnav.c:97:23
+  VSTRD killed renamable $d0, $sp, 12, 14, $noreg, debug-location !323 :: (store (s64) into %ir.9); ../latnav.c:97:21
+  renamable $d16 = VLDRD $sp, 12, 14, $noreg, debug-location !324 :: (dereferenceable load (s64) from %ir.9); ../latnav.c:98:39
+  renamable $d17 = VLDRD $sp, 14, 14, $noreg, debug-location !325 :: (dereferenceable load (s64) from %ir.8); ../latnav.c:98:53
+  renamable $d16 = VSUBD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !326; ../latnav.c:98:51
+  VSTRD killed renamable $d16, $sp, 36, 14, $noreg, debug-location !328 :: (store (s64) into %ir.27); ../latnav.c:98:37
+  renamable $d16 = VLDRD $sp, 20, 14, $noreg, debug-location !329 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:100:48
+  renamable $d17 = VLDRD $sp, 12, 14, $noreg, debug-location !330 :: (dereferenceable load (s64) from %ir.9); ../latnav.c:100:60
+  renamable $d0 = VSUBD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !331; ../latnav.c:100:58
+  renamable $r0 = SUBri $r11, 120, 14, $noreg, $noreg
+  STRi12 $r0, $sp, 12, 14, $noreg :: (store (s32) into %stack.13)
+  BL_pred @run_pid, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $d0, implicit-def $sp, implicit-def $d0, debug-location !332; ../latnav.c:100:29
+  VSTRD killed renamable $d0, $sp, 10, 14, $noreg, debug-location !333 :: (store (s64) into %ir.10); ../latnav.c:100:27
+  renamable $d0 = VLDRD $sp, 10, 14, $noreg, debug-location !334 :: (dereferenceable load (s64) from %ir.10); ../latnav.c:101:46
+  renamable $d1 = VLDRD $sp, 20, 14, $noreg, debug-location !335 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:101:65
+  BL_pred @roll_rate_limiter, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $d0, implicit killed $d1, implicit-def $sp, implicit-def $d0, debug-location !336; ../latnav.c:101:28
+  $r0 = LDRi12 $sp, 12, 14, $noreg, debug-location !336 :: (load (s32) from %stack.13); ../latnav.c:101:28
+  VSTRD killed renamable $d0, $sp, 8, 14, $noreg, debug-location !337 :: (store (s64) into %ir.11); ../latnav.c:101:26
+  renamable $d16 = VLDRD $sp, 8, 14, $noreg, debug-location !338 :: (dereferenceable load (s64) from %ir.11); ../latnav.c:102:36
+  renamable $d17 = VLDRD $sp, 10, 14, $noreg, debug-location !339 :: (dereferenceable load (s64) from %ir.10); ../latnav.c:102:55
+  renamable $d16 = VSUBD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !340; ../latnav.c:102:53
+  VSTRD killed renamable $d16, $r11, 274, 14, $noreg, debug-location !342 :: (store (s64) into %ir.38); ../latnav.c:102:34
+  renamable $d16 = VLDRD $sp, 18, 14, $noreg, debug-location !343 :: (dereferenceable load (s64) from %ir.6); ../latnav.c:105:47
+  renamable $d17 = VLDRD $sp, 8, 14, $noreg, debug-location !344 :: (dereferenceable load (s64) from %ir.11); ../latnav.c:105:64
+  renamable $d0 = VSUBD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !345; ../latnav.c:105:62
+  BL_pred @run_pid, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $r0, implicit killed $d0, implicit-def $sp, implicit-def $d0, debug-location !346; ../latnav.c:105:28
+  VSTRD killed renamable $d0, $sp, 6, 14, $noreg, debug-location !347 :: (store (s64) into %ir.12); ../latnav.c:105:26
+  renamable $d0 = VLDRD $sp, 10, 14, $noreg, debug-location !348 :: (dereferenceable load (s64) from %ir.10); ../latnav.c:106:44
+  BL_pred @ailerons_limiter, 14, $noreg, <regmask $lr $d8 $d9 $d10 $d11 $d12 $d13 $d14 $d15 $q4 $q5 $q6 $q7 $r4 $r5 $r6 $r7 $r8 $r9 $r10 $r11 $s16 $s17 $s18 $s19 $s20 $s21 $s22 $s23 $s24 $s25 $s26 $s27 and 35 more...>, implicit-def dead $lr, implicit $sp, implicit killed $d0, implicit-def $sp, implicit-def $d0, debug-location !349; ../latnav.c:106:27
+  VSTRD killed renamable $d0, $sp, 4, 14, $noreg, debug-location !350 :: (store (s64) into %ir.13); ../latnav.c:106:25
+  renamable $d16 = VLDRD $sp, 4, 14, $noreg, debug-location !351 :: (dereferenceable load (s64) from %ir.13); ../latnav.c:107:36
+  renamable $d17 = VLDRD $sp, 6, 14, $noreg, debug-location !352 :: (dereferenceable load (s64) from %ir.12); ../latnav.c:107:54
+  renamable $d16 = VSUBD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !353; ../latnav.c:107:52
+  VSTRD killed renamable $d16, $r11, 274, 14, $noreg, debug-location !355 :: (store (s64) into %ir.48); ../latnav.c:107:34
+  renamable $d16 = VLDRD $sp, 20, 14, $noreg, debug-location !356 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:110:25
+  renamable $d17 = FCONSTD 36, 14, $noreg
+  renamable $d17 = VDIVD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !357; ../latnav.c:110:34
+  renamable $d16 = VLDRD $sp, 22, 14, $noreg, debug-location !359 :: (dereferenceable load (s64) from %ir.4); ../latnav.c:110:22
+  renamable $d18 = VLDRD %const.1, 0, 14, $noreg :: (load (s64) from constant-pool)
+  renamable $d16 = VMLAD renamable $d16(tied-def 0), killed renamable $d17, renamable $d18, 14, $noreg, debug-location !359; ../latnav.c:110:22
+  VSTRD killed renamable $d16, $sp, 22, 14, $noreg, debug-location !359 :: (store (s64) into %ir.4); ../latnav.c:110:22
+  renamable $d17 = VLDRD $sp, 18, 14, $noreg, debug-location !360 :: (dereferenceable load (s64) from %ir.6); ../latnav.c:111:22
+  renamable $d16 = VLDRD $sp, 20, 14, $noreg, debug-location !362 :: (dereferenceable load (s64) from %ir.5); ../latnav.c:111:19
+  renamable $d16 = VMLAD renamable $d16(tied-def 0), killed renamable $d17, killed renamable $d18, 14, $noreg, debug-location !362; ../latnav.c:111:19
+  VSTRD killed renamable $d16, $sp, 20, 14, $noreg, debug-location !362 :: (store (s64) into %ir.5); ../latnav.c:111:19
+  renamable $d16 = VLDRD $sp, 6, 14, $noreg, debug-location !363 :: (dereferenceable load (s64) from %ir.12); ../latnav.c:112:27
+  renamable $d17 = FCONSTD 20, 14, $noreg
+  renamable $d17 = VDIVD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !364; ../latnav.c:112:44
+  renamable $d16 = VLDRD $sp, 18, 14, $noreg, debug-location !365 :: (dereferenceable load (s64) from %ir.6); ../latnav.c:112:24
+  renamable $d16 = VADDD killed renamable $d16, killed renamable $d17, 14, $noreg, debug-location !365; ../latnav.c:112:24
+  VSTRD killed renamable $d16, $sp, 18, 14, $noreg, debug-location !365 :: (store (s64) into %ir.6); ../latnav.c:112:24
+  renamable $r0 = LDRi12 $sp, 68, 14, $noreg, debug-location !366 :: (dereferenceable load (s32) from %ir.7); ../latnav.c:92:29
+  renamable $r0 = nsw ADDri killed renamable $r0, 1, 14, $noreg, $noreg, debug-location !366; ../latnav.c:92:29
+  STRi12 killed renamable $r0, $sp, 68, 14, $noreg, debug-location !366 :: (store (s32) into %ir.7); ../latnav.c:92:29
+  B %bb.1, debug-location !315; ../latnav.c:92:5
+
+bb.3 (%ir-block.64):
+; predecessors: %bb.1
+
+  $sp = frame-destroy SUBri killed $r11, 8, 14, $noreg, $noreg, debug-location !369; ../latnav.c:116:1
+  $sp = frame-destroy LDMIA_UPD $sp(tied-def 0), 14, $noreg, def $r4, def $r5, def $r11, def $lr, debug-location !369; ../latnav.c:116:1
+  BX_RET 14, $noreg, debug-location !369; ../latnav.c:116:1
+
+bb.4 (align 8):
+  CONSTPOOL_ENTRY 0, %const.0, 8
+  CONSTPOOL_ENTRY 1, %const.1, 8
+
+# End machine code for function latnav.
+

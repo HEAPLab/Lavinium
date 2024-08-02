@@ -1,0 +1,387 @@
+##################################
+## Directives Machine Functions ##
+##################################
+Before random_set_seed, Directive of Type CREATE for the following tokens:{
+	Call of function random_set_seed}
+Before random_get_int, Directive of Type CREATE for the following tokens:{
+	Call of function random_get_int}
+Before random_get, Directive of Type CREATE for the following tokens:{
+	Call of function random_get}
+Before random_get_array, Directive of Type CREATE for the following tokens:{
+	Call of function random_get_array}
+Before random_get_sarray, Directive of Type CREATE for the following tokens:{
+	Call of function random_get_sarray}
+Before quick_sort, Directive of Type CREATE for the following tokens:{
+	Call of function quick_sort}
+Before partition, Directive of Type CREATE for the following tokens:{
+	Call of function partition}
+Before random_get_iarray, Directive of Type CREATE for the following tokens:{
+	Call of function random_get_iarray}
+Before random_get_barray, Directive of Type CREATE for the following tokens:{
+	Call of function random_get_barray}
+Before run_pid, Directive of Type CREATE for the following tokens:{
+	Call of function run_pid}
+Before roll_limiter, Directive of Type CREATE for the following tokens:{
+	Call of function roll_limiter}
+Before roll_rate_limiter, Directive of Type CREATE for the following tokens:{
+	Call of function roll_rate_limiter}
+Before ailerons_limiter, Directive of Type CREATE for the following tokens:{
+	Call of function ailerons_limiter}
+Before latnav, Directive of Type CREATE for the following tokens:{
+	Call of function latnav}
+After random_set_seed, Directive of Type MERGE for the following tokens:{
+	Call of function random_set_seed}
+After random_get_int, Directive of Type MERGE for the following tokens:{
+	Call of function random_get_int}
+After random_get, Directive of Type MERGE for the following tokens:{
+	Call of function random_get}
+After random_get_array, Directive of Type MERGE for the following tokens:{
+	Call of function random_get_array}
+After random_get_sarray, Directive of Type MERGE for the following tokens:{
+	Call of function random_get_sarray}
+After quick_sort, Directive of Type MERGE for the following tokens:{
+	Call of function quick_sort}
+After partition, Directive of Type MERGE for the following tokens:{
+	Call of function partition}
+After random_get_iarray, Directive of Type MERGE for the following tokens:{
+	Call of function random_get_iarray}
+After random_get_barray, Directive of Type MERGE for the following tokens:{
+	Call of function random_get_barray}
+After run_pid, Directive of Type MERGE for the following tokens:{
+	Call of function run_pid}
+After roll_limiter, Directive of Type MERGE for the following tokens:{
+	Call of function roll_limiter}
+After roll_rate_limiter, Directive of Type MERGE for the following tokens:{
+	Call of function roll_rate_limiter}
+After ailerons_limiter, Directive of Type MERGE for the following tokens:{
+	Call of function ailerons_limiter}
+After latnav, Directive of Type MERGE for the following tokens:{
+	Call of function latnav}
+#############################
+## Directives Basic Blocks ##
+#############################
+Enter (random_get_array_BB1, random_get_array_BB3), [Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times}]
+Enter (random_get_sarray_BB1, random_get_sarray_BB3), [Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times}]
+Enter (partition_BB1, partition_BB5), [Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times}]
+Enter (random_get_iarray_BB1, random_get_iarray_BB3), [Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times}]
+Enter (random_get_barray_BB1, random_get_barray_BB3), [Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times}]
+Enter (latnav_BB1, latnav_BB3), [Directive of Type MERGE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function latnav taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function latnav taken 0 times}]
+Leave (random_get_array_BB0, random_get_array_BB1), [Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_array taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_array taken 0 times}]
+Leave (random_get_sarray_BB0, random_get_sarray_BB1), [Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_sarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_sarray taken 0 times}]
+Leave (partition_BB0, partition_BB1), [Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB4, BB1)} in function partition taken at least 1 times,
+	Loop Peeling: Backedges {(BB4, BB1)} in function partition taken 0 times}]
+Leave (random_get_iarray_BB0, random_get_iarray_BB1), [Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_iarray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_iarray taken 0 times}]
+Leave (random_get_barray_BB0, random_get_barray_BB1), [Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times},
+Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function random_get_barray taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function random_get_barray taken 0 times}]
+Leave (latnav_BB0, latnav_BB1), [Directive of Type CREATE for the following tokens:{
+	Loop Iteration: Backedges {(BB2, BB1)} in function latnav taken at least 1 times,
+	Loop Peeling: Backedges {(BB2, BB1)} in function latnav taken 0 times}]
+#############################
+## Directives Instructions ##
+#############################
+Before random_get_BB0_I6, Directive of Type CREATE for the following tokens:{
+	Function call at location random_get_BB0_I6}
+Before random_get_array_BB2_I0, Directive of Type CREATE for the following tokens:{
+	Function call at location random_get_array_BB2_I0}
+Before random_get_sarray_BB2_I0, Directive of Type CREATE for the following tokens:{
+	Function call at location random_get_sarray_BB2_I0}
+Before random_get_sarray_BB3_I4, Directive of Type CREATE for the following tokens:{
+	Function call at location random_get_sarray_BB3_I4}
+Before quick_sort_BB1_I3, Directive of Type CREATE for the following tokens:{
+	Function call at location quick_sort_BB1_I3}
+Before quick_sort_BB1_I9, Directive of Type CREATE for the following tokens:{
+	Function call at location quick_sort_BB1_I9}
+Before quick_sort_BB1_I14, Directive of Type CREATE for the following tokens:{
+	Function call at location quick_sort_BB1_I14}
+Before random_get_iarray_BB2_I0, Directive of Type CREATE for the following tokens:{
+	Function call at location random_get_iarray_BB2_I0}
+Before random_get_barray_BB2_I0, Directive of Type CREATE for the following tokens:{
+	Function call at location random_get_barray_BB2_I0}
+Before latnav_BB2_I2, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I2}
+Before latnav_BB2_I6, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I6}
+Before latnav_BB2_I10, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I10}
+Before latnav_BB2_I21, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I21}
+Before latnav_BB2_I25, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I25}
+Before latnav_BB2_I35, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I35}
+Before latnav_BB2_I38, Directive of Type CREATE for the following tokens:{
+	Function call at location latnav_BB2_I38}
+After random_get_BB0_I6, Directive of Type MERGE for the following tokens:{
+	Function call at location random_get_BB0_I6}
+After random_get_array_BB2_I0, Directive of Type MERGE for the following tokens:{
+	Function call at location random_get_array_BB2_I0}
+After random_get_sarray_BB2_I0, Directive of Type MERGE for the following tokens:{
+	Function call at location random_get_sarray_BB2_I0}
+After random_get_sarray_BB3_I4, Directive of Type MERGE for the following tokens:{
+	Function call at location random_get_sarray_BB3_I4}
+After quick_sort_BB1_I3, Directive of Type MERGE for the following tokens:{
+	Function call at location quick_sort_BB1_I3}
+After quick_sort_BB1_I9, Directive of Type MERGE for the following tokens:{
+	Function call at location quick_sort_BB1_I9}
+After quick_sort_BB1_I14, Directive of Type MERGE for the following tokens:{
+	Function call at location quick_sort_BB1_I14}
+After random_get_iarray_BB2_I0, Directive of Type MERGE for the following tokens:{
+	Function call at location random_get_iarray_BB2_I0}
+After random_get_barray_BB2_I0, Directive of Type MERGE for the following tokens:{
+	Function call at location random_get_barray_BB2_I0}
+After latnav_BB2_I2, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I2}
+After latnav_BB2_I6, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I6}
+After latnav_BB2_I10, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I10}
+After latnav_BB2_I21, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I21}
+After latnav_BB2_I25, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I25}
+After latnav_BB2_I35, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I35}
+After latnav_BB2_I38, Directive of Type MERGE for the following tokens:{
+	Function call at location latnav_BB2_I38}

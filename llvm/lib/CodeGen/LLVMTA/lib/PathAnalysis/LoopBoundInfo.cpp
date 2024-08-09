@@ -40,6 +40,7 @@
 #include "llvm/CodeGen/MachineInstr.h"
 
 #include "llvm/CodeGen/MachineLoopInfo.h"
+#include "llvm/IR/Constants.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_os_ostream.h"
 
@@ -138,7 +139,7 @@ bool LoopBoundInfoPass::isMachineLoopPartialMatch(const MachineLoop *Maloop,
         if (!Found) { dbgs() << "No match for " << *MaBb << " found\n"; });
     FoundAllmaloopBb &= Found;
   }
-  
+
   return FoundAllmaloopBb;
 }
 
@@ -150,16 +151,18 @@ void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
   if (SEInfo.hasLoopInvariantBackedgeTakenCount(Loop)) {
     const SCEV *TakenCount = SEInfo.getBackedgeTakenCount(Loop);
     /* const SCEV *TakenCount = SEInfo.getConstant(
-      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10)); */
+      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10));
+    */
     DEBUG_WITH_TYPE("loopbound", dbgs()
                                      << "Loop SCEV: " << *TakenCount << "\n");
     DEBUG_WITH_TYPE("loopbound", dbgs() << "Loop SCEV: " << TakenCount << "\n");
     UpperLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount));
-    LowerLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount)); 
+    LowerLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount));
   } else {
     const SCEV *MaxTakenCount = SEInfo.getConstantMaxBackedgeTakenCount(Loop);
     /* const SCEV *MaxTakenCount = SEInfo.getConstant(
-      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10)); */
+      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10));
+    */
     DEBUG_WITH_TYPE("loopbound", dbgs() << "Non-invariant Loop Bound: "
                                         << *MaxTakenCount << "\n");
     // FIXME do not use max backedge taken count since it returns ridiculous
@@ -546,6 +549,27 @@ void LoopBoundInfoPass::computeLoopBoundFromCVDomain(
   computeLoopBounds(LowerLoopBoundsSCEV, LowerLoopBoundsCtx, CvAnaInfo);
 }
 
+const llvm::Loop *
+LoopBoundInfoPass::getCorrespondingLoop(const llvm::MachineLoop *const ML) {
+  for (auto L : IrLoops) {
+    if (isMachineLoopPartialMatch(ML, L)) {
+      return L;
+    }
+  }
+  return nullptr;
+}
+
+// LAVINIUM-TODO: Spostare in un posto sensato
+unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L) {
+  assert(L != nullptr && "Cannot analyze nullptr loop");
+  auto *BB = L->getLoopLatch();
+  auto *terminator = BB->getTerminator();
+  auto *MD = terminator->getMetadata("lavinium.iterloop");
+  auto *OP = llvm::mdconst::dyn_extract<ConstantInt>(MD->getOperand(0));
+  OP->dump();
+  return OP->getZExtValue();
+}
+
 template <llvm::Triple::ArchType ISA>
 void LoopBoundInfoPass::computeLoopBounds(
     const std::unordered_map<const llvm::MachineLoop *, const llvm::SCEV *>
@@ -565,17 +589,22 @@ void LoopBoundInfoPass::computeLoopBounds(
     if (CvAnaInfo.hasAnaInfoBefore(FirstInstr)) {
       DEBUG_WITH_TYPE("loopbound", dbgs() << "We have analysis info.\n");
       auto AnaInfoCtx = CvAnaInfo.getAnaInfoBefore(FirstInstr);
-      if (!AnaInfoCtx.isBottom() && LoopContextMap.find(Loop.first) != LoopContextMap.end()) { // AnaInfoCtx.partitionedAnalysisInfo is not null
+      if (!AnaInfoCtx.isBottom() &&
+          LoopContextMap.find(Loop.first) !=
+              LoopContextMap
+                  .end()) { // AnaInfoCtx.partitionedAnalysisInfo is not null
         auto CtxBounds = getContextSensitiveBounds(
             Loop.first, Loop.second, AnaInfoCtx.getAnalysisInfoPerContext());
         LoopBounds.insert(std::make_pair(Loop.first, CtxBounds));
       } else {
         DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info for bottom\n");
         // LAVINIUM-TODO: implement the function below
-        //unsigned int UpperLoopBound = getLaviniumUpperLoopBound(Loop.first);
-        unsigned int UpperLoopBound = 1;
-        ManualUpperLoopBoundsNoCtx.insert(std::make_pair(Loop.first, UpperLoopBound));
-        ManualLowerLoopBoundsNoCtx.insert(std::make_pair(Loop.first, UpperLoopBound));
+        unsigned int UpperLoopBound =
+            getLaviniumUpperLoopBound(getCorrespondingLoop(Loop.first));
+        ManualUpperLoopBoundsNoCtx.insert(
+            std::make_pair(Loop.first, UpperLoopBound));
+        ManualLowerLoopBoundsNoCtx.insert(
+            std::make_pair(Loop.first, UpperLoopBound));
       }
     } else {
       DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info available. Will "
@@ -968,8 +997,8 @@ void LoopBoundInfoPass::parseNormalManualLoopBounds(
           const MachineLoop *Maloop = Loop;
           ManualLoopBounds.insert(std::make_pair(Maloop, Bound));
           DEBUG_WITH_TYPE("loopbound", dbgs() << "Add bound for " << Maloop
-                                              << "(" << *Maloop << ")"
-                                              << " as " << Bound << "\n");
+                                              << "(" << *Maloop << ")" << " as "
+                                              << Bound << "\n");
           goto end_loop;
         }
       }

@@ -147,6 +147,8 @@ private:
    * Introduced to avoid code duplication and to guarantee maintainability.
    */
 
+  const Loop *getCorrespondingLoop(const llvm::MachineLoop *const ML);
+
   bool hasLoopBoundNoCtx(
       const llvm::MachineLoop *Loop,
       const std::unordered_map<const llvm::MachineLoop *,

@@ -46,6 +46,9 @@ namespace TimingAnalysisPass {
  */
 class StateGraph {
 public:
+  StateGraph()
+      : constructionCallbacks(), isEdgeJoinableCallbacks(),
+        WCETPathStyle{.color = "red", .thickness = 3} {}
   /**
    * Register stategraph construction callbacks.
    *
@@ -141,6 +144,11 @@ protected:
 template <class MuState> class MuStateGraph : public StateGraph {
 public:
   typedef MuState State;
+
+  MuStateGraph()
+      : StateGraph(){
+
+        };
 
   virtual void freeMuStates() = 0;
   virtual typename MuState::StateSet getStatesForId(unsigned id) = 0;

@@ -85,6 +85,17 @@ extern char &LoopSimplifyID;
 
 //===----------------------------------------------------------------------===//
 //
+// LoopAnnotation - Insert Pre-header blocks into the CFG for every function in
+// the module.  This pass updates dominator information, loop information, and
+// does not add critical edges to the CFG.
+//
+//   AU.addRequiredID(LoopSimplifyID);
+//
+Pass *createLoopAnnotationPass();
+extern char &LoopAnnotationID;
+
+//===----------------------------------------------------------------------===//
+//
 // UnifyLoopExits - For each loop, creates a new block N such that all exiting
 // blocks branch to N, and then N distributes control flow to all the original
 // exit blocks.

@@ -33,7 +33,7 @@ private:
     PassManager.swap(PMW);
   }
 
-  void setStrategy(std::unique_ptr<Strategy> &&ST) { Strategy.swap(ST); }
+  void setStrategy(std::unique_ptr<Strategy> &&ST) { AppliedStrategy.swap(ST); }
 
 public:
   void Init(std::unique_ptr<FunctionTracker> FT,
@@ -45,8 +45,8 @@ public:
   }
 
   bool checkInit() const {
-    return static_cast<bool>(Strategy) && static_cast<bool>(functionTracker) &&
-           static_cast<bool>(PassManager);
+    return static_cast<bool>(AppliedStrategy) &&
+           static_cast<bool>(functionTracker) && static_cast<bool>(PassManager);
   }
 
   template <typename... Args> void addToSchedule(Args &&...args) {
@@ -60,7 +60,7 @@ public:
   // Return a reference to the scheduled pass
   auto &getScheduled() const { return Scheduled; }
 
-  Strategy &getStrategy() const { return *Strategy; }
+  Strategy &getStrategy() const { return *AppliedStrategy; }
 
   // Return if the store has overritten an already present entry
   bool storeMetric(llvm::Function *Function, Metric &M) {
@@ -162,7 +162,7 @@ private:
   LaviniumScheduledPasses Scheduled;
   std::unique_ptr<FunctionTracker> functionTracker;
   std::unique_ptr<PassManagerWrapper> PassManager;
-  std::unique_ptr<Strategy> Strategy;
+  std::unique_ptr<Strategy> AppliedStrategy;
   template <typename ANY> friend LaviniumTracker<ANY> getInstace();
 };
 

@@ -90,9 +90,9 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   trackCorrectlyInit(Function);
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
 
-  // Store previus metric given by WCET passes
-  auto Wcet = WCETAnalysis.getValue();
-  Tracker.storeMetric(Function, Wcet);
+  // LAVINIUM-TODO read the file
+  unsigned long x = 0;
+  Tracker.storeMetric(Function, x);
 
   // Restore original Function to run different optimizations
   Tracker.restoreOriginalFunction(Function);

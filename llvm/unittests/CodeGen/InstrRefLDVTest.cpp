@@ -214,11 +214,11 @@ public:
   }
 
   void buildVLocValueMap(const DILocation *DILoc,
-                    const SmallSet<DebugVariable, 4> &VarsWeCareAbout,
-                    SmallPtrSetImpl<MachineBasicBlock *> &AssignBlocks,
-                    InstrRefBasedLDV::LiveInsT &Output, FuncValueTable &MOutLocs,
-                    FuncValueTable &MInLocs,
-                    SmallVectorImpl<VLocTracker> &AllTheVLocs) {
+                         const SmallSet<DebugVariable, 4> &VarsWeCareAbout,
+                         SmallPtrSetImpl<MachineBasicBlock *> &AssignBlocks,
+                         InstrRefBasedLDV::LiveInsT &Output,
+                         FuncValueTable &MOutLocs, FuncValueTable &MInLocs,
+                         SmallVectorImpl<VLocTracker> &AllTheVLocs) {
     LDV->buildVLocValueMap(DILoc, VarsWeCareAbout, AssignBlocks, Output,
                            MOutLocs, MInLocs, AllTheVLocs);
   }
@@ -469,7 +469,7 @@ body:  |
 
     // Clear the "test" function from MMI if it's still present.
     if (Function *Fn = Mod->getFunction("test"))
-      MMI->deleteMachineFunctionFor(*Fn);
+      MMI->deleteMachineFunctionForLLVMTA(*Fn);
 
     auto MemBuf = MemoryBuffer::getMemBuffer(S, "<input>");
     auto MIRParse = createMIRParser(std::move(MemBuf), Ctx);
@@ -495,8 +495,8 @@ body:  |
     LDV->produceMLocTransferFunction(MF, MLocTransfer, MaxNumBlocks);
   }
 
-  std::pair<FuncValueTable, FuncValueTable>
-  allocValueTables(unsigned Blocks, unsigned Locs) {
+  std::pair<FuncValueTable, FuncValueTable> allocValueTables(unsigned Blocks,
+                                                             unsigned Locs) {
     FuncValueTable MOutLocs = std::make_unique<ValueTable[]>(Blocks);
     FuncValueTable MInLocs = std::make_unique<ValueTable[]>(Blocks);
 
@@ -510,9 +510,8 @@ body:  |
 };
 
 TEST_F(InstrRefLDVTest, MTransferDefs) {
-  MachineFunction *MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    RET64 $rax\n");
+  MachineFunction *MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                                     "    RET64 $rax\n");
   setupLDVObj(MF);
 
   // We should start with only SP tracked.
@@ -541,10 +540,9 @@ TEST_F(InstrRefLDVTest, MTransferDefs) {
   // Do the same again, but with an aliasing write. This should write to all
   // the same registers again, except $ah and $hax (the upper 8 bits of $ax
   // and 32 bits of $rax resp.).
-  MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    $al = MOV8ri 0\n"
-   "    RET64 $rax\n");
+  MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                    "    $al = MOV8ri 0\n"
+                    "    RET64 $rax\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -574,14 +572,16 @@ TEST_F(InstrRefLDVTest, MTransferDefs) {
   //    these.
   //  * NOT clobber $rbx, because it's non-volatile
   //  * Not track every other register in the machine, only those needed.
- MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n" // instr 1
-   "    $rbx = MOV64ri 0\n" // instr 2
-   "    $rcx = MOV64ri 0\n" // instr 3
-   "    $rdi = MOV64ri 0\n" // instr 4
-   "    $rsi = MOV64ri 0\n" // instr 5
-   "    CALL64r $rax, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, implicit $rsi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax, implicit-def $esp, implicit-def $sp\n\n\n\n" // instr 6
-   "    RET64 $rax\n"); // instr 7
+  MF = readMIRBlock(
+      "    $rax = MOV64ri 0\n" // instr 1
+      "    $rbx = MOV64ri 0\n" // instr 2
+      "    $rcx = MOV64ri 0\n" // instr 3
+      "    $rdi = MOV64ri 0\n" // instr 4
+      "    $rsi = MOV64ri 0\n" // instr 5
+      "    CALL64r $rax, csr_64, implicit $rsp, implicit $ssp, implicit $rdi, "
+      "implicit $rsi, implicit-def $rsp, implicit-def $ssp, implicit-def $rax, "
+      "implicit-def $esp, implicit-def $sp\n\n\n\n" // instr 6
+      "    RET64 $rax\n");                          // instr 7
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -611,11 +611,9 @@ TEST_F(InstrRefLDVTest, MTransferDefs) {
   // Plus RSP, SSP = 32.
   EXPECT_EQ(32u, MTracker->getNumLocs());
 
-
   // When we DBG_PHI something, we should track all its subregs.
-  MF = readMIRBlock(
-   "    DBG_PHI $rdi, 0\n"
-   "    RET64\n");
+  MF = readMIRBlock("    DBG_PHI $rdi, 0\n"
+                    "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -634,11 +632,10 @@ TEST_F(InstrRefLDVTest, MTransferDefs) {
 TEST_F(InstrRefLDVTest, MTransferMeta) {
   // Meta instructions should not have any effect on register values.
   SmallVector<MLocTransferMap, 1> TransferMap;
-  MachineFunction *MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    $rax = IMPLICIT_DEF\n"
-   "    $rax = KILL killed $rax\n"
-   "    RET64 $rax\n");
+  MachineFunction *MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                                     "    $rax = IMPLICIT_DEF\n"
+                                     "    $rax = KILL killed $rax\n"
+                                     "    RET64 $rax\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -654,10 +651,10 @@ TEST_F(InstrRefLDVTest, MTransferMeta) {
 TEST_F(InstrRefLDVTest, MTransferCopies) {
   SmallVector<MLocTransferMap, 1> TransferMap;
   // This memory spill should be recognised, and a spill slot created.
-  MachineFunction *MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 into %stack.0)\n"
-   "    RET64 $rax\n");
+  MachineFunction *MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                                     "    MOV64mr $rsp, 1, $noreg, 16, $noreg, "
+                                     "$rax :: (store 8 into %stack.0)\n"
+                                     "    RET64 $rax\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -678,11 +675,12 @@ TEST_F(InstrRefLDVTest, MTransferCopies) {
   EXPECT_EQ(V, Cmp);
 
   // A spill and restore should be recognised.
-  MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 into %stack.0)\n"
-   "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 from %stack.0)\n"
-   "    RET64\n");
+  MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                    "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 "
+                    "into %stack.0)\n"
+                    "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 "
+                    "from %stack.0)\n"
+                    "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -702,11 +700,10 @@ TEST_F(InstrRefLDVTest, MTransferCopies) {
 
   // Copies and x86 movs should be recognised and honoured. In addition, all
   // of the subregisters should be copied across too.
-  MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    $rcx = COPY $rax\n"
-   "    $rbx = MOV64rr $rcx\n"
-   "    RET64\n");
+  MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                    "    $rcx = COPY $rax\n"
+                    "    $rbx = MOV64rr $rcx\n"
+                    "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -733,10 +730,9 @@ TEST_F(InstrRefLDVTest, MTransferCopies) {
 
   // When we copy to a subregister, the super-register should be def'd too: it's
   // value will have changed.
-  MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    $ecx = COPY $eax\n"
-   "    RET64\n");
+  MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                    "    $ecx = COPY $eax\n"
+                    "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -762,11 +758,12 @@ TEST_F(InstrRefLDVTest, MTransferCopies) {
 
 TEST_F(InstrRefLDVTest, MTransferSubregSpills) {
   SmallVector<MLocTransferMap, 1> TransferMap;
-  MachineFunction *MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 into %stack.0)\n"
-   "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 from %stack.0)\n"
-   "    RET64\n");
+  MachineFunction *MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                                     "    MOV64mr $rsp, 1, $noreg, 16, $noreg, "
+                                     "$rax :: (store 8 into %stack.0)\n"
+                                     "    $rbx = MOV64rm $rsp, 1, $noreg, 0, "
+                                     "$noreg :: (load 8 from %stack.0)\n"
+                                     "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -784,7 +781,8 @@ TEST_F(InstrRefLDVTest, MTransferSubregSpills) {
 
   // Explicitly check what's in the different subreg slots, on the stack.
   // Pair up subreg idx fields with the corresponding subregister in $rax.
-  MLocTracker::StackSlotPos SubRegIdxes[] = {{8, 0}, {8, 8}, {16, 0}, {32, 0}, {64, 0}};
+  MLocTracker::StackSlotPos SubRegIdxes[] = {
+      {8, 0}, {8, 8}, {16, 0}, {32, 0}, {64, 0}};
   const char *SubRegNames[] = {"AL", "AH", "AX", "EAX", "RAX"};
   for (unsigned int I = 0; I < 5; ++I) {
     // Value number where it's defined,
@@ -808,12 +806,14 @@ TEST_F(InstrRefLDVTest, MTransferSubregSpills) {
   // to the stack again, and so $rax doesn't need to be reset to something else.
   // It seems vanishingly unlikely that LLVM would generate such code though,
   // so the benefits would be small.
-  MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 into %stack.0)\n"
-   "    MOV32mr $rsp, 1, $noreg, 16, $noreg, $eax :: (store 4 into %stack.0)\n"
-   "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 from %stack.0)\n"
-   "    RET64\n");
+  MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                    "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 "
+                    "into %stack.0)\n"
+                    "    MOV32mr $rsp, 1, $noreg, 16, $noreg, $eax :: (store 4 "
+                    "into %stack.0)\n"
+                    "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 "
+                    "from %stack.0)\n"
+                    "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -858,13 +858,15 @@ TEST_F(InstrRefLDVTest, MTransferSubregSpills) {
   // from a completely different hierarchy, none of the "old" values should be
   // readable.
   // NB: slight hack, store 16 in to a 8 byte stack slot.
-  MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 into %stack.0)\n"
-   "    $xmm0 = IMPLICIT_DEF\n"
-   "    MOVUPDmr $rsp, 1, $noreg, 16, $noreg, killed $xmm0 :: (store (s128) into %stack.0)\n"
-   "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 from %stack.0)\n"
-   "    RET64\n");
+  MF = readMIRBlock("    $rax = MOV64ri 0\n"
+                    "    MOV64mr $rsp, 1, $noreg, 16, $noreg, $rax :: (store 8 "
+                    "into %stack.0)\n"
+                    "    $xmm0 = IMPLICIT_DEF\n"
+                    "    MOVUPDmr $rsp, 1, $noreg, 16, $noreg, killed $xmm0 :: "
+                    "(store (s128) into %stack.0)\n"
+                    "    $rbx = MOV64rm $rsp, 1, $noreg, 0, $noreg :: (load 8 "
+                    "from %stack.0)\n"
+                    "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -896,10 +898,10 @@ TEST_F(InstrRefLDVTest, MTransferSubregSpills) {
   // What happens if we spill ah to the stack, then load al? It should find
   // the same value.
   MF = readMIRBlock(
-   "    $rax = MOV64ri 0\n"
-   "    MOV8mr $rsp, 1, $noreg, 16, $noreg, $ah :: (store 1 into %stack.0)\n"
-   "    $al = MOV8rm $rsp, 1, $noreg, 0, $noreg :: (load 1 from %stack.0)\n"
-   "    RET64\n");
+      "    $rax = MOV64ri 0\n"
+      "    MOV8mr $rsp, 1, $noreg, 16, $noreg, $ah :: (store 1 into %stack.0)\n"
+      "    $al = MOV8rm $rsp, 1, $noreg, 0, $noreg :: (load 1 from %stack.0)\n"
+      "    RET64\n");
   setupLDVObj(MF);
   TransferMap.clear();
   TransferMap.resize(1);
@@ -2669,15 +2671,15 @@ TEST_F(InstrRefLDVTest, VLocSingleBlock) {
 
   // Test that, with no assignments at all, no mappings are created for the
   // variable in this function.
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output.size(), 0ul);
 
   // If we put an assignment in the transfer function, that should... well,
   // do nothing, because we don't store the live-outs.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output.size(), 0ul);
 
   // There is pretty much nothing else of interest to test with a single block.
@@ -2746,8 +2748,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   Output.resize(4);
 
   // No assignments -> no values.
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -2756,8 +2758,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // An assignment in the end block should also not affect other blocks; or
   // produce any live-ins.
   VLocs[3].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -2768,8 +2770,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // propagated anywhere.
   VLocs[3].Vars.clear();
   VLocs[2].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -2778,8 +2780,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   ClearOutputs();
 
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -2790,8 +2792,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // However: putting an assignment in the first block should propagate variable
   // values through to all other blocks, as it dominates.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -2810,8 +2812,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // what's in the registers (except for PHIs).
   // values through to all other blocks, as it dominates.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -2829,8 +2831,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // the same value in either side of the diamond.
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[2].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -2845,8 +2847,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // shouldn't have a live-in in the merge block.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(EmptyProps, DbgValue::Undef)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -2864,8 +2866,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   // live-in anywhere, it's block internal.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -2883,8 +2885,8 @@ TEST_F(InstrRefLDVTest, VLocDiamondBlocks) {
   MOutLocs[1][0] = LiveInRax;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -2968,8 +2970,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
 
   // Easy starter: a dominating assign should propagate to all blocks.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3001,8 +3003,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   // Put an undef assignment in the loop. Should get no live-in value.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(EmptyProps, DbgValue::Undef)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -3013,8 +3015,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   // Assignment of the same value should naturally join.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3030,8 +3032,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   // Will be live-in to exit block as it's dominated.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3047,8 +3049,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   MOutLocs[1][0] = RspDefInBlk1;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3064,8 +3066,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   MOutLocs[1][0] = RspDefInBlk1;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(RspDefInBlk1ID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3085,8 +3087,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   MOutLocs[1][1] = RspDefInBlk1;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(RspDefInBlk1ID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3107,8 +3109,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   MOutLocs[1][1] = RspDefInBlk1;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(RspDefInBlk1ID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3141,8 +3143,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   MOutLocs[1][1] = LiveInRax;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(RspPHIInBlk1ID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3160,8 +3162,8 @@ TEST_F(InstrRefLDVTest, VLocSimpleLoop) {
   MOutLocs[1][0] = LiveInRsp;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3245,8 +3247,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
 
   // A dominating assign should propagate to all blocks.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3267,8 +3269,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
   // of both loops, and no output location. Dominated blocks do get values.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[2].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -3285,8 +3287,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
   // Same test, but with no assignment in block 0. We should still get values
   // in dominated blocks.
   VLocs[2].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -3303,8 +3305,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
   // blocks, but no PHI locations are found at the outer loop head.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[3].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -3318,8 +3320,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
 
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[1].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   ASSERT_EQ(Output[2].size(), 1ul);
@@ -3340,8 +3342,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
   // whole function.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[2].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 1ul);
   EXPECT_EQ(Output[2].size(), 1ul);
@@ -3371,8 +3373,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
   // different concern.
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[2].Vars.insert({Var, DbgValue(LiveInRaxID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   EXPECT_EQ(Output[1].size(), 0ul);
   EXPECT_EQ(Output[2].size(), 0ul);
@@ -3397,8 +3399,8 @@ TEST_F(InstrRefLDVTest, VLocNestedLoop) {
   MOutLocs[3][0] = RspDefInBlk2;
   VLocs[0].Vars.insert({Var, DbgValue(LiveInRspID, EmptyProps)});
   VLocs[2].Vars.insert({Var, DbgValue(RspDefInBlk2ID, EmptyProps)});
-  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output,
-                    MOutLocs, MInLocs, VLocs);
+  buildVLocValueMap(OutermostLoc, AllVars, AssignBlocks, Output, MOutLocs,
+                    MInLocs, VLocs);
   EXPECT_EQ(Output[0].size(), 0ul);
   ASSERT_EQ(Output[1].size(), 1ul);
   ASSERT_EQ(Output[2].size(), 1ul);

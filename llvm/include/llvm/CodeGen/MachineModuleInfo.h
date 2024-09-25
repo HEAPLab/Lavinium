@@ -155,7 +155,11 @@ public:
 
   /// Delete the MachineFunction \p MF and reset the link in the IR Function to
   /// Machine Function map.
-  void deleteMachineFunctionFor(Function &F);
+  void deleteMachineFunctionForLavinium(Function &F);
+
+  /// Delete the MachineFunction \p MF and reset the link in the IR Function to
+  /// Machine Function map.
+  void deleteMachineFunctionForLLVMTA(Function &F);
 
   /// Add an externally created MachineFunction \p MF for \p F.
   void insertFunction(const Function &F, std::unique_ptr<MachineFunction> &&MF);

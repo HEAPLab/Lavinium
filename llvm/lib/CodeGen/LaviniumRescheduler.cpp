@@ -60,7 +60,7 @@ void LaviniumRescheduler::ResetMF(MachineFunction &MF) {
   auto &Function = MF.getFunction();
   MF.reset();
   MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
-  MMI.deleteMachineFunctionFor(Function);
+  MMI.deleteMachineFunctionForLavinium(Function);
 }
 
 bool LaviniumRescheduler ::trackCorrectlyInit(llvm::Function *Function) {

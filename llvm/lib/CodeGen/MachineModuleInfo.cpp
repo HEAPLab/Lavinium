@@ -121,9 +121,15 @@ MachineFunction &MachineModuleInfo::getOrCreateMachineFunction(Function &F) {
   return *MF;
 }
 
-void MachineModuleInfo::deleteMachineFunctionFor(Function &F) {
-  // LAVINIUM-TODO: the line below should be commented 
+void MachineModuleInfo::deleteMachineFunctionForLLVMTA(Function &F) {
+  // LAVINIUM-TODO: the line below should be commented
   // according to the guys of LLVMTA (gabriele doesn't want to comment it smh)
+  // MachineFunctions.erase(&F);
+  LastRequest = nullptr;
+  LastResult = nullptr;
+}
+
+void MachineModuleInfo::deleteMachineFunctionForLavinium(Function &F) {
   MachineFunctions.erase(&F);
   LastRequest = nullptr;
   LastResult = nullptr;
@@ -153,7 +159,8 @@ public:
   bool runOnFunction(Function &F) override {
     MachineModuleInfo &MMI =
         getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
-    MMI.deleteMachineFunctionFor(F);
+
+    MMI.deleteMachineFunctionForLLVMTA(F);
     return true;
   }
 

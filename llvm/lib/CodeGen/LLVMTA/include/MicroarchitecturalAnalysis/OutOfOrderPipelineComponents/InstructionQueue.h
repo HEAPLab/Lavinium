@@ -33,6 +33,7 @@
 #include "Memory/MemoryTopologyInterface.h"
 
 #include "MicroarchitecturalAnalysis/ProgramCounter.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 namespace TimingAnalysisPass {
 
@@ -198,6 +199,8 @@ void InstructionQueue<OuterState, InstructionQueue_Size>::instructionIssued(
 template <class OuterState, unsigned InstructionQueue_Size>
 void InstructionQueue<OuterState, InstructionQueue_Size>::fillQueue(
     OuterState *os, InstrContextMapping &ins2ctx) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // only fill queue, if there are positions available to buffer
   if (queue.size() < InstructionQueue_Size && !stallFetch) {
     if (os->getMemory().finishedInstrAccess(instrAccessId)) {
@@ -286,6 +289,8 @@ void InstructionQueue<OuterState, InstructionQueue_Size>::fillQueue(
 template <class OuterState, unsigned InstructionQueue_Size>
 void InstructionQueue<OuterState, InstructionQueue_Size>::tryIssueInstr(
     OuterState *os) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   boost::optional<ExecutionElement> issueInstr = getInstructionForDispatch();
   if (issueInstr) {
     // only issue if the address belongs to the program
@@ -363,6 +368,8 @@ template <class OuterState, unsigned InstructionQueue_Size>
 void InstructionQueue<OuterState, InstructionQueue_Size>::flush(
     OuterState *os, const llvm::MachineInstr *committedInstr) {
   queue.clear();
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
 
   // Persistence Scope handling
   // Edge betwen the last committed instruction leading to the flush and the

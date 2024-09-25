@@ -30,11 +30,15 @@
 #include <ostream>
 #include <set>
 
+#include "LLVMPasses/StaticAddressProvider.h"
 #include "Memory/Classification.h"
+#include "Memory/UpdateReports.h"
 #include "Memory/progana/Lattice.h"
 #include "Memory/util/CacheUtils.h"
 #include "Memory/util/ImplicitSet.h"
 #include "Util/Options.h"
+#include "Util/PersistenceScope.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 namespace TimingAnalysisPass {
 
@@ -70,6 +74,8 @@ protected:
     TagType tag;
     std::vector<const GlobalVariable *> surroundingArrays;
     explicit Block(AbstractAddress addr) {
+      StaticAddressProvider *StaticAddrProvider =
+          TimingAnalysisAccessor::getStaticAddressProvider();
       assert(addr.isPrecise());
       Address address = getCachelineAddress<T>(addr.getAsInterval().lower());
       this->tag = getTag<T>(address);

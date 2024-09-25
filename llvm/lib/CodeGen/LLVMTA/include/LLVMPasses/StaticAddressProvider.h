@@ -210,6 +210,8 @@ public:
    */
   void dump(std::ostream &Mystream) const;
 
+  void reset();
+
 private:
   TargetMachine &TM;
   std::unique_ptr<const DataLayout> DataLayoutInstance;
@@ -217,6 +219,7 @@ private:
   unsigned CodeAddress;
   /// The address where rodata placement starts
   unsigned RodataAddress;
+  unsigned storedRodataAddress;
 
   /// Instruction to address mapping, including constant pool entries
   std::map<const MachineInstr *, unsigned> Ins2addr;
@@ -238,11 +241,10 @@ public:
   std::map<const MachineInstr *, unsigned> Ins2posinbb;
 };
 
-extern StaticAddressProvider *StaticAddrProvider;
 } // namespace TimingAnalysisPass
 
 namespace llvm {
-FunctionPass *createStaticAddressProvider(TargetMachine &TM);
+TimingAnalysisPass::StaticAddressProvider *createStaticAddressProvider(TargetMachine &TM);
 } // namespace llvm
 
 #endif

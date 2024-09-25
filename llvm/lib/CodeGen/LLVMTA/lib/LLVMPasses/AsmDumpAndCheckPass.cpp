@@ -583,8 +583,10 @@ void AsmDumpAndCheckPass::checkInstruction<llvm::Triple::ArchType::arm>(
   }
 }
 
+void AsmDumpAndCheckPass::reset() { SeenUnknownInstruction = false; }
+
 } // namespace TimingAnalysisPass
 
-FunctionPass *llvm::createAsmDumpAndCheckPass(TargetMachine &TM) {
+TimingAnalysisPass::AsmDumpAndCheckPass *llvm::createAsmDumpAndCheckPass(TargetMachine &TM) {
   return new TimingAnalysisPass::AsmDumpAndCheckPass(TM);
 }

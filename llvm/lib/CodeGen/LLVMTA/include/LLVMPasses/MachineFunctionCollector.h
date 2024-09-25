@@ -58,15 +58,16 @@ public:
 
   std::list<MachineFunction *> getAllMachineFunctions();
 
+  void reset();
+
 private:
   std::map<std::string, MachineFunction *> Name2func;
 };
 
-extern MachineFunctionCollector *machineFunctionCollector;
 } // namespace TimingAnalysisPass
 
 namespace llvm {
-FunctionPass *createMachineFunctionCollector();
+TimingAnalysisPass::MachineFunctionCollector *createMachineFunctionCollector();
 } // namespace llvm
 
 #endif

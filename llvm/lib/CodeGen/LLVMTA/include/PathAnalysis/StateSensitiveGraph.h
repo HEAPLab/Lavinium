@@ -32,6 +32,7 @@
 
 #include "MicroarchitecturalAnalysis/MicroArchitecturalState.h"
 #include "PathAnalysis/StateGraph.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include <fstream>
 #include <string>
@@ -332,6 +333,8 @@ void StateSensitiveGraph<MicroArchDom>::buildGraph() {
 
 template <class MicroArchDom>
 void StateSensitiveGraph<MicroArchDom>::collectInOutStatesPerBB() {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   for (MachineFunction *currFunc :
        machineFunctionCollector->getAllMachineFunctions()) {
     for (auto &currMBB : *currFunc) {
@@ -638,6 +641,10 @@ void StateSensitiveGraph<MicroArchDom>::cycleUntilFinal(
 
 template <class MicroArchDom>
 void StateSensitiveGraph<MicroArchDom>::buildIntraBasicBlockEdges() {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   DEBUG_WITH_TYPE("graphilp", dbgs()
                                   << "Entering buildIntraBasicBlockEdges()\n");
   for (MachineFunction *currFunc :
@@ -777,6 +784,10 @@ template <class MicroArchDom>
 void StateSensitiveGraph<MicroArchDom>::buildInterBasicBlockEdges() {
   DEBUG_WITH_TYPE("graphilp", dbgs()
                                   << "Entering buildInterBasicBlockEdges()\n");
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
 
   // Add call edges to the graph (determined earlier)
   for (auto &callsite2states : callStates) {
@@ -1031,7 +1042,7 @@ void StateSensitiveGraph<MicroArchDom>::buildInterBasicBlockEdges() {
     }
   }
 
-  auto startFunc = getAnalysisEntryPoint();
+  auto startFunc = TimingAnalysisAccessor::getAnalysisEntryPoint();
   auto startMbb = &*(startFunc->begin());
   assert(startMbb->getNumber() == 0 &&
          "First Basic block of function did not have number 0.");
@@ -1082,6 +1093,8 @@ void StateSensitiveGraph<MicroArchDom>::buildExternalSymbolReturnEdges() {
 template <class MicroArchDom>
 std::set<unsigned> StateSensitiveGraph<MicroArchDom>::progressStatesForProgLoc(
     std::set<unsigned> workingSetOfStates, ProgramLocation progLoc) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   auto MI = progLoc.first;
   DEBUG_WITH_TYPE("instructions", dbgs()
                                       << "State-sensitive graph construction "
@@ -1332,6 +1345,8 @@ template <class MicroArchDom>
 void StateSensitiveGraph<MicroArchDom>::handleCallInstructions(
     const MachineInstr *MI, const Context &Ctx,
     std::set<unsigned> &workingSet) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   auto &ins2cst = callStates[MI];
   ins2cst.insert(ins2cst.begin(), workingSet.begin(), workingSet.end());
   workingSet.clear();
@@ -1653,6 +1668,8 @@ template <class MicroArchDom>
 void StateSensitiveGraph<MicroArchDom>::dump(
     std::ostream &mystream,
     const std::map<std::string, double> *optTimesTaken) const {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   if (!DumpVcgGraph) {
     int clusterNr = 0;
     mystream << "digraph WCET {\n    label = \"Microarchitectural State "

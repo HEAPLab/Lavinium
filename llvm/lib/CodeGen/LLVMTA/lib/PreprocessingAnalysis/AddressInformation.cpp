@@ -25,6 +25,7 @@
 
 #include "PreprocessingAnalysis/AddressInformation.h"
 #include "LLVMPasses/TimingAnalysisMain.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 using namespace llvm;
 
@@ -170,6 +171,10 @@ unsigned AddressInformation::getNumOfDataAccesses(const MachineInstr *MI) {
 }
 
 void AddressInformation::dump(std::ostream &mystream) const {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   unsigned numStaticReference = 0;
   unsigned numPreciseAddress = 0;
   unsigned numPreciseCacheline = 0;

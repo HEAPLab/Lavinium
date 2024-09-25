@@ -62,6 +62,8 @@ public:
    * Return the address of the instruction that is statically known exactly.
    */
   Address getInstructionAddress(const MachineInstr *MI) const {
+    StaticAddressProvider *StaticAddrProvider =
+        TimingAnalysisAccessor::getStaticAddressProvider();
     return StaticAddrProvider->getAddr(MI);
   }
 

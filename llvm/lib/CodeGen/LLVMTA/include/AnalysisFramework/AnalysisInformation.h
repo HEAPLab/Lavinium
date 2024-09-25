@@ -30,6 +30,7 @@
 #include <iostream>
 #include <map>
 
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/raw_ostream.h"
 
 #include "AnalysisFramework/CallGraph.h"
@@ -88,6 +89,8 @@ public:
    * Dump the analysis information on MachineInstr Granularity
    */
   virtual void dump(std::ostream &mystream) const {
+    MachineFunctionCollector *machineFunctionCollector =
+        TimingAnalysisAccessor::getMachineFunctionCollector();
     mystream << "##########################\n"
              << "## Analysis Information ##\n"
              << "##########################\n";

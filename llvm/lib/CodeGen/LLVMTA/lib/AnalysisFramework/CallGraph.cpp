@@ -31,6 +31,7 @@
 #include "Util/Options.h"
 #include "Util/Util.h"
 
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Debug.h"
 
 #include <boost/tokenizer.hpp>
@@ -55,7 +56,10 @@ CallGraph &CallGraph::getGraph() {
   return *instance;
 }
 
-void CallGraph::releaseInstance() { delete instance; }
+void CallGraph::releaseInstance() {
+  delete instance;
+  instance = nullptr;
+}
 
 std::string
 CallGraph::getCalleeNameFromOperand(const MachineOperand &mo) const {
@@ -75,6 +79,8 @@ CallGraph::getCalleeNameFromOperand(const MachineOperand &mo) const {
 }
 
 void CallGraph::recomputeCallGraph() {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   // Fill the maps func->callsites, and callsites->callee
   for (auto currFunc : machineFunctionCollector->getAllMachineFunctions()) {
     for (auto currBB = currFunc->begin(); currBB != currFunc->end(); ++currBB) {
@@ -131,7 +137,7 @@ bool CallGraph::reachableFromEntryPoint(const llvm::MachineFunction *MF) const {
   std::set<const llvm::MachineFunction *> visited;
   std::set<const llvm::MachineFunction *> worklist;
 
-  worklist.insert(getAnalysisEntryPoint());
+  worklist.insert(TimingAnalysisAccessor::getAnalysisEntryPoint());
 
   while (!worklist.empty()) {
     auto func = *worklist.begin();
@@ -192,6 +198,8 @@ void CallGraph::parseAnnotationsExternalFunctions(const char *filename) {
 bool CallGraph::callsExternal(const llvm::MachineInstr *MI) const {
   assert(MI->isCall() && "Calling instruction does not call anything!");
   const MachineOperand &callTarget = MI->getOperand(0);
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
 
   if (callTarget.isGlobal()) {
     // We have a call to a global target with this translation unit

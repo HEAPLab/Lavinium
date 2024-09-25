@@ -31,11 +31,13 @@
 #include "LLVMPasses/MachineFunctionCollector.h"
 #include "LLVMPasses/TimingAnalysisMain.h"
 #include "MicroarchitecturalAnalysis/ProgramCounter.h"
+#include "PartitionUtil/DirectiveHeuristics.h"
 #include "PreprocessingAnalysis/AddressInformation.h"
 #include "Util/IntervalCounter.h"
 
 #include "ARM.h"
 #include "llvm/CodeGen/MachineJumpTableInfo.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include <boost/optional/optional.hpp>
 #include <boost/static_assert.hpp>
@@ -87,8 +89,9 @@ public:
    * Constructor. Store the program counter.
    */
   MicroArchitecturalState(ProgramLocation &progloc)
-      : time(0),
-        pc(StaticAddrProvider->getAddr(progloc.first), progloc.second) {}
+      : time(0), pc(TimingAnalysisAccessor::getStaticAddressProvider()->getAddr(
+                        progloc.first),
+                    progloc.second) {}
   /**
    * Copy constructor
    */
@@ -337,6 +340,9 @@ template <class DerivedState, class Dependencies>
 typename MicroArchitecturalState<DerivedState, Dependencies>::StateSet
 MicroArchitecturalState<DerivedState, Dependencies>::handleBranching(
     const ExecutionElement &ee, InstrContextMapping &ins2ctx) {
+
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   auto branchInstr = StaticAddrProvider->getMachineInstrByAddr(ee.first);
   assert((branchInstr->isBranch() || branchInstr->isCall() ||
           branchInstr->isReturn()) &&
@@ -362,6 +368,8 @@ template <class DerivedState, class Dependencies>
 typename MicroArchitecturalState<DerivedState, Dependencies>::StateSet
 MicroArchitecturalState<DerivedState, Dependencies>::handleBranch(
     const ExecutionElement &ee) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   StateSet alternativeStates;
 
   auto branchInstr = StaticAddrProvider->getMachineInstrByAddr(ee.first);
@@ -425,6 +433,10 @@ MicroArchitecturalState<DerivedState, Dependencies>::handleBranch(
 template <class DerivedState, class Dependencies>
 void MicroArchitecturalState<DerivedState, Dependencies>::handlePCUpdate(
     const ExecutionElement &source, const MachineBasicBlock *targetMBB) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   auto branchInstr = StaticAddrProvider->getMachineInstrByAddr(source.first);
   assert(branchInstr->isBranch() && "No branch instruction found");
   // For the taken case (represented by this) adjust the pc to the jump target
@@ -473,6 +485,12 @@ void MicroArchitecturalState<DerivedState, Dependencies>::handlePCUpdate(
 template <class DerivedState, class Dependencies>
 void MicroArchitecturalState<DerivedState, Dependencies>::handleCall(
     const ExecutionElement &ee) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   auto branchInstr = StaticAddrProvider->getMachineInstrByAddr(ee.first);
   assert(branchInstr->isCall() && "No call instruction found");
 
@@ -534,6 +552,10 @@ typename MicroArchitecturalState<DerivedState, Dependencies>::StateSet
 MicroArchitecturalState<DerivedState, Dependencies>::handleReturn(
     const ExecutionElement &ee, InstrContextMapping &ins2ctx) {
   StateSet alternativeStates;
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
 
   auto branchInstr = StaticAddrProvider->getMachineInstrByAddr(ee.first);
   assert(branchInstr->isReturn() && "No return instruction found");
@@ -571,7 +593,8 @@ MicroArchitecturalState<DerivedState, Dependencies>::handleReturn(
     }
   }
   // The entry function might return to its lr register
-  if (branchInstr->getParent()->getParent() == getAnalysisEntryPoint()) {
+  if (branchInstr->getParent()->getParent() ==
+      TimingAnalysisAccessor::getAnalysisEntryPoint()) {
     returnLocations.insert(std::make_pair(
         getInitialLinkRegister(), std::make_pair(Context(), Context())));
   }
@@ -622,6 +645,10 @@ MicroArchitecturalState<DerivedState, Dependencies>::updateContextOnReturn(
     const llvm::MachineInstr *callsite, const Context &ctx) const {
   Context resCtx(ctx);
   assert(callsite->isCall() && "Expected this instruction to be a call");
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   auto targetAddr = StaticAddrProvider->getAddr(callsite) + 4;
   auto targetInstr = StaticAddrProvider->getMachineInstrByAddr(targetAddr);
   if (DirectiveHeuristicsPassInstance->hasDirectiveAfterInstr(callsite)) {
@@ -663,6 +690,8 @@ MicroArchitecturalState<DerivedState, Dependencies>::updateContextOnReturn(
 template <class DerivedState, class Dependencies>
 bool MicroArchitecturalState<DerivedState, Dependencies>::assumedBranchOutcome(
     const ProgramLocation &pl, const BranchOutcome &bo) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   unsigned instrAddr = StaticAddrProvider->getAddr(pl.first);
   assert(!condBranchAssumptions.empty() &&
          "This state has no branch assumptions");
@@ -686,6 +715,8 @@ template <class DerivedState, class Dependencies>
 std::pair<const llvm::MachineInstr *, Context>
 MicroArchitecturalState<DerivedState, Dependencies>::assumedCallSite() const {
   auto oldestReturnAssumption = returnAssumptions.front();
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // -4 of the target instruction must be the original callsite
   if (StaticAddrProvider->hasMachineInstrByAddr(oldestReturnAssumption.first -
                                                 4)) {
@@ -702,6 +733,8 @@ bool MicroArchitecturalState<DerivedState, Dependencies>::assumedReturnedTo(
     const ProgramLocation &pl) {
   // Latest return
   assert(!returnAssumptions.empty() && "This state has no return assumptions");
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   auto oldestReturnAssumption = returnAssumptions.front();
   returnAssumptions.erase(returnAssumptions.begin());
   // Compute return location from given callsite

@@ -27,6 +27,7 @@
 #define CONSTANTVALUEDOMAIN_H
 
 #include "AnalysisFramework/AnalysisDomain.h"
+#include "LLVMPasses/StaticAddressProvider.h"
 #include "Util/AbstractAddress.h"
 #include "Util/Util.h"
 
@@ -101,6 +102,7 @@ public:
 private:
   typedef GlobalVariable MemoryAccessSymbol;
 
+  StaticAddressProvider *SAP;
   // Helper functions to manipulate addr2const
   void performStoreValue(const MachineInstr *MI, Address addr, int *valptr,
                          const MemoryAccessSymbol *sym);

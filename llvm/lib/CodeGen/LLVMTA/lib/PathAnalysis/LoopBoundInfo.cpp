@@ -53,11 +53,7 @@ using namespace llvm;
 
 namespace TimingAnalysisPass {
 
-LoopBoundInfoPass *LoopBoundInfo;
-
 char LoopBoundInfoPass::ID = 0;
-
-LoopBoundInfoPass::LoopBoundInfoPass() : MachineFunctionPass(ID) {}
 
 void LoopBoundInfoPass::getAnalysisUsage(AnalysisUsage &AU) const {
   MachineFunctionPass::getAnalysisUsage(AU);
@@ -75,11 +71,15 @@ void LoopBoundInfoPass::getAnalysisUsage(AnalysisUsage &AU) const {
  * @return false
  */
 bool LoopBoundInfoPass::runOnMachineFunction(MachineFunction &MF) {
-  LoopInfo &LI = getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
+  auto &LIWP = P->getAnalysis<LoopInfoWrapperPass>();
+  //LLAVINIUM-TODO SERVE?
+  LIWP.releaseMemory();
+  LIWP.runOnFunction(MF.getFunction());
+  LoopInfo &LI = P->getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
   for (auto *Loop : LI) {
     walkLoop(Loop);
   }
-  MachineLoopInfo &MLI = getAnalysis<MachineLoopInfo>();
+  MachineLoopInfo &MLI = P->getAnalysis<MachineLoopInfo>();
   for (auto *MachineLoop : MLI) {
     walkMachineLoop(MachineLoop);
   }
@@ -145,7 +145,8 @@ bool LoopBoundInfoPass::isMachineLoopPartialMatch(const MachineLoop *Maloop,
 
 void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
                                        const Loop *Loop) {
-  ScalarEvolution &SEInfo = getAnalysis<ScalarEvolutionWrapperPass>().getSE();
+  ScalarEvolution &SEInfo =
+      P->getAnalysis<ScalarEvolutionWrapperPass>().getSE();
   DEBUG_WITH_TYPE("loopbound", dbgs()
                                    << "Adding map for loop: " << *ML << "\n");
   if (SEInfo.hasLoopInvariantBackedgeTakenCount(Loop)) {
@@ -1101,10 +1102,26 @@ void LoopBoundInfoPass::parseManualLoopBounds(
   }
   File.close();
 }
+
+void LoopBoundInfoPass::reset() {
+
+  IrLoops.clear();
+  MaLoops.clear();
+  LoopMapping.clear();
+  LoopContextMap.clear();
+  UpperLoopBoundsSCEV.clear();
+  LowerLoopBoundsSCEV.clear();
+  UpperLoopBoundsCtx.clear();
+  LowerLoopBoundsCtx.clear();
+  ManualUpperLoopBoundsNoCtx.clear();
+  ManualLowerLoopBoundsNoCtx.clear();
+  ManualUpperLoopBounds.clear();
+  ManualLowerLoopBounds.clear();
+}
+
 } // namespace TimingAnalysisPass
 
-FunctionPass *llvm::createLoopBoundInfoPass() {
-  TimingAnalysisPass::LoopBoundInfo =
-      new TimingAnalysisPass::LoopBoundInfoPass();
-  return TimingAnalysisPass::LoopBoundInfo;
+TimingAnalysisPass::LoopBoundInfoPass *
+llvm::createLoopBoundInfoPass(llvm::Pass *P) {
+  return new TimingAnalysisPass::LoopBoundInfoPass(P);
 }

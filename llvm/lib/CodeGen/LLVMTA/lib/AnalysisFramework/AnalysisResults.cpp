@@ -41,6 +41,12 @@ AnalysisResults &AnalysisResults::getInstance() {
   return anares;
 }
 
+void AnalysisResults::reset() {
+  results.clear();
+  itvresults.clear();
+  finalizedResults.clear();
+}
+
 AnalysisResults::AnalysisResults() {}
 
 void AnalysisResults::registerResult(std::string identifier,

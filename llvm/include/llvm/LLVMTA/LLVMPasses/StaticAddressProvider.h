@@ -238,7 +238,6 @@ public:
   std::map<const MachineInstr *, unsigned> Ins2posinbb;
 };
 
-extern StaticAddressProvider *StaticAddrProvider;
 } // namespace TimingAnalysisPass
 
 namespace llvm {

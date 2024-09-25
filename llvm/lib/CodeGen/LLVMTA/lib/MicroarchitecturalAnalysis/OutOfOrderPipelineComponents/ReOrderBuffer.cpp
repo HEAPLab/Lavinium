@@ -153,6 +153,8 @@ bool ReOrderBuffer::isExecuted(int robArrayIndex) const {
 
 unsigned ReOrderBuffer::issueInstruction(ExecutionElement ee) {
   assert(!isFull() && "Tried dispatching to a full re order buffer.");
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   auto mi = StaticAddrProvider->getMachineInstrByAddr(ee.first);
 
   std::set<unsigned> destRegs;
@@ -235,6 +237,8 @@ std::list<ExecutionElement> ReOrderBuffer::commitInstructions() {
     // therefore we stop when there is a branch begin committed
     // TODO allow multiple branches to finish in one cycle - need to take care
     // of taken and not taken cases for subsequent branches
+    StaticAddressProvider *StaticAddrProvider =
+        TimingAnalysisAccessor::getStaticAddressProvider();
     assert(StaticAddrProvider->hasMachineInstrByAddr(addr) &&
            "Had no machine instruction for address in re order buffer.");
     const MachineInstr *mi = StaticAddrProvider->getMachineInstrByAddr(addr);
@@ -251,6 +255,8 @@ bool ReOrderBuffer::isUnresolvedBranchBefore(unsigned robTag) const {
     assert(
         rob[cnt] &&
         "There was no rob element at a position between robHead and robTag.");
+    StaticAddressProvider *StaticAddrProvider =
+        TimingAnalysisAccessor::getStaticAddressProvider();
     auto mi = StaticAddrProvider->getMachineInstrByAddr(
         std::get<0>(rob[cnt].get()).first);
     if (mi->isConditionalBranch() || mi->isCall() || mi->isReturn())

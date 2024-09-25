@@ -34,6 +34,7 @@
 #include "LLVMPasses/DispatchOutOfOrderPipeline.h"
 #include "LLVMPasses/DispatchPretPipeline.h"
 #include "LLVMPasses/MachineFunctionCollector.h"
+#include "MCTargetDesc/RISCVMCTargetDesc.h"
 #include "Memory/PersistenceScopeInfo.h"
 #include "PartitionUtil/DirectiveHeuristics.h"
 #include "PathAnalysis/LoopBoundInfo.h"
@@ -41,10 +42,12 @@
 #include "PreprocessingAnalysis/ConstantValueDomain.h"
 
 #include "Util/Options.h"
+#include "Util/PersistenceScope.h"
 #include "Util/Statistics.h"
 
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/Passes.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Format.h"
 
 #include <cmath>
@@ -64,8 +67,8 @@ unsigned getInitialStackPointer() { return InitialStackPointer; }
 
 unsigned getInitialLinkRegister() { return InitialLinkRegister; }
 
-MachineFunction *getAnalysisEntryPoint() {
-  auto *Res = machineFunctionCollector->getFunctionByName(AnalysisEntryPoint);
+MachineFunction *TimingAnalysisMain::getAnalysisEntryPoint() {
+  auto *Res = MFC->getFunctionByName(AnalysisEntryPoint);
   assert(Res && "Invalid entry point specified");
   return Res;
 }
@@ -82,13 +85,47 @@ TargetMachine &TimingAnalysisMain::getTargetMachine() {
   return *TargetMachineInstance;
 }
 
+void TimingAnalysisMain::runPreviousPasses(Module &M) {
+  MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
+  asmDump = createAsmDumpAndCheckPass(*TargetMachineInstance);
+  MFC = createMachineFunctionCollector();
+  LBIP = createLoopBoundInfoPass(this);
+  SAP = createStaticAddressProvider(*TargetMachineInstance);
+  DHP = createDirectiveHeuristicsPass(this);
+  TimingAnalysisAccessor::setInstance(asmDump, MFC, LBIP, SAP, DHP,
+                                      AnalysisEntryPoint);
+  for (auto &F : M) {
+    MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
+    asmDump->runOnMachineFunction(MF);
+    MFC->runOnMachineFunction(MF);
+    LBIP->runOnMachineFunction(MF);
+    SAP->runOnMachineFunction(MF);
+    DHP->runOnMachineFunction(MF);
+  }
+}
+
 bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
   bool Changed = false;
+  if (runned)
+    return Changed;
+  runned = true;
+  Module &M = *MF.getFunction().getParent();
+  runPreviousPasses(M);
+  entryAnalysis(M);
+  reset();
   return Changed;
 }
 
-bool TimingAnalysisMain::doFinalization(Module &M) {
-  if (!machineFunctionCollector->hasFunctionByName(AnalysisEntryPoint)) {
+void TimingAnalysisMain::getAnalysisUsage(AnalysisUsage &AU) const {
+  MachineFunctionPass::getAnalysisUsage(AU);
+  AU.setPreservesCFG();
+  AU.addRequired<LoopInfoWrapperPass>();
+  AU.addRequired<MachineLoopInfo>();
+  AU.addRequired<ScalarEvolutionWrapperPass>();
+}
+
+bool TimingAnalysisMain::entryAnalysis(Module &M) {
+  if (!MFC->hasFunctionByName(AnalysisEntryPoint)) {
     outs() << "No Timing Analysis Run. There is no entry point: "
            << AnalysisEntryPoint << "\n";
     exit(1);
@@ -123,7 +160,7 @@ bool TimingAnalysisMain::doFinalization(Module &M) {
 
   if (!QuietMode) {
     Myfile.open("AnnotatedHeuristics.txt", ios_base::trunc);
-    DirectiveHeuristicsPassInstance->dump(Myfile);
+    DHP->dump(Myfile);
     Myfile.close();
 
     Myfile.open("PersistenceScopes.txt", ios_base::trunc);
@@ -159,25 +196,25 @@ void TimingAnalysisMain::dispatchValueAnalysis() {
                                                             NoDep);
   auto CvAnaInfo = ConstValAna.runAnalysis();
 
-  LoopBoundInfo->computeLoopBoundFromCVDomain(*CvAnaInfo);
+  LBIP->computeLoopBoundFromCVDomain(*CvAnaInfo);
 
   if (OutputLoopAnnotationFile) {
     ofstream Myfile2;
     Myfile.open("CtxSensLoopAnnotations.csv", ios_base::trunc);
     Myfile2.open("LoopAnnotations.csv", ios_base::trunc);
-    LoopBoundInfo->dumpNonUpperBoundLoops(Myfile, Myfile2);
+    LBIP->dumpNonUpperBoundLoops(Myfile, Myfile2);
     Myfile2.close();
     Myfile.close();
     return;
   }
 
   for (auto BoundsFile : ManualLoopBounds) {
-    LoopBoundInfo->parseManualUpperLoopBounds(BoundsFile.c_str());
+    LBIP->parseManualUpperLoopBounds(BoundsFile.c_str());
   }
 
   if (!QuietMode) {
     Myfile.open("LoopBounds.txt", ios_base::trunc);
-    LoopBoundInfo->dump(Myfile);
+    LBIP->dump(Myfile);
     Myfile.close();
 
     Myfile.open("ConstantValueAnalysis.txt", ios_base::trunc);
@@ -306,6 +343,23 @@ TimingAnalysisMain::dispatchCacheAnalysis(AnalysisType Anatype,
     errs() << "Unsupported microarchitecture for standalone cache analysis.\n";
     return boost::none;
   }
+}
+
+void TimingAnalysisMain::reset() {
+  MFC->reset();
+  LBIP->reset();
+  SAP->reset();
+  DHP->reset();
+  delete MFC;
+  delete LBIP;
+  delete SAP;
+  delete DHP;
+  TimingAnalysisAccessor::reset();
+  Statistics::getInstance().reset();
+  AnalysisResults::getInstance().reset();
+  PersistenceScopeInfo::getInfo().reset();
+  PersistenceScope::reset();
+  runned = false;
 }
 
 } // namespace TimingAnalysisPass

@@ -35,11 +35,6 @@ namespace llvm {
 
 std::list<FunctionPass *> getTimingAnalysisPasses(TargetMachine &TM) {
   std::list<FunctionPass *> Passes;
-  Passes.push_back(createAsmDumpAndCheckPass(TM));
-  Passes.push_back(createMachineFunctionCollector());
-  Passes.push_back(createLoopBoundInfoPass());
-  Passes.push_back(createStaticAddressProvider(TM));
-  Passes.push_back(createDirectiveHeuristicsPass());
   Passes.push_back(createTimingAnalysisMain(TM));
   return Passes;
 }

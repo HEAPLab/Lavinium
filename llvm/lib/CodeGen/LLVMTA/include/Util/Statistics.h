@@ -37,6 +37,8 @@ class Statistics {
 public:
   static Statistics &getInstance();
 
+  void reset();
+
   void startMeasurement(std::string identifier);
 
   void stopMeasurement(std::string identifier);

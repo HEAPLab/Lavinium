@@ -32,6 +32,7 @@
 #include "llvm/CodeGen/TargetInstrInfo.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/Module.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Target/TargetMachine.h"
@@ -47,6 +48,8 @@ template <>
 AbstractAddress
 ConstantValueDomain<Triple::ArchType::riscv32>::getDataAccessAddress(
     const MachineInstr *MI, unsigned pos) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   assert(!(MI->mayLoad() && MI->mayStore()) &&
          "Cannot load and store at same time");
 
@@ -141,6 +144,8 @@ void ConstantValueDomain<Triple::ArchType::riscv32>::transfer(
     const MachineInstr *MI, std::tuple<> &anaInfo) {
   assert(TimingAnalysisMain::getTargetMachine().getTargetTriple().getArch() ==
          Triple::ArchType::riscv32);
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
 
   if (this->bot) { // transfer on bot -> gives bot again
     return;

@@ -58,7 +58,8 @@ namespace TimingAnalysisPass {
 class DirectiveHeuristicsPass : public MachineFunctionPass {
 public:
   static char ID;
-  DirectiveHeuristicsPass();
+  Pass *P;
+  DirectiveHeuristicsPass(Pass *P);
 
   ~DirectiveHeuristicsPass() {
     // TODO get rid of all these pointers in the map
@@ -254,6 +255,8 @@ public:
    */
   bool hasDirectiveOnEdgeLeave(MBBedge E);
 
+  void reset();
+
 private:
   ///< Directive to be executed before the given instruction
   std::map<const MachineInstr *, Directive *, instrptrcomp>
@@ -292,12 +295,12 @@ private:
  * directives later on.
  *
  */
-extern DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance;
 
 } // namespace TimingAnalysisPass
 
 namespace llvm {
-FunctionPass *createDirectiveHeuristicsPass();
+TimingAnalysisPass::DirectiveHeuristicsPass *
+createDirectiveHeuristicsPass(Pass *P);
 } // namespace llvm
 
 #endif

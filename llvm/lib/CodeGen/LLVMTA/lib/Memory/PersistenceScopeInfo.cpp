@@ -31,6 +31,7 @@
 #include "Util/Options.h"
 #include "Util/Util.h"
 
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_os_ostream.h"
 
@@ -40,7 +41,15 @@ namespace TimingAnalysisPass {
 
 PersistenceScopeInfo *PersistenceScopeInfo::persistenceScopeInfo = nullptr;
 
+void PersistenceScopeInfo::reset() {
+  startScope.clear();
+  endScope.clear();
+}
+
 PersistenceScopeInfo::PersistenceScopeInfo() {
+  LoopBoundInfoPass *LoopBoundInfo =
+      TimingAnalysisAccessor::getLoopBoundInfoPass();
+
   // If no persistence wanted, skip this part
   if (InstrCachePersType == PersistenceType::NONE &&
       DataCachePersType == PersistenceType::NONE) {

@@ -36,6 +36,7 @@
 #include "MicroarchitecturalAnalysis/OutOfOrderPipelineComponents/RegisterStatusTable.h"
 #include "MicroarchitecturalAnalysis/OutOfOrderPipelineComponents/ReservationStation.h"
 #include "MicroarchitecturalAnalysis/OutOfOrderPipelineComponents/SimpleFunctionalUnit.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 namespace TimingAnalysisPass {
 
@@ -537,6 +538,8 @@ OutOfOrderPipelineState<MemoryTopology>::cycle(
 
 template <class MemoryTopology>
 bool OutOfOrderPipelineState<MemoryTopology>::isFinal(ExecutionElement &ee) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (StaticAddrProvider->goesExternal(ee.first)) {
     // we are no longer inside our program
     return reOrderBuffer.isEmpty() && instructionQueue.isEmpty() &&
@@ -561,6 +564,8 @@ bool OutOfOrderPipelineState<MemoryTopology>::isFinal(ExecutionElement &ee) {
 template <class MemoryTopology>
 void OutOfOrderPipelineState<MemoryTopology>::earlyBranch(
     const ExecutionElement ee, InstrContextMapping &ins2ctx) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // this does not cause splits
   assert(StaticAddrProvider->hasMachineInstrByAddr(ee.first) &&
          "No instruction.");
@@ -579,6 +584,8 @@ template <class MemoryTopology>
 typename OutOfOrderPipelineState<MemoryTopology>::StateSet
 OutOfOrderPipelineState<MemoryTopology>::checkForBranches(
     ExecutionElement ee, InstrContextMapping &ins2ctx) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   StateSet res;
   // In case of misspeculation, we need to flush the reorder-buffer, the
   // reservation stations and the instruction queue
@@ -662,6 +669,8 @@ OutOfOrderPipelineState<MemoryTopology>::cycleMemoryTopology() {
 template <class MemoryTopology>
 void OutOfOrderPipelineState<MemoryTopology>::leavePersistenceScope(
     ExecutionElement from, ExecutionElement to) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (StaticAddrProvider->hasMachineInstrByAddr(from.first) &&
       StaticAddrProvider->hasMachineInstrByAddr(to.first)) {
     auto frominstr = StaticAddrProvider->getMachineInstrByAddr(from.first);

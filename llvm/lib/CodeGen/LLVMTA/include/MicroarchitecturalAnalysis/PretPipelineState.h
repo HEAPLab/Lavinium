@@ -36,6 +36,7 @@
 #include "ARM.h"
 
 #include "llvm/CodeGen/MachineRegisterInfo.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Debug.h"
 #include <iostream>
 
@@ -396,6 +397,8 @@ void PretPipelineState<MemoryTopology>::fastForwardAndInsert(
 
 template <class MemoryTopology>
 bool PretPipelineState<MemoryTopology>::isFinal(ExecutionElement &ee) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (StaticAddrProvider->goesExternal(ee.first)) {
     return !this->inflightInstruction[WB_FIN_IND] &&
            !this->inflightInstruction[MEM_WB_IND] &&
@@ -636,6 +639,8 @@ template <class MemoryTopology>
 void PretPipelineState<MemoryTopology>::accessDataFromMemoryTopology(
     AddressInformation &addrInfo) {
   // access data memory with next address from memory instruction
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   assert(this->inflightInstruction[EX_MEM_IND] && "No instruction in EX_MEM!");
   auto currMemInst = StaticAddrProvider->getMachineInstrByAddr(
       this->inflightInstruction[EX_MEM_IND].get().first);
@@ -671,6 +676,8 @@ std::list<PretPipelineState<MemoryTopology>>
 PretPipelineState<MemoryTopology>::processMemoryStage(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) const {
   std::list<PretPipelineState> result;
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
 
   // Successor state
   PretPipelineState succ(*this);
@@ -738,6 +745,8 @@ std::list<PretPipelineState<MemoryTopology>>
 PretPipelineState<MemoryTopology>::processExecuteStage(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) const {
   std::list<PretPipelineState> result;
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
 
   // check whether there is an instruction
   if (inflightInstruction[ID_EX_IND]) {
@@ -791,6 +800,8 @@ typename PretPipelineState<MemoryTopology>::StateSet
 PretPipelineState<MemoryTopology>::checkForBranches(
     InstrContextMapping &ins2ctx, bool memory) {
   StateSet res;
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // check whether branching happens and alter the
   if (StaticAddrProvider->hasMachineInstrByAddr(
           inflightInstruction[memory ? EX_MEM_IND : ID_EX_IND].get().first)) {
@@ -829,6 +840,8 @@ PretPipelineState<MemoryTopology>::checkForBranches(
  */
 template <class MemoryTopology>
 void PretPipelineState<MemoryTopology>::processInstructionDecodeStage() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (this->inflightInstruction[IF_ID_IND]) {
     assert(!inflightInstruction[ID_EX_IND]);
     // check for flush is implicitly here already
@@ -843,6 +856,8 @@ void PretPipelineState<MemoryTopology>::processInstructionDecodeStage() {
 
 template <class MemoryTopology>
 void PretPipelineState<MemoryTopology>::processInstructionFetchStage() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (instructionAccessId) {
     if (memory.finishedInstrAccess(*instructionAccessId)) {
       DEBUG_WITH_TYPE("indv",

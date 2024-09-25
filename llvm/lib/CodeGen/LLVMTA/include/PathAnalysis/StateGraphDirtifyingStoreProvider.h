@@ -31,6 +31,7 @@
 #include "Memory/PersistenceScopeInfo.h"
 #include "PathAnalysis/StateGraphEdgeWeightProvider.h"
 #include "Util/Util.h"
+#include "Util/UtilPathAnalysis.h"
 
 #include <set>
 
@@ -231,6 +232,8 @@ template <class MuState>
 std::map<PersistenceScope, std::map<AbstractAddress, VarCoeffVector>>
 StateGraphDirtifyingStoreProvider<MuState>::getPerScopePersistenceEdges()
     const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   std::map<PersistenceScope, std::map<AbstractAddress, VarCoeffVector>>
       scope2addr2edges;
   std::map<PersistenceScope, std::map<const GlobalVariable *, VarCoeffVector>>

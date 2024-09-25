@@ -31,6 +31,7 @@
 #include "llvm/CodeGen/TargetInstrInfo.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/Module.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Target/TargetMachine.h"
@@ -51,6 +52,8 @@ namespace TimingAnalysisPass {
 template <Triple::ArchType ISA>
 ConstantValueDomain<ISA>::ConstantValueDomain(AnaDomInit init)
     : bot(init == AnaDomInit::BOTTOM) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (init == AnaDomInit::START) { // start: we have additional knowledge about
                                    // stackpointer
     // Zero register

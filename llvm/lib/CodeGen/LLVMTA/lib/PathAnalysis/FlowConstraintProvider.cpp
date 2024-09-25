@@ -172,6 +172,8 @@ void FlowConstraintProvider::buildInFlowEqualsOutFlowConstraints() {
 }
 
 void FlowConstraintProvider::buildLoopConstraints(bool upper) {
+  LoopBoundInfoPass *LoopBoundInfo =
+      TimingAnalysisAccessor::getLoopBoundInfoPass();
   // use different function pointers depending on upper or lower bounding
   // constraints
   auto hasLoopBoundFkt =
@@ -481,6 +483,8 @@ void FlowConstraintProvider::buildLoopConstraints(bool upper) {
 
 void FlowConstraintProvider::buildCallReturnConstraints() {
   // Build nodes for all states in functions and basic blocks
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   for (MachineFunction *currFunc :
        machineFunctionCollector->getAllMachineFunctions()) {
     for (auto &currMBB : *currFunc) {

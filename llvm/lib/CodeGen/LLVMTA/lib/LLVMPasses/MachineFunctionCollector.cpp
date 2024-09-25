@@ -32,8 +32,6 @@ using namespace llvm;
 
 namespace TimingAnalysisPass {
 
-MachineFunctionCollector *machineFunctionCollector;
-
 char MachineFunctionCollector::ID = 0;
 
 MachineFunctionCollector::MachineFunctionCollector()
@@ -95,10 +93,10 @@ bool MachineFunctionCollector::hasFunctionByName(std::string Name) {
   return Name2func.count(Name) > 0;
 }
 
+void MachineFunctionCollector::reset() { Name2func.clear(); }
+
 } // namespace TimingAnalysisPass
 
-FunctionPass *llvm::createMachineFunctionCollector() {
-  TimingAnalysisPass::machineFunctionCollector =
-      new TimingAnalysisPass::MachineFunctionCollector();
-  return TimingAnalysisPass::machineFunctionCollector;
+TimingAnalysisPass::MachineFunctionCollector *llvm::createMachineFunctionCollector() {
+      return new TimingAnalysisPass::MachineFunctionCollector();
 }

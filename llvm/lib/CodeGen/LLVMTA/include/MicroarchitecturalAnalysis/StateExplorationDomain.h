@@ -31,6 +31,7 @@
 #include "MicroarchitecturalAnalysis/MicroArchitecturalState.h"
 #include "PartitionUtil/DirectiveHeuristics.h"
 #include "Util/Util.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include <boost/static_assert.hpp>
 #include <boost/type_traits.hpp>
@@ -212,6 +213,8 @@ private:
 template <template <class> class StateExplorationDom, class MicroArchState>
 StateExplorationDomainBase<StateExplorationDom, MicroArchState>::
     StateExplorationDomainBase(AnaDomInit init) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   switch (init) {
   case AnaDomInit::BOTTOM: {
     // states should be empty as not state can reach and unreachable part
@@ -224,7 +227,7 @@ StateExplorationDomainBase<StateExplorationDom, MicroArchState>::
     top = false;
     // Get initial program start as this is needed for setting the pc correctly
     // in MicroArchState
-    auto MF = getAnalysisEntryPoint();
+    auto MF = TimingAnalysisAccessor::getAnalysisEntryPoint();
     std::list<MBBedge> initialedgelist;
     const MachineInstr *firstInstr =
         getFirstInstrInFunction(MF, initialedgelist);
@@ -293,6 +296,8 @@ StateExplorationDomainBase<StateExplorationDom, MicroArchState>::operator=(
 template <template <class> class StateExplorationDom, class MicroArchState>
 void StateExplorationDomainBase<StateExplorationDom, MicroArchState>::transfer(
     const MachineInstr *MI, Context *currentCtx, StateDep &anaInfo) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   DEBUG_WITH_TYPE(
       "instructions",
       dbgs()
@@ -471,6 +476,12 @@ StateExplorationDomainBase<StateExplorationDom, MicroArchState>::transferCall(
     const MachineInstr *callInstr, Context *ctx, StateDep &anaInfo,
     const MachineFunction *callee,
     StateExplorationDom<MicroArchState> &calleeOut) {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // FIXME handle predicated call instructions?
 
   assert(this->states.size() != 0 &&

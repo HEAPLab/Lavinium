@@ -34,6 +34,7 @@
 #include "Memory/AbstractCache.h"
 
 #include "ARM.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Debug.h"
 
 #include <iostream>
@@ -140,6 +141,8 @@ public:
    * Checks whether a ProgramLocation left the pipeline after the last cycle.
    */
   virtual bool isFinal(ExecutionElement &pl) {
+    StaticAddressProvider *StaticAddrProvider =
+        TimingAnalysisAccessor::getStaticAddressProvider();
     bool finalFlag = false;
     if (StaticAddrProvider->goesExternal(pl.first)) {
       finalFlag =
@@ -266,6 +269,8 @@ template <dom::cache::AbstractCache *(*makeCache)(bool), bool dataCache>
 typename OutOfOrderCacheState<makeCache, dataCache>::StateSet
 OutOfOrderCacheState<makeCache, dataCache>::cycle(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // Copy this state for the successor
   OutOfOrderCacheState succ(*this);
   ++succ.time;

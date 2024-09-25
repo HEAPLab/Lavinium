@@ -30,6 +30,7 @@
 #include "LLVMPasses/TimingAnalysisMain.h"
 
 #include "llvm/IR/DebugInfoMetadata.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include "RISCV.h"
 
@@ -143,6 +144,8 @@ bool isPredicated(const MachineInstr *I) {
 }
 
 std::string getMachineInstrIdentifier(const MachineInstr *I) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   return I->getParent()->getParent()->getName().str() + "_BB" +
          std::to_string(I->getParent()->getNumber()) + "_I" +
          std::to_string(StaticAddrProvider->Ins2posinbb.at(I));
@@ -155,6 +158,8 @@ std::string getBasicBlockIdentifier(const MachineBasicBlock *MBB) {
 
 bool instrptrcomp::operator()(const MachineInstr *const lhs,
                               const MachineInstr *const rhs) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (lhs->getParent()->getParent()->getFunctionNumber() !=
       rhs->getParent()->getParent()->getFunctionNumber()) {
     return lhs->getParent()->getParent()->getFunctionNumber() <

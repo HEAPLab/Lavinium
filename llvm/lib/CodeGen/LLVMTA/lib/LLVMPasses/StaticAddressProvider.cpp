@@ -44,7 +44,6 @@ using namespace llvm;
 
 namespace TimingAnalysisPass {
 
-StaticAddressProvider *StaticAddrProvider;
 
 char StaticAddressProvider::ID = 0;
 
@@ -376,6 +375,7 @@ bool StaticAddressProvider::doInitialization(Module &M) {
     }
   }
   RodataAddress = Startdatasection;
+  storedRodataAddress = RodataAddress;
   return false;
 }
 
@@ -516,10 +516,20 @@ void StaticAddressProvider::dump(std::ostream &Mystream) const {
   }
 }
 
+void StaticAddressProvider::reset() {
+  CodeAddress = CodeStartAddress;
+  RodataAddress = storedRodataAddress;
+  Ins2addr.clear();
+  Addr2ins.clear();
+  Cpe2addr.clear();
+  Glvar2addr.clear();
+  Addr2values.clear();
+  Addr2symbol.clear();
+  Ins2posinbb.clear();
+}
+
 } // namespace TimingAnalysisPass
 
-FunctionPass *llvm::createStaticAddressProvider(TargetMachine &TM) {
-  TimingAnalysisPass::StaticAddrProvider =
-      new TimingAnalysisPass::StaticAddressProvider(TM);
-  return TimingAnalysisPass::StaticAddrProvider;
+TimingAnalysisPass::StaticAddressProvider *llvm::createStaticAddressProvider(TargetMachine &TM) {
+     return new TimingAnalysisPass::StaticAddressProvider(TM);
 }

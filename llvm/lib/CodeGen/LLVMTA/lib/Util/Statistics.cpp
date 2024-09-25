@@ -41,6 +41,15 @@ Statistics &Statistics::getInstance() {
   return stats;
 }
 
+void Statistics::reset() {
+  measurements.clear();
+  memoryUsage = 0;
+  startTime.tv_sec = 0;
+  startTime.tv_usec = 0;
+  endTime.tv_sec = 0;
+  endTime.tv_usec = 0;
+}
+
 void Statistics::startMeasurement(std::string identifier) {
   assert(measurements.count(identifier) == 0 &&
          "Measurement is already started.");

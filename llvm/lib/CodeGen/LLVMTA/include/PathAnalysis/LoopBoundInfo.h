@@ -32,6 +32,7 @@
 #include "llvm/Analysis/ScalarEvolution.h"
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/MachineLoopInfo.h"
+#include "llvm/Pass.h"
 
 #include "AnalysisFramework/PartitioningDomain.h"
 #include "PartitionUtil/Context.h"
@@ -52,8 +53,10 @@ class LoopBoundInfoPass : public llvm::MachineFunctionPass {
 
 public:
   static char ID;
-  LoopBoundInfoPass();
+  Pass *P;
+  LoopBoundInfoPass(Pass *P) : llvm::MachineFunctionPass(ID), P(P){};
 
+  void reset();
   /**
    * This is a dummy function.
    */
@@ -393,12 +396,10 @@ private:
       ManualLowerLoopBounds;
 };
 
-extern LoopBoundInfoPass *LoopBoundInfo;
-
 } // namespace TimingAnalysisPass
 
 namespace llvm {
-FunctionPass *createLoopBoundInfoPass();
+TimingAnalysisPass::LoopBoundInfoPass *createLoopBoundInfoPass(Pass *P);
 } // namespace llvm
 
 #endif

@@ -65,6 +65,8 @@ public:
   friend llvm::raw_ostream &operator<<(llvm::raw_ostream &stream,
                                        const PersistenceScope &scope);
 
+  static void reset() { globalScopeId = 0; }
+
 private:
   static unsigned globalScopeId;
 

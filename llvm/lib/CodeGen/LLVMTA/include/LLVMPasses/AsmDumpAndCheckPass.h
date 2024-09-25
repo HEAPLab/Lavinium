@@ -58,6 +58,8 @@ public:
     return "ARM Timing Analysis Result Dump Pass";
   }
 
+  void reset();
+
 private:
   template <llvm::Triple::ArchType ARCH>
   void checkInstruction(const MachineInstr &I);
@@ -70,7 +72,7 @@ private:
 } // namespace TimingAnalysisPass
 
 namespace llvm {
-FunctionPass *createAsmDumpAndCheckPass(TargetMachine &TM);
+TimingAnalysisPass::AsmDumpAndCheckPass *createAsmDumpAndCheckPass(TargetMachine &TM);
 } // namespace llvm
 
 #endif

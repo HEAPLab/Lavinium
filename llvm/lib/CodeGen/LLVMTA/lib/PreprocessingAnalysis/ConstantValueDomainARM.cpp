@@ -33,6 +33,7 @@
 #include "llvm/CodeGen/TargetInstrInfo.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/Module.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Target/TargetMachine.h"
@@ -52,6 +53,8 @@ template <>
 AbstractAddress
 ConstantValueDomain<Triple::ArchType::arm>::getDataAccessAddress(
     const MachineInstr *MI, unsigned pos) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (MI->mayLoad() && MI->mayStore()) {
     errs() << *MI;
   }
@@ -542,6 +545,8 @@ void ConstantValueDomain<Triple::ArchType::arm>::transfer(
   assert(TimingAnalysisMain::getTargetMachine().getTargetTriple().getArch() ==
          Triple::ArchType::arm);
 
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (this->bot) { // transfer on bot -> gives bot again
     return;
   }

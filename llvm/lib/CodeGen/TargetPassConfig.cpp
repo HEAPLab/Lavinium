@@ -12,6 +12,8 @@
 //===---------------------------------------------------------------------===//
 
 #include "llvm/CodeGen/TargetPassConfig.h"
+#include "LLVMTA/include/LLVMPasses/MachineFunctionCollector.h"
+#include "LLVMTA/include/LLVMPasses/TimingAnalysisPasses.h"
 #include "llvm/ADT/DenseMap.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/ADT/StringRef.h"
@@ -28,8 +30,6 @@
 #include "llvm/CodeGen/RegAllocRegistry.h"
 #include "llvm/IR/IRPrintingPasses.h"
 #include "llvm/IR/Lavinium.h"
-#include "LLVMTA/include/LLVMPasses/MachineFunctionCollector.h"
-#include "LLVMTA/include/LLVMPasses/TimingAnalysisPasses.h"
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/PassInstrumentation.h"
 #include "llvm/IR/Verifier.h"
@@ -1177,17 +1177,6 @@ void TargetPassConfig::addMachinePasses() {
 
   // Run post-ra passes.
   addPostRegAlloc();
-
-  if (LaviniumEnable) {
-    // run LLVMTA analysis
-    for (auto TAPass : getTimingAnalysisPasses(*TM)) {
-      addPass(TAPass);
-    }
-
-
-    addPass(&LaviniumMachineInstCountID);
-    addPass(&LaviniumReschedulerID);
-  }
 
   addPass(&RemoveRedundantDebugValuesID);
 

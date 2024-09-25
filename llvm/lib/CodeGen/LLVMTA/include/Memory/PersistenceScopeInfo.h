@@ -51,6 +51,8 @@ public:
    */
   static PersistenceScopeInfo &getInfo();
 
+  void reset();
+
   /**
    * Dump the computed scopes with entry and exit points.
    */

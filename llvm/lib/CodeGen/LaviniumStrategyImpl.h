@@ -30,7 +30,7 @@ template <typename Metric> class StrategyImpl : public Strategy {
   std::vector<std::string> availablePasses;
   llvm::DenseMap<llvm::Function *,
                  StrategyDeepTracker<
-                     std::vector<decltype(availablePasses)::const_iterator>>>
+                     std::vector<std::vector<std::string>::const_iterator>>>
       Iterators;
   EXPTYPE Type;
   size_t MaxDepth = 1;

@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "MicroarchitecturalAnalysis/OutOfOrderPipelineComponents/ReservationStation.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 namespace TimingAnalysisPass {
 
@@ -148,6 +149,8 @@ bool ReservationStation::isFull() const {
 }
 
 void ReservationStation::cycle() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   for (auto rsElemIt = reservationStation.begin();
        rsElemIt != reservationStation.end();) {
     bool deleted = false;

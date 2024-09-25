@@ -140,6 +140,8 @@ public:
    * Checks whether a ProgramLocation left the pipeline after the last cycle.
    */
   virtual bool isFinal(ExecutionElement &pl) {
+    StaticAddressProvider *StaticAddrProvider =
+        TimingAnalysisAccessor::getStaticAddressProvider();
     bool finalFlag = false;
     if (StaticAddrProvider->goesExternal(pl.first)) {
       finalFlag =
@@ -281,6 +283,8 @@ typename InOrderCacheState<makeCache, dataCache>::StateSet
 InOrderCacheState<makeCache, dataCache>::cycle(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) const {
   // Copy this state for the successor
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   InOrderCacheState succ(*this);
   ++succ.time;
 

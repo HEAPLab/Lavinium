@@ -32,6 +32,7 @@
 #include "Util/Util.h"
 
 #include "../MicroarchitecturalAnalysis/MicroArchitecturalState.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include <string>
 #include <unordered_map>
@@ -162,6 +163,10 @@ void InsensitiveGraph<MicroArchDom>::buildGraph() {
 
 template <class MicroArchDom>
 void InsensitiveGraph<MicroArchDom>::buildIntraBasicBlockEdges() {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   // For each basic block in the program,
   // collect states at the start, the end, and before/after each call
   // instruction
@@ -290,6 +295,8 @@ void InsensitiveGraph<MicroArchDom>::buildIntraBasicBlockEdges() {
 
 template <class MicroArchDom>
 void InsensitiveGraph<MicroArchDom>::buildInterBasicBlockEdges() {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   // Add call edges to the graph
   for (auto &callsite2states : callVertices) {
     auto instr = callsite2states.first;
@@ -334,7 +341,7 @@ void InsensitiveGraph<MicroArchDom>::buildInterBasicBlockEdges() {
         canReturn |= currMI->isReturn();
       }
       if (canReturn) {
-        if (currFunc == getAnalysisEntryPoint()) {
+        if (currFunc == TimingAnalysisAccessor::getAnalysisEntryPoint()) {
           graph.addEdge(outId, 0);
         } else {
           for (auto callsite : CallGraph::getGraph().getCallSites(currFunc)) {
@@ -349,7 +356,7 @@ void InsensitiveGraph<MicroArchDom>::buildInterBasicBlockEdges() {
     }
   }
 
-  auto startFunc = getAnalysisEntryPoint();
+  auto startFunc = TimingAnalysisAccessor::getAnalysisEntryPoint();
   MachineBasicBlock *startMbb = &*(startFunc->begin());
   assert(startMbb->getNumber() == 0 &&
          "First Basic block of function did not have number 0.");
@@ -377,6 +384,8 @@ template <class MicroArchDom>
 void InsensitiveGraph<MicroArchDom>::dump(
     std::ostream &mystream,
     const std::map<std::string, double> *optTimesTaken) const {
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   if (!DumpVcgGraph) {
     int clusterNr = 0;
     mystream << "digraph WCET {\n    label = \"Microarchitectural State "

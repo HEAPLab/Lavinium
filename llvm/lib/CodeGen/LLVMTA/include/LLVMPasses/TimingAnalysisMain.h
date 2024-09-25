@@ -37,7 +37,12 @@
 #include "llvm/Support/CommandLine.h"
 
 #include "AnalysisFramework/AnalysisResults.h"
+#include "PathAnalysis/LoopBoundInfo.h"
 #include "Util/Options.h"
+
+#include "LLVMPasses/AsmDumpAndCheckPass.h"
+#include "LLVMPasses/MachineFunctionCollector.h"
+#include "LLVMPasses/StaticAddressProvider.h"
 
 #include <iostream>
 #include <map>
@@ -63,6 +68,13 @@ class TimingAnalysisMain : public MachineFunctionPass {
 public:
   static char ID;
   TimingAnalysisMain(TargetMachine &TM);
+  bool runned = false;
+  
+  /**
+   * Run all the required passes
+   */
+  void runPreviousPasses(Module& M);
+
 
   /**
    * This is a dummy function.
@@ -71,15 +83,12 @@ public:
 
   /**
    * @brief
-   * The timing analysis starts when all previous passes are finished on ALL
-   * functions. The timing analysis, i.e. value, microarchitectural, and path
-   * analyses are triggered here.
    *
    * @param M
    * @return true
    * @return false
    */
-  virtual bool doFinalization(Module &M);
+   bool entryAnalysis(Module &M);
 
   virtual llvm::StringRef getPassName() const {
     return "TA: Main phase of Timing Analysis, e.g. Value and "
@@ -93,6 +102,11 @@ public:
    * @return TargetMachine&
    */
   static TargetMachine &getTargetMachine();
+
+  
+  MachineFunction *getAnalysisEntryPoint();
+
+  void getAnalysisUsage(AnalysisUsage &AU) const override  ;
 
 private:
   /**
@@ -135,6 +149,17 @@ private:
   boost::optional<BoundItv>
   dispatchCacheAnalysis(AnalysisType Anatype, AddressInformation &AddressInfo);
 
+
+  /**
+   * Required Passes Collection
+   */  
+  AsmDumpAndCheckPass* asmDump ;
+  MachineFunctionCollector* MFC;
+  LoopBoundInfoPass* LBIP;
+  StaticAddressProvider* SAP;
+  DirectiveHeuristicsPass* DHP;
+  void reset();
+
   // Private fiels
   static TargetMachine *TargetMachineInstance;
 };
@@ -161,7 +186,6 @@ unsigned getInitialLinkRegister();
  *
  * @return MachineFunction*
  */
-MachineFunction *getAnalysisEntryPoint();
 } // namespace TimingAnalysisPass
 
 namespace llvm {

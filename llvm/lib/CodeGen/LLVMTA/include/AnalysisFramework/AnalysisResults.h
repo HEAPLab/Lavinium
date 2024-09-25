@@ -52,6 +52,8 @@ class AnalysisResults {
 public:
   static AnalysisResults &getInstance();
 
+  void reset();
+
   void registerResult(std::string identifier, boost::optional<double> result);
   void registerResult(std::string identifier, boost::optional<BoundItv> result);
 

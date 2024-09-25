@@ -38,11 +38,10 @@ using namespace std;
 
 namespace TimingAnalysisPass {
 
-DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance;
-
 char DirectiveHeuristicsPass::ID = 0;
 
-DirectiveHeuristicsPass::DirectiveHeuristicsPass() : MachineFunctionPass(ID) {}
+DirectiveHeuristicsPass::DirectiveHeuristicsPass(Pass *P)
+    : MachineFunctionPass(ID), P(P) {}
 
 void DirectiveHeuristicsPass::getAnalysisUsage(AnalysisUsage &AU) const {
   MachineFunctionPass::getAnalysisUsage(AU);
@@ -69,7 +68,7 @@ bool DirectiveHeuristicsPass::runOnMachineFunction(MachineFunction &MF) {
   // If Loop Peeling is desired, we do it
   if (LoopPeel > 0) {
     // Iterate over all level 1 loops and let them annotate
-    MachineLoopInfo &MLI = getAnalysis<MachineLoopInfo>();
+    MachineLoopInfo &MLI = P->getAnalysis<MachineLoopInfo>();
     for (auto *MachineLoop : MLI) {
       annotateLoopDirective(MachineLoop);
     }
@@ -285,14 +284,24 @@ list<Directive *> *DirectiveHeuristicsPass::getDirectiveOnEdgeLeave(
   return this->DirectiveLeaveBBEdge[E];
 }
 
+void DirectiveHeuristicsPass::reset() {
+  // Lavinium-TODO questa classe ha un distruttore forse bisogna evitare di
+  // leakare memoria
+  DirectiveBeforeInstr.clear();
+  DirectiveAfterInstr.clear();
+  DirectiveEnterBBEdge.clear();
+  DirectiveLeaveBBEdge.clear();
+  DirectiveBeforeFunc.clear();
+  DirectiveAfterFunc.clear();
+}
+
 } // namespace TimingAnalysisPass
 
 namespace llvm {
 
-FunctionPass *createDirectiveHeuristicsPass() {
-  TimingAnalysisPass::DirectiveHeuristicsPassInstance =
-      new TimingAnalysisPass::DirectiveHeuristicsPass();
-  return TimingAnalysisPass::DirectiveHeuristicsPassInstance;
+TimingAnalysisPass::DirectiveHeuristicsPass *
+createDirectiveHeuristicsPass(Pass *P) {
+  return new TimingAnalysisPass::DirectiveHeuristicsPass(P);
 }
 
 } // namespace llvm

@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "MicroarchitecturalAnalysis/ProgramCounter.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 using namespace llvm;
 
@@ -52,6 +53,10 @@ ExecutionElement ProgramCounter::getPc() { return pc; }
 void ProgramCounter::setAddress(unsigned address) { pc.first = address; }
 
 ExecutionElement ProgramCounter::fetchNextInstruction() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   // Remember the current execution element
   auto res = this->pc;
 

@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "MicroarchitecturalAnalysis/OutOfOrderPipelineComponents/SimpleFunctionalUnit.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include <llvm/Support/Debug.h>
 
@@ -121,6 +122,8 @@ bool SimpleFunctionalUnit::isFree() const {
 
 void SimpleFunctionalUnit::executeInstruction(unsigned robTag) {
   assert(isFree() && "Functional Unit was not free!");
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
 
   unsigned addr = rob->getExecutionElementForRobTag(robTag).first;
   assert(StaticAddrProvider->hasMachineInstrByAddr(addr) &&

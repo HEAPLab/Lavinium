@@ -31,6 +31,7 @@
 #include "Memory/PersistenceScopeInfo.h"
 #include "PathAnalysis/StateGraphEdgeWeightProvider.h"
 #include "Util/Util.h"
+#include "Util/UtilPathAnalysis.h"
 
 #include <set>
 
@@ -266,6 +267,8 @@ StateGraphCacheMissProvider<MuState, CT>::getPerScopePersistenceEdges() const {
   std::map<PersistenceScope, std::map<const GlobalVariable *, VarCoeffVector>>
       scope2array2edges;
   std::map<PersistenceScope, VarCoeffVector> scope2enteredges;
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
 
   // Iterate over all graph edges an collect the definite miss edges
   // Sort them by PersistenceScope and Address.

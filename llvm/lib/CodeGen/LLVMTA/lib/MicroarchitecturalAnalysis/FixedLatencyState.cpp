@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "MicroarchitecturalAnalysis/FixedLatencyState.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 using namespace llvm;
 
@@ -41,6 +42,8 @@ FixedLatencyState::FixedLatencyState(const FixedLatencyState &fls)
 
 FixedLatencyState::StateSet
 FixedLatencyState::cycle(std::tuple<InstrContextMapping &> &dep) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // Result set
   StateSet res;
 
@@ -82,6 +85,8 @@ FixedLatencyState::cycle(std::tuple<InstrContextMapping &> &dep) const {
 }
 
 bool FixedLatencyState::isFinal(ExecutionElement &pl) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // If we do not have an inflight-instruction, we cannot be final
   if (!this->inflightInstruction) {
     return false;

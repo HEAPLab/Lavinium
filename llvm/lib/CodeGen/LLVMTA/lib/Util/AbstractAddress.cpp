@@ -26,6 +26,7 @@
 #include "Util/AbstractAddress.h"
 #include "LLVMPasses/StaticAddressProvider.h"
 #include "Util/Options.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 namespace TimingAnalysisPass {
 /* constructors */
@@ -69,6 +70,8 @@ const GlobalVariable *AbstractAddress::getArray() const {
 }
 
 AddressInterval AbstractAddress::getAsInterval() const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   switch (this->type) {
   case AddressType::INTERVAL:
     return value.interval;

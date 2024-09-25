@@ -31,6 +31,7 @@
 #include "Util/AbstractAddress.h"
 #include "Util/Options.h"
 #include "Util/Util.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 namespace TimingAnalysisPass {
 template <dom::cache::CacheTraits *CacheConfig>
@@ -60,6 +61,8 @@ unsigned getCachelineMemoryLatency(CacheType type);
 
 template <dom::cache::CacheTraits *CacheConfig>
 unsigned getPerSetSize(const GlobalVariable *ds) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   unsigned size = StaticAddrProvider->getArraySize(ds);
   unsigned base = StaticAddrProvider->getGlobalVarAddress(ds);
 

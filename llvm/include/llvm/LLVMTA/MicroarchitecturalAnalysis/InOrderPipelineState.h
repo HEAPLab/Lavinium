@@ -33,6 +33,7 @@
 #include "MicroarchitecturalAnalysis/MicroArchitecturalState.h"
 #include "PreprocessingAnalysis/AddressInformation.h"
 #include "Util/Util.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include "ARM.h"
 
@@ -496,6 +497,8 @@ void InOrderPipelineState<MemoryTopology>::fastForwardAndInsert(
 
 template <class MemoryTopology>
 bool InOrderPipelineState<MemoryTopology>::isFinal(ExecutionElement &ee) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (StaticAddrProvider->goesExternal(ee.first)) {
     return !this->inflightInstruction[WB_FIN_IND] &&
            !this->inflightInstruction[MEM_WB_IND] &&
@@ -744,6 +747,8 @@ void InOrderPipelineState<MemoryTopology>::join(
 template <class MemoryTopology>
 void InOrderPipelineState<MemoryTopology>::accessDataFromMemoryTopology(
     AddressInformation &addrInfo) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // access data memory with next address from memory instruction
   assert(this->inflightInstruction[EX_MEM_IND] && "No instruction in EX_MEM!");
   auto currMemInst = StaticAddrProvider->getMachineInstrByAddr(
@@ -778,6 +783,8 @@ void InOrderPipelineState<MemoryTopology>::accessDataFromMemoryTopology(
 template <class MemoryTopology>
 std::list<InOrderPipelineState<MemoryTopology>>
 InOrderPipelineState<MemoryTopology>::cycleMemoryTopology() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   bool potentialDataMissesPending = false;
   // If strictly in-order data und instr arbitration demanded, check for pending
   // potential misses
@@ -827,6 +834,8 @@ InOrderPipelineState<MemoryTopology>::cycleMemoryTopology() {
 template <class MemoryTopology>
 void InOrderPipelineState<MemoryTopology>::emptyPipelineDueToBranching(
     unsigned oldPc) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (needPersistenceScopes()) {
     // Do (speculative) persistence scope handling
     if (instructionAccessId ||
@@ -904,6 +913,8 @@ void InOrderPipelineState<MemoryTopology>::emptyPipelineDueToBranching(
  */
 template <class MemoryTopology>
 void InOrderPipelineState<MemoryTopology>::processWriteBackStage() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   // if there is an input instruction for this stage
   if (this->inflightInstruction[MEM_WB_IND]) {
     inflightInstruction[WB_FIN_IND] = inflightInstruction[MEM_WB_IND];
@@ -948,6 +959,8 @@ template <class MemoryTopology>
 std::list<InOrderPipelineState<MemoryTopology>>
 InOrderPipelineState<MemoryTopology>::processMemoryStage(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   std::list<InOrderPipelineState> result;
 
   // Successor state
@@ -1039,6 +1052,8 @@ template <class MemoryTopology>
 std::list<InOrderPipelineState<MemoryTopology>>
 InOrderPipelineState<MemoryTopology>::processExecuteStage(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) const {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   std::list<InOrderPipelineState> result;
 
   // check whether there is an instruction and whether any data dependencies are
@@ -1131,6 +1146,8 @@ template <class MemoryTopology>
 typename InOrderPipelineState<MemoryTopology>::StateSet
 InOrderPipelineState<MemoryTopology>::checkForBranches(
     InstrContextMapping &ins2ctx, bool memory) {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   StateSet res;
   // check whether branching happens and alter the
   if (StaticAddrProvider->hasMachineInstrByAddr(
@@ -1204,6 +1221,8 @@ InOrderPipelineState<MemoryTopology>::checkForBranches(
  */
 template <class MemoryTopology>
 void InOrderPipelineState<MemoryTopology>::processInstructionDecodeStage() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (this->inflightInstruction[IF_ID_IND] &&
       (!inflightInstruction[ID_EX_IND])) {
     // check for flush is implicitly here already
@@ -1231,6 +1250,8 @@ void InOrderPipelineState<MemoryTopology>::processInstructionDecodeStage() {
 
 template <class MemoryTopology>
 void InOrderPipelineState<MemoryTopology>::processInstructionFetchStage() {
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (flushedFetchStage) {
     instructionAccessFinished = false;
     flushedFetchStage = false;

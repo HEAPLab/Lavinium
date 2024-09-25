@@ -31,10 +31,12 @@
 #include <set>
 
 #include "Memory/Classification.h"
+#include "Memory/UpdateReports.h"
 #include "Memory/progana/Lattice.h"
 #include "Memory/util/CacheUtils.h"
 #include "Memory/util/ImplicitSet.h"
 #include "Util/Options.h"
+#include "Util/PersistenceScope.h"
 
 namespace TimingAnalysisPass {
 
@@ -70,6 +72,8 @@ protected:
     TagType tag;
     std::vector<const GlobalVariable *> surroundingArrays;
     explicit Block(AbstractAddress addr) {
+      StaticAddressProvider *StaticAddrProvider =
+          TimingAnalysisAccessor::getStaticAddressProvider();
       assert(addr.isPrecise());
       Address address = getCachelineAddress<T>(addr.getAsInterval().lower());
       this->tag = getTag<T>(address);
@@ -171,7 +175,7 @@ public:
 };
 
 ///\see dom::cache::CacheSetAnalysis<T>::CacheSetAnalysis(bool
-///assumeAnEmptyCache)
+/// assumeAnEmptyCache)
 template <CacheTraits *T>
 inline SetWiseCountingPersistence<T>::SetWiseCountingPersistence(
     bool assumeAnEmptyCache __attribute__((unused)))
@@ -216,7 +220,7 @@ UpdateReport *SetWiseCountingPersistence<T>::potentialUpdate(
 }
 
 ///\see dom::cache::CacheSetAnalysis<T>::update(const TagType tag, const
-///Classification assumption)
+/// Classification assumption)
 template <CacheTraits *T>
 UpdateReport *SetWiseCountingPersistence<T>::update(
     const AbstractAddress addr, AccessType load_store, AnaDeps *,

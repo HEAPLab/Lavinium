@@ -277,6 +277,10 @@ AnalysisDriverInstr<AnalysisDom>::runAnalysis() {
 
 template <class AnalysisDom>
 void AnalysisDriverInstr<AnalysisDom>::initialize() {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   // Put analysis entry-point into worklist
   assert(worklist.empty());
   auto MF = machineFunctionCollector->getFunctionByName(this->entrypoint);
@@ -311,6 +315,8 @@ void AnalysisDriverInstr<AnalysisDom>::initialize() {
 template <class AnalysisDom>
 void AnalysisDriverInstr<AnalysisDom>::analyseMachineBasicBlock(
     const MachineBasicBlock *MBB, const Context &ctx) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   // Clone input to get new output
   AnalysisDom newOut(mbb2anainfo->at(MBB).findAnalysisInfo(ctx));
   Context targetCtx(ctx);
@@ -371,6 +377,8 @@ void AnalysisDriverInstr<AnalysisDom>::analyseMachineBasicBlock(
 template <class AnalysisDom>
 void AnalysisDriverInstr<AnalysisDom>::analyseInstruction(
     const MachineInstr *currentInstr, Context &ctx, AnalysisDom &newOut) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   DEBUG_WITH_TYPE(AnalysisDom::analysisName("driver").c_str(),
                   std::cerr
                       << "Before:" << getMachineInstrIdentifier(currentInstr)
@@ -456,6 +464,8 @@ void AnalysisDriverInstr<AnalysisDom>::analyseInstruction(
 template <class AnalysisDom>
 void AnalysisDriverInstr<AnalysisDom>::handleBranchInstruction(
     const MachineInstr *branchInstr, Context &ctx, AnalysisDom &newOut) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   if (branchInstr->isBranch()) {
     // Copy info for the taken case
     AnalysisDom branchOutInfo(newOut);
@@ -603,6 +613,8 @@ void AnalysisDriverInstr<AnalysisDom>::handleBranchInstruction(
 template <class AnalysisDom>
 bool AnalysisDriverInstr<AnalysisDom>::analyseInstruction(
     const MachineInstr *currentInstr, PartitionedAnalysisDom &newOut) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   DEBUG_WITH_TYPE(AnalysisDom::analysisName("driver").c_str(),
                   dbgs() << "Before:" << getMachineInstrIdentifier(currentInstr)
                          << "\n"
@@ -665,6 +677,8 @@ bool AnalysisDriverInstr<AnalysisDom>::analyseInstruction(
 template <class AnalysisDom>
 bool AnalysisDriverInstr<AnalysisDom>::handleBranchInstruction(
     const MachineInstr *branchInstr, PartitionedAnalysisDom &newOut) {
+  DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+      TimingAnalysisAccessor::getDirectiveHeuristicsPass();
   /* TODO could llvm::TargetInstrInfo::AnalyzeBranch be used to simplify
    * this? */
   bool changed = false;
@@ -786,6 +800,8 @@ AnalysisDriverInstr<AnalysisDom>::getAnalysisResults() {
                                      << "finished with " << getPeakRSS()
                                      << "MB peak mem usage, now dumping\n");
 
+  MachineFunctionCollector *machineFunctionCollector =
+      TimingAnalysisAccessor::getMachineFunctionCollector();
   if (AnaInfoPol == AnaInfoPolicy::LOWMEM) {
     errs() << "[Note:] The low-memory analysis information storage is "
               "currently not available.\n";
@@ -891,6 +907,10 @@ public:
   // lifetime of the analysis-driver It is freed within the state graph
   // construction, once the microarchitectural information is no longer needed
   {
+    DirectiveHeuristicsPass *DirectiveHeuristicsPassInstance =
+        TimingAnalysisAccessor::getDirectiveHeuristicsPass();
+    MachineFunctionCollector *machineFunctionCollector =
+        TimingAnalysisAccessor::getMachineFunctionCollector();
     std::tuple<> noDep;
     AnalysisDriverInstr<CollectingContextsDomain> collectCtxsAna(
         AnalysisEntryPoint, noDep);

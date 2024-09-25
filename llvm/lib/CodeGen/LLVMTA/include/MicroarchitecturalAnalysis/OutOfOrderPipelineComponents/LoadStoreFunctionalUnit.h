@@ -28,6 +28,7 @@
 #define LOADSTOREFUNCTIONALUNIT_H
 
 #include "MicroarchitecturalAnalysis/OutOfOrderPipelineComponents/FunctionalUnit.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 
 #include <boost/optional.hpp>
 
@@ -195,6 +196,8 @@ template <class MemoryTopology>
 std::list<FunctionalUnit *> LoadStoreFunctionalUnit<MemoryTopology>::cycle(
     std::tuple<InstrContextMapping &, AddressInformation &> &dep) {
   std::list<FunctionalUnit *> result;
+  StaticAddressProvider *StaticAddrProvider =
+      TimingAnalysisAccessor::getStaticAddressProvider();
   if (executingInstruction) {
     ExecutionElement execElem =
         rob->getExecutionElementForRobTag(executingInstruction.get());

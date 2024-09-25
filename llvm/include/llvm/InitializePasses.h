@@ -341,7 +341,7 @@ void initializeWinEHPreparePass(PassRegistry &);
 void initializeWriteBitcodePassPass(PassRegistry &);
 void initializeXRayInstrumentationPass(PassRegistry &);
 void initializeLaviniumReschedulerPass(PassRegistry &);
-void initializeLaviniumMachineInstCountPass(PassRegistry &);
+void initializeLaviniumAnalyzerResetPass(PassRegistry &);
 
 } // end namespace llvm
 

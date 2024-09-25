@@ -1,5 +1,5 @@
 
-#include "LaviniumMachineInstCount.h"
+#include "LaviniumAnalyzerReset.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/Statistic.h"
 #include "llvm/Analysis/BasicAliasAnalysis.h"
@@ -52,7 +52,7 @@ char &llvm::LaviniumReschedulerID = LaviniumRescheduler::ID;
 
 INITIALIZE_PASS_BEGIN(LaviniumRescheduler, "LaviniumRescheduler", DEBUG_TYPE,
                       false, false)
-INITIALIZE_PASS_DEPENDENCY(LaviniumMachineInstCount)
+INITIALIZE_PASS_DEPENDENCY(LaviniumAnalyzerReset)
 INITIALIZE_PASS_END(LaviniumRescheduler, DEBUG_TYPE, "LaviniumRescheduler",
                     false, false)
 
@@ -84,7 +84,7 @@ void LaviniumRescheduler::printResult(llvm::Function *Function) {
 }
 
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
-  auto &WCETAnalysis = getAnalysis<Lavinium::LaviniumMachineInstCount>();
+  auto &WCETAnalysis = getAnalysis<Lavinium::LaviniumAnalyzerReset>();
 
   auto *Function = &MF.getFunction();
   trackCorrectlyInit(Function);
@@ -123,7 +123,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
 void LaviniumRescheduler::getAnalysisUsage(AnalysisUsage &AU) const {
   AU.addRequired<LoopInfoWrapperPass>();
   AU.addRequired<MachineModuleInfoWrapperPass>();
-  AU.addRequired<Lavinium::LaviniumMachineInstCount>();
+  AU.addRequired<Lavinium::LaviniumAnalyzerReset>();
 }
 
 FunctionPass *llvm::createLaviniumRescheduler() {

@@ -122,7 +122,7 @@ add_llvm_component_library(LLVMCodeGen
   KCFI.cpp
   LatencyPriorityQueue.cpp
   LaviniumRescheduler.cpp
-  LaviniumMachineInstCount.cpp
+  LaviniumAnalyzerReset.cpp
   LazyMachineBlockFrequencyInfo.cpp
   LexicalScopes.cpp
   LiveDebugVariables.cpp

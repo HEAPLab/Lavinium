@@ -141,5 +141,5 @@ void llvm::initializeCodeGen(PassRegistry &Registry) {
   initializeWinEHPreparePass(Registry);
   initializeXRayInstrumentationPass(Registry);
   initializeLaviniumReschedulerPass(Registry);
-  initializeLaviniumMachineInstCountPass(Registry);
+  initializeLaviniumAnalyzerResetPass(Registry);
 }

@@ -609,10 +609,10 @@ extern char &LaviniumReschedulerID;
 FunctionPass *createLaviniumRescheduler();
 
 /// LaviniumWCET pass.
-extern char &LaviniumMachineInstCountID;
+extern char &LaviniumAnalyzerResetID;
 
 /// Create LaviniumWCET llvm
-FunctionPass *createLaviniumMachineInstCount();
+FunctionPass *createLaviniumAnalyzerReset();
 
 } // namespace llvm
 

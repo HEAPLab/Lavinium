@@ -2,6 +2,7 @@
 #include "LaviniumAnalyzerReset.h"
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/ADT/Statistic.h"
+#include "llvm/ADT/StringRef.h"
 #include "llvm/Analysis/BasicAliasAnalysis.h"
 #include "llvm/Analysis/DominanceFrontier.h"
 #include "llvm/Analysis/GlobalsModRef.h"
@@ -20,9 +21,11 @@
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
 #include "llvm/Support/Debug.h"
+#include "llvm/Support/ErrorHandling.h"
 #include "llvm/Transforms/Scalar/ConstantHoisting.h"
 #include <cstdint>
 #include <memory>
+#include <regex>
 #include <unordered_map>
 #include <vector>
 
@@ -36,13 +39,19 @@ namespace Lavinium {
 class LaviniumRescheduler : public MachineFunctionPass {
 public:
   static char ID;
-  LaviniumRescheduler() : MachineFunctionPass(ID) {}
+  LaviniumRescheduler()
+      : MachineFunctionPass(ID),
+        wcetExtractor(R"a(total ub="(\d+)" lb="(\d+)")a") {}
+  unsigned long readWCET();
   bool runOnMachineFunction(MachineFunction &Fn) override;
   void getAnalysisUsage(AnalysisUsage &AU) const override;
   void ResetMF(MachineFunction &MF);
   bool trackCorrectlyInit(llvm::Function *);
   void printResult(llvm::Function *Function);
   StringRef getPassName() const override { return "LaviniumRescheduler"; }
+
+private:
+  std::regex wcetExtractor;
 };
 
 } // namespace Lavinium
@@ -83,15 +92,32 @@ void LaviniumRescheduler::printResult(llvm::Function *Function) {
   }
 }
 
+unsigned long LaviniumRescheduler::readWCET() {
+  auto res = llvm::MemoryBuffer::getFile("TotalBound.xml", true);
+  if (!res) {
+    llvm_unreachable("Cannot map file to memory");
+  }
+  auto mappedFile = std::move(*res);
+  auto fileContent = mappedFile->getBuffer().str();
+  std::smatch matches;
+  auto success = std::regex_search(fileContent, matches, wcetExtractor);
+  assert(success && "Cannot parse wcet file");
+  unsigned long ret;
+  auto ub = matches[1];
+  auto s = StringRef{&*ub.first, static_cast<size_t>(std::distance(ub.first, ub.second))};
+  s.getAsInteger(10, ret);
+  return ret;
+}
+
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
-  auto &WCETAnalysis = getAnalysis<Lavinium::LaviniumAnalyzerReset>();
+  getAnalysis<Lavinium::LaviniumAnalyzerReset>();
 
   auto *Function = &MF.getFunction();
   trackCorrectlyInit(Function);
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
 
   // LAVINIUM-TODO read the file
-  unsigned long x = 0;
+  unsigned long x = readWCET();
   Tracker.storeMetric(Function, x);
 
   // Restore original Function to run different optimizations

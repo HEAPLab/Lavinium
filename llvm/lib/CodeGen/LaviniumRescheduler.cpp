@@ -132,6 +132,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     for (auto Pass : *NextPasses) {
       Tracker.addToSchedule(Pass);
     }
+    Tracker.addToSchedule("mem2reg");
     Tracker.run(Function);
     ResetMF(MF);
   } else {

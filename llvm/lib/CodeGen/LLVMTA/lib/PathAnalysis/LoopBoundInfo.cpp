@@ -161,9 +161,9 @@ void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
     LowerLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount));
   } else {
     const SCEV *MaxTakenCount = SEInfo.getConstantMaxBackedgeTakenCount(Loop);
-    /* const SCEV *MaxTakenCount = SEInfo.getConstant(
-      ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10));
-    */
+    //const SCEV *MaxTakenCount = SEInfo.getConstant(
+    //   ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10));
+     
     DEBUG_WITH_TYPE("loopbound", dbgs() << "Non-invariant Loop Bound: "
                                         << *MaxTakenCount << "\n");
     // FIXME do not use max backedge taken count since it returns ridiculous
@@ -561,8 +561,11 @@ LoopBoundInfoPass::getCorrespondingLoop(const llvm::MachineLoop *const ML) {
 }
 
 // LAVINIUM-TODO: Spostare in un posto sensato
-unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L) {
+unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L, LoopBoundInfoPass* LBIP) {
   assert(L != nullptr && "Cannot analyze nullptr loop");
+  auto * SE = &LBIP->P->getAnalysis<ScalarEvolutionWrapperPass>().getSE();
+  int val = SE->getSmallConstantTripCount(L);
+  if (val != 0 ) return val;
   auto *BB = L->getLoopLatch();
   auto *terminator = BB->getTerminator();
   auto *MD = terminator->getMetadata("lavinium.iterloop");
@@ -601,7 +604,7 @@ void LoopBoundInfoPass::computeLoopBounds(
         DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info for bottom\n");
         // LAVINIUM-TODO: implement the function below
         unsigned int UpperLoopBound =
-            getLaviniumUpperLoopBound(getCorrespondingLoop(Loop.first));
+            getLaviniumUpperLoopBound(getCorrespondingLoop(Loop.first), this);
         ManualUpperLoopBoundsNoCtx.insert(
             std::make_pair(Loop.first, UpperLoopBound));
         ManualLowerLoopBoundsNoCtx.insert(

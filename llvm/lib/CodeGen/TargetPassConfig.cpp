@@ -1193,15 +1193,7 @@ void TargetPassConfig::addMachinePasses() {
   if (!isPassSubstitutedOrOverridden(&PrologEpilogCodeInserterID))
     addPass(createPrologEpilogInserterPass());
 
-  if (LaviniumEnable) {
-    // run LLVMTA analysis
-    for (auto TAPass : getTimingAnalysisPasses(*TM)) {
-      addPass(TAPass);
-    }
 
-    addPass(&LaviniumAnalyzerResetID);
-    addPass(&LaviniumReschedulerID);
-  }
 
   /// Add passes that optimize machine instructions after register allocation.
   if (getOptLevel() != CodeGenOpt::None)
@@ -1241,7 +1233,17 @@ void TargetPassConfig::addMachinePasses() {
   addPass(&FEntryInserterID);
 
   addPass(&XRayInstrumentationID);
-  addPass(&PatchableFunctionID);
+  addPass(&PatchableFunctionID); 
+  
+   if (LaviniumEnable) {
+    // run LLVMTA analysis
+    for (auto TAPass : getTimingAnalysisPasses(*TM)) {
+      addPass(TAPass);
+    }
+
+    addPass(&LaviniumAnalyzerResetID);
+    addPass(&LaviniumReschedulerID);
+  }
 
   addPreEmitPass();
 

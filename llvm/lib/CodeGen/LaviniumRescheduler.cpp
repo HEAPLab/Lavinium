@@ -143,6 +143,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     Tracker.run(Function);
     Tracker.clearScheduled();
     printResult(Function);
+    _Exit(0);
   }
   return true;
 }

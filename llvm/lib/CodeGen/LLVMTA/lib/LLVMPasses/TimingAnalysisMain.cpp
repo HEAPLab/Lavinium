@@ -107,7 +107,7 @@ void TimingAnalysisMain::runPreviousPasses(Module &M) {
 static int COUNTER_FUNCTION = 1;
 
 int countFunction(const llvm::Module& M){
-  return std::count_if(M.begin(), M.end(), [](const auto& a){return true;});
+  return M.size();
 }
 
 bool isLastFunction(const llvm::Module& M){
@@ -126,7 +126,7 @@ bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
   llvm::Module& M = *MF.getFunction().getParent();
   bool Changed = false;
 
-  if(!isLastFunction(M)){
+  if(isLastFunction(M)){
     resetFunction();
   }else{
     increaseFunctionCounter();

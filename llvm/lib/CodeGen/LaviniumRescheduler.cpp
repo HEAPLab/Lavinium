@@ -41,7 +41,7 @@ public:
   static char ID;
   LaviniumRescheduler()
       : MachineFunctionPass(ID),
-        wcetExtractor(R"a(total ub="(\d+)" lb="(\d+)")a") {}
+        wcetExtractor(R"a(total ub="(\S+)" lb="(\S+)")a") {}
   unsigned long readWCET();
   bool runOnMachineFunction(MachineFunction &Fn) override;
   void getAnalysisUsage(AnalysisUsage &AU) const override;
@@ -105,14 +105,18 @@ unsigned long LaviniumRescheduler::readWCET() {
   unsigned long ret;
   auto ub = matches[1];
   auto s = StringRef{&*ub.first, static_cast<size_t>(std::distance(ub.first, ub.second))};
-  s.getAsInteger(10, ret);
+
+  success = !s.getAsInteger(10, ret);
+  if(!success ){
+    return -1;
+  }
   return ret;
 }
 
 static int COUNTER_FUNCTION = 1;
 
 int countFunction(const llvm::Module& M){
-  return std::count_if(M.begin(), M.end(), [](const auto& a){return true;});
+  return M.size();
 }
 
 bool isLastFunction(const llvm::Module& M){

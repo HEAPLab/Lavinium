@@ -284,6 +284,8 @@ void AnalysisDriverInstr<AnalysisDom>::initialize() {
   // Put analysis entry-point into worklist
   assert(worklist.empty());
   auto MF = machineFunctionCollector->getFunctionByName(this->entrypoint);
+  if(MF->begin() == MF->end())
+    return;
   const MachineBasicBlock *analysisStart = &*(MF->begin());
   Context initialCtx;
   // Directive handling on function called

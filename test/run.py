@@ -40,6 +40,7 @@ def write_to_file(name, content):
 
         
 def compile(benchmarks : List[Path]):
+    compiled = []
     for benchmark in benchmarks:
         # Only one C file in the entry directory of the benchmark 
 
@@ -73,9 +74,12 @@ def compile(benchmarks : List[Path]):
         if b"unable to find library -lclang_rt.builtins-arm" in err:
             color_print(b"\tLavinium    %b " % green("OK!"))
             write_to_file(directory + "/lavinium_res",err)
+            compiled.append(f"{stem}")
         else: 
             color_print(b"\tLavinium    %b " % red("ERR"))
             write_to_file(directory + "/lavinium_error",err)
+    return compiled
+
 
 def clean(benchmarks : List[Path]):
     for benchmark in benchmarks:
@@ -106,7 +110,8 @@ if __name__ == '__main__':
         clean(benchmarks)
 
     if args.compile:
-        compile(benchmarks)
+        compiled = compile(benchmarks)
+        print(f"List of successfully compiled benchmark {compiled}")
 
     exit(0)
     

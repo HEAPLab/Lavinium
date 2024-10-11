@@ -13,6 +13,7 @@
 #include "llvm/IR/LegacyPassManager.h"
 #include "llvm/ADT/MapVector.h"
 #include "llvm/IR/DiagnosticInfo.h"
+#include "llvm/IR/Function.h"
 #include "llvm/IR/IRPrintingPasses.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/LaviniumTracker.h"
@@ -1505,6 +1506,19 @@ bool FPPassManager::runOnFunction(Function &F) {
 
 bool FPPassManager::runOnModule(Module &M) {
   bool Changed = false;
+
+  if(LaviniumEnable){
+    //Find main in the functions.
+    auto iter_main =  std::find_if(M.begin(), M.end(), [](const llvm::Function& F) {return F.getName() == "main";});
+    assert(iter_main != M.end() && "Main not found");
+    //Put it last
+    auto* mainFunction = &*iter_main;
+    mainFunction->removeFromParent();
+    M.getFunctionList().push_back(mainFunction);
+    auto end = M.end();
+    end--;
+    assert(end->getName() == "main");
+  }
 
   for (Function &F : M)
     Changed |= runOnFunction(F);

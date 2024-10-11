@@ -133,6 +133,10 @@ bool writeLoopToFile(Loop *L, DominatorTree *DT, LoopInfo *LI,
 
 void writeFunctionToFile(int FD, Module &M,
                          llvm::AnalysisManager<Function> &AM) {
+  {
+    raw_fd_ostream out(FD, false);
+    out << "#Loop Lavinium File\n";
+  }
   for (auto &F : M) {
     if (F.isDeclaration())
       continue;
@@ -162,6 +166,8 @@ void readFileToMetadata(int FD, Module &M) {
   auto mappedFile = std::move(*res);
   auto stringRef = mappedFile->getBuffer();
   auto iter = stringRef.split('\n');
+  // Remove headline
+  iter = iter.second.split('\n');
   auto &C = M.getContext();
   auto splitLine = [](StringRef ref) -> std::tuple<StringRef, StringRef, int> {
     auto tmp = ref.split(": ");
@@ -200,7 +206,7 @@ PreservedAnalyses LoopAnnotationPass::run(Module &M,
   if (isEmpty(FD)) {
     writeFunctionToFile(FD, M, AM);
     closeFile(FD);
-    exit(-1);
+    exit(0);
   } else {
     readFileToMetadata(FD, M);
   }

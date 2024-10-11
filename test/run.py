@@ -70,9 +70,9 @@ def compile(benchmarks : List[Path]):
             write_to_file(directory + "/post_annota_error",err)
         
         code,out,err = run(f"cd {directory}; {CLANG} {stem}-post-annota.ll -o {stem}-lavinium.ll {SECOND_COMPILATION_FLAG} ", True)
-        if code == 0:
+        if b"unable to find library -lclang_rt.builtins-arm" in err:
             color_print(b"\tLavinium    %b " % green("OK!"))
-            write_to_file(directory + "/lavinium_res",out)
+            write_to_file(directory + "/lavinium_res",err)
         else: 
             color_print(b"\tLavinium    %b " % red("ERR"))
             write_to_file(directory + "/lavinium_error",err)

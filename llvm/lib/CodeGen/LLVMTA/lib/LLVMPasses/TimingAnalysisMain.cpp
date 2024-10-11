@@ -104,12 +104,38 @@ void TimingAnalysisMain::runPreviousPasses(Module &M) {
   }
 }
 
+static int COUNTER_FUNCTION = 1;
+
+int countFunction(const llvm::Module& M){
+  return std::count_if(M.begin(), M.end(), [](const auto& a){return true;});
+}
+
+bool isLastFunction(const llvm::Module& M){
+  return COUNTER_FUNCTION == countFunction(M);
+}
+
+void increaseFunctionCounter(){
+  COUNTER_FUNCTION++;
+}
+
+void resetFunction(){
+  COUNTER_FUNCTION=1;
+}
+
 bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
+  llvm::Module& M = *MF.getFunction().getParent();
   bool Changed = false;
+
+  if(!isLastFunction(M)){
+    resetFunction();
+  }else{
+    increaseFunctionCounter();
+    return Changed;
+  }
+
   if (runned)
     return Changed;
   runned = true;
-  Module &M = *MF.getFunction().getParent();
   runPreviousPasses(M);
   entryAnalysis(M);
   reset();

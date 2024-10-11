@@ -135,7 +135,7 @@ void resetFunction(){
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   getAnalysis<Lavinium::LaviniumAnalyzerReset>();
   llvm::Module& M = *MF.getFunction().getParent();
-  if(!isLastFunction(M)){
+  if(isLastFunction(M)){
     resetFunction();
   }else{
     increaseFunctionCounter();

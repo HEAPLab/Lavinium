@@ -2,11 +2,13 @@
 
 from pathlib import Path
 import argparse
+from re import split
 from typing import List
 from modules.subprocess_helper import run
 from modules.pretty_print import bold, color_print, green, red
 import os
 import modules.debug as debug
+import pandas as pd
 
 
 C_DIR = Path("./C")
@@ -41,6 +43,8 @@ def write_to_file(name, content):
         
 def compile(benchmarks : List[Path]):
     compiled = []
+    results = []
+    
     for benchmark in benchmarks:
         # Only one C file in the entry directory of the benchmark 
 
@@ -74,11 +78,36 @@ def compile(benchmarks : List[Path]):
         if b"unable to find library -lclang_rt.builtins-arm" in err:
             color_print(b"\tLavinium    %b " % green("OK!"))
             write_to_file(directory + "/lavinium_res",err)
+            results.extend(extract_value(stem,err))
             compiled.append(f"{stem}")
         else: 
             color_print(b"\tLavinium    %b " % red("ERR"))
             write_to_file(directory + "/lavinium_error",err)
-    return compiled
+    return (compiled, results)
+
+def extract_value(name, data):
+    splitted_data = data.splitlines()
+    start = 0 
+    end = 0
+    res = []
+    for i, line in enumerate(splitted_data):
+        if line.startswith(b"WCET Result"):
+            start = i+1
+        if line.startswith(b"ld.lld: error:"):
+            end = i
+            break
+    if start == 0 or end == 0 or start == end:
+        raise Exception(f"Malformed result of {name}")
+    splitted_data = splitted_data[start:end]
+
+    for line in splitted_data:
+        split_line = line.split(b":")
+        chosed_pass = split_line[0]
+        wcet = split_line[1]
+        wcet = int(wcet)
+        res.append((name, chosed_pass, wcet))
+    return res
+
 
 
 def clean(benchmarks : List[Path]):
@@ -91,7 +120,8 @@ def clean(benchmarks : List[Path]):
 if __name__ == '__main__':
     check_env()
     parser = argparse.ArgumentParser(description='Lavinium runner')
-    parser.add_argument('-only', metavar='name[,name]*', type=str, help='List of comma separated names\'s names')
+    parser.add_argument('-only', metavar='name[,name]*', type=str, help='List of comma separated benchmark')
+    parser.add_argument('-skip', metavar='name[,name]*', type=str, help='List of comma separated benchmarks')
     parser.add_argument('-clean', metavar='bool', type=bool, default=False, nargs='?', help='Clean Benchmarks' , const=True)
     parser.add_argument('-compile', metavar='bool', type=bool, default=False, nargs='?', help='Compile Benchmarks' , const=True)
     parser.add_argument('-debug', metavar='bool', type=bool, default=False, nargs='?', help='Enable Debug' , const=True)
@@ -106,13 +136,18 @@ if __name__ == '__main__':
     else:
         benchmarks = [C_DIR / x for x in args.only.split(",")]
 
+    if args.skip :
+        to_skip = [C_DIR / x for x in args.skip.split(",")]
+        benchmarks = [x for x in benchmarks if x  not in to_skip]
+
     if args.clean:
         clean(benchmarks)
 
     if args.compile:
-        compiled = compile(benchmarks)
+        compiled, results = compile(benchmarks)
+        results = pd.DataFrame(results)
+        results.to_csv("results.csv")
         print(f"List of successfully compiled benchmark {compiled}")
-
     exit(0)
     
 

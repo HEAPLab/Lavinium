@@ -21,6 +21,12 @@ def red(s ):
         res =  b"\x1B\x5B31m" + s + b"\x1B\x5Bm"
         return res
 
+def yellow(s ):
+    if type(s) is str:
+        s = bytes(s, 'utf-8')
+        res =  b"\x1B\x5B33m" + s + b"\x1B\x5Bm"
+        return res
+    
 def print_okk():
     green("OKK")
 

@@ -11,7 +11,7 @@ PassManagerWrapperImpl::PassManagerWrapperImpl() {
 
 void PassManagerWrapperImpl::run(llvm::Function *Function,
                                  const std::vector<std::string> &Scheduled) {
-  auto FPM = this->getFunctionPassManager(Scheduled);
+    auto FPM = this->getFunctionPassManager(Scheduled);
   FPM.run(*Function, FAM);
 }
 

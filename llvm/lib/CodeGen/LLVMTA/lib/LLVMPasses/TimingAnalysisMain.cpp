@@ -94,6 +94,12 @@ void TimingAnalysisMain::runPreviousPasses(Module &M) {
   DHP = createDirectiveHeuristicsPass(this);
   TimingAnalysisAccessor::setInstance(asmDump, MFC, LBIP, SAP, DHP,
                                       AnalysisEntryPoint);
+  asmDump->doInitialization(M);
+  MFC->doInitialization(M);
+  LBIP->doInitialization(M);
+  SAP->doInitialization(M);
+  DHP->doInitialization(M);
+
   for (auto &F : M) {
     MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
     asmDump->runOnMachineFunction(MF);

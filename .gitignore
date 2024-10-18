@@ -4,4 +4,6 @@ build/*
 .cache/*
 dist
 dist/*
+.vscode
 .vscode/*
+.vscode/launch.json

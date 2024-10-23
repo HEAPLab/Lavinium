@@ -21,6 +21,57 @@
             "sourceLanguages": [
                 "c"
             ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Test-annota",
+            "program": "/home/ilgeco/opt/Lavinium/build/bin/opt",
+            "args": [
+                "-passes=function(mem2reg,loop-simplify),loop-annota",
+                "base.ll",
+                "-S",
+                "-o",
+                "base-annota.ll",
+                "--ta-muarch-type=fixedlatency",
+                "--ta-memory-type=none",
+                "-lavinium-enable",
+            ],
+            "cwd": "/home/ilgeco/Project/tmp/C",
+            "initCommands": [
+                "settings set target.process.follow-fork-mode child"
+            ],
+            "sourceLanguages": [
+                "c"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Test-llvmta",
+            "program": "/home/ilgeco/opt/Lavinium/build/bin/clang",
+            "args": [
+                "StandardIfTree-post-annota.ll",
+                "--target=arm-none-eabi",
+                "-march=armv4t",
+                "--sysroot=/home/ilgeco/opt/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/arm-none-eabi",
+                "-mllvm",
+                "--ta-muarch-type=fixedlatency",
+                "-mllvm",
+                "--ta-memory-type=none",
+                "-mllvm",
+                "-lavinium-enable",
+                "-mfloat-abi=hard",
+                "-mllvm",
+                "-lavinium-file=../../passes",
+            ],
+            "cwd": "/home/ilgeco/opt/Lavinium/test/C/standardifrf",
+            "initCommands": [
+                "settings set target.process.follow-fork-mode child"
+            ],
+            "sourceLanguages": [
+                "c"
+            ]
         }
     ]
 }

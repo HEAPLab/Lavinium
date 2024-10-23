@@ -7,7 +7,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Test-llvmta",
+            "name": "Test-llvmta-baroffio",
             "program": "/home/buoffio/Projects/Lavinium/llvm/build/bin/clang",
             "args": [
                 "StandardNativeTree-post-annota.ll",
@@ -60,7 +60,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Test-llvmta",
+            "name": "Test-llvmta-geco",
             "program": "/home/ilgeco/opt/Lavinium/build/bin/clang",
             "args": [
                 "StandardIfTree-post-annota.ll",

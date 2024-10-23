@@ -9,3 +9,13 @@ dist/*
 .vscode/launch.json
 test/results.csv
 test/modules/__pycache__
+test/C/**/*.txt
+test/C/**/*.xml
+test/C/**/*.ll
+test/C/**/*.lp
+test/C/**/*.dot
+test/C/**/pre_annota_error
+test/C/**/lavinium_res
+test/C/**/post_annota_error
+test/C/**/lavinium_error
+test/C/**/compilation_error

@@ -5,7 +5,7 @@ import argparse
 from re import split
 from typing import List
 from modules.subprocess_helper import run
-from modules.pretty_print import bold, color_print, green, red
+from modules.pretty_print import bold, color_print, green, red, yellow
 import os
 import modules.debug as debug
 import pandas as pd
@@ -22,7 +22,7 @@ PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota\""
 TA_MUARCH = "--ta-muarch-type=fixedlatency" 
 TA_MEMORY = "--ta-memory-type=none"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
-SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES}" 
+SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-lpsolver-effort=minimal" 
 
 
 
@@ -76,10 +76,16 @@ def compile(benchmarks : List[Path]):
         
         code,out,err = run(f"cd {directory}; {CLANG} {stem}-post-annota.ll -o {stem}-lavinium.ll {SECOND_COMPILATION_FLAG} ", True)
         if b"unable to find library -lclang_rt.builtins-arm" in err:
-            color_print(b"\tLavinium    %b " % green("OK!"))
-            write_to_file(directory + "/lavinium_res",err)
-            results.extend(extract_value(stem,err))
-            compiled.append(f"{stem}")
+            if b"18446744073709551615" in err:
+                color_print(b"\tLavinium    %b " % yellow("Unbounded :'("))
+                write_to_file(directory + "/lavinium_res",err)
+                results.extend(extract_value(stem,err))
+                compiled.append(f"{stem}")
+            else:
+                color_print(b"\tLavinium    %b " % green("OK!"))
+                write_to_file(directory + "/lavinium_res",err)
+                results.extend(extract_value(stem,err))
+                compiled.append(f"{stem}")
         else: 
             color_print(b"\tLavinium    %b " % red("ERR"))
             write_to_file(directory + "/lavinium_error",err)
@@ -110,9 +116,9 @@ def extract_value(name, data):
 
 
 
-def clean(benchmarks : List[Path]):
+def clean(benchmarks : List[Path], keep_extensions : tuple[str]):
     for benchmark in benchmarks:
-        files = [x for x in benchmark.glob("*") if not x.name.endswith((".c", ".h"))]
+        files = [x for x in benchmark.glob("*") if not x.name.endswith(keep_extensions)]
         for file in files:
             file.unlink()
 
@@ -122,7 +128,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Lavinium runner')
     parser.add_argument('-only', metavar='name[,name]*', type=str, help='List of comma separated benchmark')
     parser.add_argument('-skip', metavar='name[,name]*', type=str, help='List of comma separated benchmarks')
-    parser.add_argument('-clean', metavar='bool', type=bool, default=False, nargs='?', help='Clean Benchmarks' , const=True)
+    parser.add_argument('-clean-all', metavar='bool', type=bool, default=False, nargs='?', help='Clean All Lavinium Output' , const=True)    
+    parser.add_argument('-clean', metavar='bool', type=bool, default=False, nargs='?', help='Clean All Lavinium Output except .lav files' , const=True)
     parser.add_argument('-compile', metavar='bool', type=bool, default=False, nargs='?', help='Compile Benchmarks' , const=True)
     parser.add_argument('-debug', metavar='bool', type=bool, default=False, nargs='?', help='Enable Debug' , const=True)
     args = parser.parse_args()
@@ -140,9 +147,12 @@ if __name__ == '__main__':
         to_skip = [C_DIR / x for x in args.skip.split(",")]
         benchmarks = [x for x in benchmarks if x  not in to_skip]
 
+    if args.clean_all:
+        clean(benchmarks, (".c", ".h"))
+    
     if args.clean:
-        clean(benchmarks)
-
+        clean(benchmarks, (".c", ".h", ".lav"))
+        
     if args.compile:
         compiled, results = compile(benchmarks)
         results = pd.DataFrame(results)

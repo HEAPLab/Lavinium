@@ -1,5 +1,5 @@
 CARTESIAN
-1
+2
 mem2reg,loop-unroll<O3>
 #aa-eval
 #adce
@@ -19,7 +19,7 @@ mem2reg,loop-unroll<O3>
 #chr
 #coro-elide
 #correlated-propagation
-#dce
+dce
 #dfa-jump-threading
 #div-rem-pairs
 #dse
@@ -30,9 +30,9 @@ mem2reg,loop-unroll<O3>
 #gvn-sink
 #helloworld
 #infer-address-spaces
-#instcombine
+instcombine
 #instcount
-#instsimplify
+instsimplify
 #irce
 #float2int
 #no-op-function

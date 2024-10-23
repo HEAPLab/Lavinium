@@ -1,4 +1,4 @@
-unsigned int StandardNativeTree_predict( int const pX[64]);
+unsigned int StandardNativeTree_predict( int  pX[64]);
 struct StandardNativeTree_Node0 {
                         //bool isLeaf;
                         //unsigned int prediction;
@@ -9,7 +9,7 @@ struct StandardNativeTree_Node0 {
                         unsigned char indicator;
 
                 };
-unsigned int StandardNativeTree_predict0( int const pX[64]);
+unsigned int StandardNativeTree_predict0( int  pX[64]);
 
 int main() {
   int pX[64];
@@ -25,7 +25,7 @@ int main() {
   }
   return pred;
 }
-struct StandardNativeTree_Node0 const tree0[2139] = {{63, 41, 1, 2, 0},
+struct StandardNativeTree_Node0 tree0[2139] = {{63, 41, 1, 2, 0},
                                               {61, 5095, 3, 4, 0},
                                               {50, 0, 5, 6, 0},
                                               {48, 0, 7, 8, 0},
@@ -2164,7 +2164,7 @@ struct StandardNativeTree_Node0 const tree0[2139] = {{63, 41, 1, 2, 0},
                                               {9, 250622, 1, 0, 3},
                                               {0, 37, 0, 1, 3},
                                               {9, 219302, 0, 1, 3}};
-unsigned int StandardNativeTree_predict0(int const pX[64]) {
+unsigned int StandardNativeTree_predict0(int  pX[64]) {
   unsigned short i = 0;
 
   while (1) {

@@ -316,6 +316,9 @@ CallGraph::getPotentialCallees(const MachineInstr *MI) const {
 
 unsigned CallGraph::getExtFuncStartAddress(std::string ef) const {
   auto extFuncAddr = extFunc2addr.find(ef);
+  //LAVINIUM-TODO magari dare sempre un indirizzo diverso?
+  // Ma viene poi usato per qualcosa sto numero?
+  return 0xFF000000;
 
   if (extFuncAddr == extFunc2addr.end()) {
     errs() << "No start address for external function \"" << ef << "\" found\n";
@@ -347,6 +350,8 @@ std::list<std::string> CallGraph::getAllExternalFunctions() const {
 
 unsigned CallGraph::getExtFuncBound(std::string ef) const {
   auto extFuncBound = extFunc2bound.find(ef);
+  //LAVINIUM-TODO Farsi una lista di extfunc note e il loro costo
+  return 21;
   if (extFuncBound == extFunc2bound.end()) {
     errs() << "No bound for external function \"" << ef << "\" found\n";
     abort();

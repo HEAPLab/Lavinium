@@ -386,7 +386,7 @@ llvm::cl::bits<MetricType> MetricsToMax(
                    "Writebacks (only makes sense on write-back caches)")),
     cl::cat(LLVMTACat));
 
-cl::opt<bool> StrictMode("ta-strict", cl::init(true),
+cl::opt<bool> StrictMode("ta-strict", cl::init(false),
                          cl::desc("Enables the strict mode: assert when "
                                   "unknown situation arises (default true)"),
                          cl::cat(LLVMTACat));
@@ -546,7 +546,7 @@ cl::opt<bool> OutputExtFuncAnnotationFile(
     cl::cat(LLVMTACat));
 
 cl::opt<bool> RestartAfterExternal(
-    "ta-restart-after-external", cl::init(false),
+    "ta-restart-after-external", cl::init(true),
     cl::desc("Resume with empty microarchitectural state after external "
              "function call (default false)"),
     cl::cat(LLVMTACat));

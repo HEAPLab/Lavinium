@@ -36,9 +36,11 @@
 #include "llvm/CodeGen/MachineJumpTableInfo.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/Support/Debug.h"
+#include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/raw_os_ostream.h"
 
 #include <sstream>
+#include <utility>
 
 using namespace llvm;
 
@@ -55,7 +57,14 @@ StaticAddressProvider::StaticAddressProvider(TargetMachine &TM)
 
 bool StaticAddressProvider::runOnMachineFunction(MachineFunction &F) {
   auto Arch = TM.getTargetTriple().getArch();
-  // RISC-V has constant pools for constants of size "double"
+
+
+  // Run on basic blocks individually
+  bool Changed = false;
+  for (MachineFunction::iterator FI = F.begin(); FI != F.end(); ++FI)
+    Changed |= runOnMachineBasicBlock(*FI);
+
+    // RISC-V has constant pools for constants of size "double"
   // They are put in a part of the rodata segment
   if (Arch == llvm::Triple::ArchType::riscv32) {
     auto MCP = F.getConstantPool()->getConstants();
@@ -66,12 +75,20 @@ bool StaticAddressProvider::runOnMachineFunction(MachineFunction &F) {
       assert(Entrysize % 8 == 0);
       RodataAddress += (Entrysize / 8);
     }
+  } else if (Arch == llvm::Triple::ArchType::arm){
+      auto MCP = F.getConstantPool()->getConstants();      
+    for (unsigned Cpeidx = 0; Cpeidx < MCP.size(); ++Cpeidx) {
+      if(Cpe2addr.count(std::make_pair(&F, Cpeidx)) > 0){
+        continue;
+      }
+      Cpe2addr.insert(
+          std::make_pair(std::make_pair(&F, Cpeidx), RodataAddress));
+      unsigned Entrysize = MCP[Cpeidx].getSizeInBytes(F.getDataLayout());
+      RodataAddress += 1;
+  }
   }
 
-  // Run on basic blocks individually
-  bool Changed = false;
-  for (MachineFunction::iterator FI = F.begin(); FI != F.end(); ++FI)
-    Changed |= runOnMachineBasicBlock(*FI);
+
   return Changed;
 }
 

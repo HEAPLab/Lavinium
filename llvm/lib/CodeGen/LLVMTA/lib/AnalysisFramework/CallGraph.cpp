@@ -351,7 +351,7 @@ std::list<std::string> CallGraph::getAllExternalFunctions() const {
 unsigned CallGraph::getExtFuncBound(std::string ef) const {
   auto extFuncBound = extFunc2bound.find(ef);
   //LAVINIUM-TODO Farsi una lista di extfunc note e il loro costo
-  /*return 21;*/
+  return 21;
   if (extFuncBound == extFunc2bound.end()) {
     errs() << "No bound for external function \"" << ef << "\" found\n";
     abort();

@@ -133,11 +133,14 @@ if __name__ == '__main__':
     parser.add_argument('-clean', metavar='bool', type=bool, default=False, nargs='?', help='Clean All Lavinium Output except .lav files' , const=True)
     parser.add_argument('-compile', metavar='bool', type=bool, default=False, nargs='?', help='Compile Benchmarks' , const=True)
     parser.add_argument('-debug', metavar='bool', type=bool, default=False, nargs='?', help='Enable Debug' , const=True)
+    parser.add_argument('-cdir', metavar='name', type=str, default=False, nargs='?', help='Path for the benchmarks folder' , const=True)
     args = parser.parse_args()
 
     if args.debug:
         debug.DEBUG = args.debug
 
+    if args.cdir is not None:
+        C_DIR = Path(args.cdir)
 
     if args.only is None:
         benchmarks = [x for x in Path(C_DIR).glob("*/") if x.is_dir()]

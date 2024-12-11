@@ -1,4 +1,4 @@
 #Loop Lavinium File
-expint for.inc: $VAL$
-expint for.inc40: 101
-expint for.inc33: $VAL$
+expint for.inc: 100
+expint for.inc40: 39
+expint for.inc33: 100

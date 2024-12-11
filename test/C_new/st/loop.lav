@@ -1,0 +1,5 @@
+#Loop Lavinium File
+Calc_Sum_Mean for.inc: 1001
+Calc_Var_Stddev for.inc: 1001
+Calc_LinCorrCoef for.inc: 1001
+Initialize for.inc: 1001

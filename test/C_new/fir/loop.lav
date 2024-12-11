@@ -1,3 +1,3 @@
 #Loop Lavinium File
-fir_filter_int for.inc20: $VAL$
-fir_filter_int for.inc: $VAL$
+fir_filter_int for.inc20: 700
+fir_filter_int for.inc: 35

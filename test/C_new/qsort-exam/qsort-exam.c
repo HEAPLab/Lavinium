@@ -112,7 +112,7 @@ void sort(unsigned long n)
 	}
 }
 
-main()
+int main()
 {
   sort(20);
 }

@@ -6,7 +6,6 @@
  *  - st.c:30:1:  main () warning: type specifier missing, defaults to 'int': fixed
  */
 
- */
 
 /* 2011/10/18, Benedikt Huber <benedikt@vmars.tuwien.ac.at>
  * Changes:

@@ -29,7 +29,7 @@
 int Array[MAXDIM], Seed;
 int factor;
 
-main()
+int main()
 {
    long  StartTime, StopTime;
    float TotalTime;

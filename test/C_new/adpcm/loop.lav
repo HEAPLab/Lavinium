@@ -1,11 +1,11 @@
 #Loop Lavinium File
-my_sin while.body15: $VAL$
-my_sin while.body3: $VAL$
-my_sin while.body: $VAL$
+my_sin while.body15: 50
+my_sin while.body3: 50
+my_sin while.body: 50
 encode for.inc24: 23
 encode for.inc: 11
 filtez for.inc: 6
-quantl for.inc: $VAL$
+quantl for.inc: 30
 upzero for.inc: 7
 upzero for.inc15: 7
 decode for.inc54: 11

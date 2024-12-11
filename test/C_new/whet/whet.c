@@ -18,7 +18,7 @@ double		x1, x2, x3, x4, x, y, z, t, t1, t2;
 double 		e1[4];
 int		i, j, k, l, n1, n2, n3, n4, n6, n7, n8, n9, n10, n11;
 
-main()
+int main()
 {
 
 	/* initialize constants */
@@ -71,7 +71,7 @@ main()
 	pout(n2, n3, n2, e1[0], e1[1], e1[2], e1[3]);
 #endif
 
-/* MODULE 3:  array as parameter */
+/* MODULE 3:  array as parameter */     
 
 	for (i = 1; i <= n3; i += 1)
 		pa(e1);

@@ -1,0 +1,12 @@
+#Loop Lavinium File
+main for.inc15: 7
+main for.inc: 7
+ludcmp for.inc100: $VAL$
+ludcmp for.inc73: $VAL$
+ludcmp for.inc54: $VAL$
+ludcmp for.inc93: $VAL$
+ludcmp for.inc69: $VAL$
+ludcmp for.inc26: $VAL$
+ludcmp for.inc51: $VAL$
+ludcmp for.inc: $VAL$
+ludcmp for.inc45: $VAL$

@@ -1,0 +1,13 @@
+#Loop Lavinium File
+vec_mpy1 for.inc: 151
+mac for.inc: 151
+fir for.inc8: 51
+fir for.inc: 51
+fir_no_red_ld for.inc31: 51
+fir_no_red_ld for.inc: 17
+latsynth for.inc: $VAL$
+iir1 for.inc: 51
+codebook for.inc: $VAL$
+jpegdct for.inc225: 3
+jpegdct for.inc221: 9
+jpegdct for.inc: 5

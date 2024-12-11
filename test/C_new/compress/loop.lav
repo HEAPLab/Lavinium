@@ -1,0 +1,9 @@
+#Loop Lavinium File
+initbuffer for.inc: 51
+compress while.cond.backedge: $VAL$
+compress for.inc: $VAL$
+compress if.then36: $VAL$
+cl_hash for.inc: $VAL$
+cl_hash do.cond: $VAL$
+output land.end: $VAL$
+writebytes for.inc: $VAL$

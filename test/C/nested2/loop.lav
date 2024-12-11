@@ -1,3 +1,3 @@
 #Loop Lavinium File
-main if.then: $VAL$
-main if.then2: $VAL$
+main if.then: 21
+main if.then2: 21

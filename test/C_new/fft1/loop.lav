@@ -1,0 +1,12 @@
+#Loop Lavinium File
+main for.inc: 9
+fft1 for.inc106: $VAL$
+fft1 for.inc90: $VAL$
+fft1 for.inc56: $VAL$
+fft1 for.inc: $VAL$
+fft1 while.body: $VAL$
+fft1 for.inc53: $VAL$
+fft1 for.inc50: $VAL$
+sin while.body15: $VAL$
+sin while.body3: $VAL$
+sin while.body: $VAL$

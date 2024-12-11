@@ -1,0 +1,4 @@
+#Loop Lavinium File
+swi120 for.inc: 121
+swi50 for.inc: 51
+swi10 for.inc: 11

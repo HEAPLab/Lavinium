@@ -1,0 +1,11 @@
+#Loop Lavinium File
+main for.inc21: 202
+main for.inc: 202
+lms_sqrt for.inc: 20
+lms_sin while.body26: $VAL$
+lms_sin while.body8: $VAL$
+lms_sin while.body: $VAL$
+gaussian while.body: $VAL$
+lms for.inc25: $VAL$
+lms for.inc16: $VAL$
+lms for.inc: $VAL$

@@ -3,7 +3,7 @@
 from pathlib import Path
 import argparse
 from re import split
-from typing import List
+from typing import List, Tuple
 from modules.subprocess_helper import run
 from modules.pretty_print import bold, color_print, green, red, yellow
 import os
@@ -18,11 +18,11 @@ LAVINIUMPASSES = "../../passes"
 CLANG =  LAVINIUM_PATH + "/clang" if LAVINIUM_PATH is not None else None
 OPT =  LAVINIUM_PATH + "/opt" if LAVINIUM_PATH is not None else None
 COMMON_FLAG = f"--target=arm-none-eabi --sysroot={SYSROOT} -march=armv4t -mfloat-abi=hard" if SYSROOT is not None else None
-PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota\""
-TA_MUARCH = "--ta-muarch-type=fixedlatency" 
-TA_MEMORY = "--ta-memory-type=none"
+PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,indvars,loop-simplify,instcombine),globaldce,function(dce)\""
+TA_MUARCH = "--ta-muarch-type=inorder" 
+TA_MEMORY = "--ta-memory-type=separatecaches"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
-SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-lpsolver-effort=minimal" 
+SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-num-callsite-tokens=1" 
 
 
 
@@ -51,7 +51,8 @@ def compile(benchmarks : List[Path]):
         directory = benchmark.as_posix()
         name = [x for x in benchmark.glob("*.c")][0].name
         stem = [x for x in benchmark.glob("*.c")][0].stem
-        color_print(b"Processing:\t%b" %  bold(stem))
+        parent = [x for x in benchmark.glob("*.c")][0].parent.stem
+        color_print(b"Processing:\t%b/%b" % ( bold(parent), bold(stem)))
         
         code, out, err = run(f"cd {directory}; {CLANG} {name} -o {stem}-base.ll {FIRST_COMPILATION_FLAG} ")
         if code == 0:
@@ -79,19 +80,19 @@ def compile(benchmarks : List[Path]):
             if b"18446744073709551615" in err:
                 color_print(b"\tLavinium    %b " % yellow("Unbounded :'("))
                 write_to_file(directory + "/lavinium_res",err)
-                results.extend(extract_value(stem,err))
+                results.extend(extract_value(parent,stem,err))
                 compiled.append(f"{stem}")
             else:
                 color_print(b"\tLavinium    %b " % green("OK!"))
                 write_to_file(directory + "/lavinium_res",err)
-                results.extend(extract_value(stem,err))
+                results.extend(extract_value(parent,stem,err))
                 compiled.append(f"{stem}")
         else: 
             color_print(b"\tLavinium    %b " % red("ERR"))
             write_to_file(directory + "/lavinium_error",err)
     return (compiled, results)
 
-def extract_value(name, data):
+def extract_value(parent, name, data):
     splitted_data = data.splitlines()
     start = 0 
     end = 0
@@ -111,12 +112,12 @@ def extract_value(name, data):
         chosed_pass = split_line[0]
         wcet = split_line[1]
         wcet = int(wcet)
-        res.append((name, chosed_pass, wcet))
+        res.append((f"{parent}/{name}", chosed_pass, wcet))
     return res
 
 
 
-def clean(benchmarks : List[Path], keep_extensions : tuple[str]):
+def clean(benchmarks : List[Path], keep_extensions : Tuple[str, ...]):
     for benchmark in benchmarks:
         files = [x for x in benchmark.glob("*") if not x.name.endswith(keep_extensions)]
         for file in files:

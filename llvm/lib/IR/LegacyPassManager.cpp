@@ -700,10 +700,8 @@ void PMTopLevelManager::schedulePass(Pass *P) {
           // Pass P is not in the global PassRegistry
           dbgs() << "Pass '" << P->getPassName() << "' is not initialized."
                  << "\n";
-          dbgs() << "Verify if there is a pass dependency cycle."
-                 << "\n";
-          dbgs() << "Required Passes:"
-                 << "\n";
+          dbgs() << "Verify if there is a pass dependency cycle." << "\n";
+          dbgs() << "Required Passes:" << "\n";
           for (const AnalysisID ID2 : RequiredSet) {
             if (ID == ID2)
               break;
@@ -717,8 +715,7 @@ void PMTopLevelManager::schedulePass(Pass *P) {
               dbgs() << "\t\t"
                      << "- Pass misconfiguration (e.g.: missing macros)"
                      << "\n";
-              dbgs() << "\t\t"
-                     << "- Corruption of the global PassRegistry"
+              dbgs() << "\t\t" << "- Corruption of the global PassRegistry"
                      << "\n";
             }
           }
@@ -1404,11 +1401,6 @@ bool FPPassManager::runOnFunction(Function &F) {
   if (F.isDeclaration())
     return false;
 
-  if (LaviniumEnable) {
-    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-    Tracker.trackFunction(&F);
-  }
-
   bool Changed = false;
   Module &M = *F.getParent();
   // Collect inherited analysis from Module level pass manager.
@@ -1496,10 +1488,6 @@ bool FPPassManager::runOnFunction(Function &F) {
     removeDeadPasses(FP, Name, ON_FUNCTION_MSG);
   }
 
-  if (LaviniumEnable) {
-    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-    Tracker.untrackFunction(&F);
-  }
 
   return Changed;
 }
@@ -1507,12 +1495,15 @@ bool FPPassManager::runOnFunction(Function &F) {
 bool FPPassManager::runOnModule(Module &M) {
   bool Changed = false;
 
-  if(LaviniumEnable){
-    //Find main in the functions.
-    auto iter_main =  std::find_if(M.begin(), M.end(), [](const llvm::Function& F) {return F.getName() == "main";});
+  if (LaviniumEnable) {
+    // Find main in the functions.
+    auto iter_main =
+        std::find_if(M.begin(), M.end(), [](const llvm::Function &F) {
+          return F.getName() == "main";
+        });
     assert(iter_main != M.end() && "Main not found");
-    //Put it last
-    auto* mainFunction = &*iter_main;
+    // Put it last
+    auto *mainFunction = &*iter_main;
     mainFunction->removeFromParent();
     M.getFunctionList().push_back(mainFunction);
     auto end = M.end();
@@ -1520,8 +1511,36 @@ bool FPPassManager::runOnModule(Module &M) {
     assert(end->getName() == "main");
   }
 
-  for (Function &F : M)
-    Changed |= runOnFunction(F);
+  if (LaviniumEnable) {
+    std::vector<llvm::Function *> Funcs;
+    for (Function &F : M) {
+        Funcs.push_back(&F);
+    }
+    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
+    for (auto F : Funcs) {
+      Tracker.trackFunction(F);
+    }
+    for (Function *F : Funcs) {
+      Changed |= runOnFunction(*F);
+    }
+  } else {
+    for (Function &F : M) {
+      Changed |= runOnFunction(F);
+    }
+  }
+
+  if (LaviniumEnable) {
+    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
+    std::vector<llvm::Function *> Funcs;
+    for (Function &F : M) {
+      if (!Tracker.isClonedFunction(&F)) {
+        Funcs.push_back(&F);
+      }
+    }
+    for (Function *F : Funcs) {
+      Tracker.untrackFunction(F);
+    }
+  }
 
   return Changed;
 }

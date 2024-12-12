@@ -5,23 +5,31 @@ namespace Lavinium {
 
 // Store a copy of a original function to be able to restore for later uses
 void FunctionTrackerImpl::trackFunction(llvm::Function *Function) {
-  assert(!ClonedPair.has_value() && "Store multiple times a function");
+
+  assert( ClonedPair.count(Function) == 0 && "Store multiple times a function");
 
   llvm::ValueToValueMapTy VM;
   auto *ClonedFunction = llvm::CloneFunction(Function, VM);
-  ClonedPair = std::pair{Function, ClonedFunction};
+  ClonedPair.insert(std::pair{Function, ClonedFunction});
 }
 
 bool FunctionTrackerImpl::isTrackingFunction(const llvm::Function *lft) {
-  if (!ClonedPair.has_value())
-    return false;
-  return ClonedPair->first == lft;
+  return ClonedPair.count(lft) == 1;
 }
 
+
+bool FunctionTrackerImpl::isClonedFunction(const llvm::Function *lft) {
+  for (auto [Function, Cloned] : ClonedPair){
+    if (lft == Cloned)
+      return true;
+  }
+  return false;
+}
+
+
 void FunctionTrackerImpl::restoreOriginalFunction(llvm::Function *Function) {
-  assert(ClonedPair.has_value() && ClonedPair->first == Function &&
-         "Restoring a not saved Function");
-  auto *ClonedFunction = ClonedPair->second;
+  assert(ClonedPair.count(Function) == 1  &&      "Restoring a not saved Function");
+  auto *ClonedFunction = ClonedPair.at(Function);
   Function->deleteBody();
   llvm::ValueToValueMapTy VM;
   llvm::SmallVector<llvm::ReturnInst *, 3> Ret;
@@ -35,10 +43,10 @@ void FunctionTrackerImpl::restoreOriginalFunction(llvm::Function *Function) {
 }
 
 void FunctionTrackerImpl::untrackFunction(llvm::Function *Function) {
-  assert(ClonedPair.has_value() && ClonedPair->first == Function &&
+  assert(ClonedPair.count(Function) == 1  &&      
          "Release a not saved Function");
 
-  auto *ClonedFunction = ClonedPair->second;
+  auto *ClonedFunction = ClonedPair.at(Function);
   ClonedFunction->deleteBody();
   ClonedFunction->eraseFromParent();
   ClonedPair = {};

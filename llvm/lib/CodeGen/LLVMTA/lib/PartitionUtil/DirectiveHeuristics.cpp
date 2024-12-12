@@ -27,6 +27,7 @@
 #include "PartitionUtil/PartitionToken.h"
 
 #include "LLVMPasses/TimingAnalysisMain.h"
+#include "llvm/CodeGen/MachineDominators.h"
 
 #include "Util/Options.h"
 
@@ -68,7 +69,10 @@ bool DirectiveHeuristicsPass::runOnMachineFunction(MachineFunction &MF) {
   // If Loop Peeling is desired, we do it
   if (LoopPeel > 0) {
     // Iterate over all level 1 loops and let them annotate
+    MachineDominatorTree &MDT = P->getAnalysis<MachineDominatorTree>();
+    MDT.runOnMachineFunction(MF);
     MachineLoopInfo &MLI = P->getAnalysis<MachineLoopInfo>();
+    MLI.runOnMachineFunction(MF);
     for (auto *MachineLoop : MLI) {
       annotateLoopDirective(MachineLoop);
     }

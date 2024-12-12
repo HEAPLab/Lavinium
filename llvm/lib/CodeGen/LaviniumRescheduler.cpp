@@ -17,6 +17,7 @@
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/LaviniumTracker.h"
+#include "llvm/IR/Module.h"
 #include "llvm/InitializePasses.h"
 #include "llvm/Pass.h"
 #include "llvm/Passes/PassBuilder.h"
@@ -105,24 +106,24 @@ unsigned long LaviniumRescheduler::readWCET() {
   assert(success && "Cannot parse wcet file");
   unsigned long ret;
   auto ub = matches[1];
-  auto s = StringRef{&*ub.first, static_cast<size_t>(std::distance(ub.first, ub.second))};
+  auto s = StringRef{&*ub.first,
+                     static_cast<size_t>(std::distance(ub.first, ub.second))};
 
   success = !s.getAsInteger(10, ret);
-  if(!success ){
+  if (!success) {
     return -1;
   }
   return ret;
 }
 
-
-
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   getAnalysis<Lavinium::LaviniumAnalyzerReset>();
-  llvm::Module& M = *MF.getFunction().getParent();
+  llvm::Module &M = *MF.getFunction().getParent();
+  MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
 
   auto *Function = &MF.getFunction();
-  if(Function->getName() != "main")
-  return false;
+  if (Function->getName() != "main")
+    return false;
 
   trackCorrectlyInit(Function);
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
@@ -145,14 +146,24 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     }
     Tracker.addToSchedule("mem2reg");
     Tracker.addToSchedule("simplifycfg");
-    Tracker.run(Function);
-    ResetMF(MF);
+    for (auto &F : M) {
+      if (Tracker.isClonedFunction(&F))
+        continue;
+      MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
+      Tracker.run(&F);
+      ResetMF(MF);
+    }
   } else {
     std::vector<std::string> FinalPass = Strategy.getFinal(Function);
     for (auto Pass : FinalPass) {
       Tracker.addToSchedule(Pass);
     }
-    Tracker.run(Function);
+    for (auto &F : M) {
+      if (Tracker.isClonedFunction(&F))
+        continue;
+      Tracker.run(&F);
+    }
+
     Tracker.clearScheduled();
     printResult(Function);
     _Exit(0);

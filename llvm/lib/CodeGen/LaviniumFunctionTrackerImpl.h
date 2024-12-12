@@ -12,6 +12,8 @@ public:
 
   void restoreOriginalFunction(llvm::Function *Function) override;
 
+  bool isClonedFunction(const llvm::Function *lft) override;
+
   void untrackFunction(llvm::Function *Function) override;
 
   ~FunctionTrackerImpl() = default;

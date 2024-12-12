@@ -33,6 +33,7 @@
 #include "LLVMPasses/DispatchMemory.h"
 #include "LLVMPasses/DispatchOutOfOrderPipeline.h"
 #include "LLVMPasses/DispatchPretPipeline.h"
+#include "llvm/CodeGen/MachineDominators.h"
 #include "LLVMPasses/MachineFunctionCollector.h"
 #include "MCTargetDesc/RISCVMCTargetDesc.h"
 #include "Memory/PersistenceScopeInfo.h"
@@ -47,6 +48,7 @@
 
 #include "llvm/CodeGen/MachineFunctionPass.h"
 #include "llvm/CodeGen/Passes.h"
+#include "llvm/IR/LaviniumTracker.h"
 #include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Format.h"
 
@@ -86,6 +88,7 @@ TargetMachine &TimingAnalysisMain::getTargetMachine() {
 }
 
 void TimingAnalysisMain::runPreviousPasses(Module &M) {
+  auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
   MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
   asmDump = createAsmDumpAndCheckPass(*TargetMachineInstance);
   MFC = createMachineFunctionCollector();
@@ -101,6 +104,7 @@ void TimingAnalysisMain::runPreviousPasses(Module &M) {
   DHP->doInitialization(M);
 
   for (auto &F : M) {
+    if(Tracker.isClonedFunction(&F)) continue; 
     MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
     asmDump->runOnMachineFunction(MF);
     MFC->runOnMachineFunction(MF);
@@ -130,9 +134,10 @@ bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
 void TimingAnalysisMain::getAnalysisUsage(AnalysisUsage &AU) const {
   MachineFunctionPass::getAnalysisUsage(AU);
   AU.setPreservesCFG();
-  AU.addRequired<LoopInfoWrapperPass>();
-  AU.addRequired<MachineLoopInfo>();
-  AU.addRequired<ScalarEvolutionWrapperPass>();
+  AU.addRequiredTransitive<MachineDominatorTree>();
+  AU.addRequiredTransitive<LoopInfoWrapperPass>();
+  AU.addRequiredTransitive<MachineLoopInfo>();
+  AU.addRequiredTransitive<ScalarEvolutionWrapperPass>();
 }
 
 bool TimingAnalysisMain::entryAnalysis(Module &M) {

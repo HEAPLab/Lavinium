@@ -36,6 +36,7 @@
 #include "llvm/Analysis/ScalarEvolution.h"
 #include "llvm/Analysis/ScalarEvolutionExpressions.h"
 #include "llvm/CodeGen/MachineBasicBlock.h"
+#include "llvm/CodeGen/MachineDominators.h"
 #include "llvm/CodeGen/MachineFunction.h"
 #include "llvm/CodeGen/MachineInstr.h"
 
@@ -58,9 +59,9 @@ char LoopBoundInfoPass::ID = 0;
 void LoopBoundInfoPass::getAnalysisUsage(AnalysisUsage &AU) const {
   MachineFunctionPass::getAnalysisUsage(AU);
   AU.setPreservesCFG();
-  AU.addRequired<LoopInfoWrapperPass>();
-  AU.addRequired<MachineLoopInfo>();
-  AU.addRequired<ScalarEvolutionWrapperPass>();
+  AU.addRequiredTransitive<LoopInfoWrapperPass>();
+  AU.addRequiredTransitive<MachineLoopInfo>();
+  AU.addRequiredTransitive<ScalarEvolutionWrapperPass>();
 }
 
 /**
@@ -79,7 +80,10 @@ bool LoopBoundInfoPass::runOnMachineFunction(MachineFunction &MF) {
   for (auto *Loop : LI) {
     walkLoop(Loop);
   }
+  MachineDominatorTree &MDT = P->getAnalysis<MachineDominatorTree>();
+  MDT.runOnMachineFunction(MF);
   MachineLoopInfo &MLI = P->getAnalysis<MachineLoopInfo>();
+  MLI.runOnMachineFunction(MF);
   for (auto *MachineLoop : MLI) {
     walkMachineLoop(MachineLoop);
   }
@@ -145,8 +149,12 @@ bool LoopBoundInfoPass::isMachineLoopPartialMatch(const MachineLoop *Maloop,
 
 void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
                                        const Loop *Loop) {
-  ScalarEvolution &SEInfo =
-      P->getAnalysis<ScalarEvolutionWrapperPass>().getSE();
+  auto& F = ML->getExitBlock()->getParent()->getFunction();
+  auto  &SEWrapper =
+      P->getAnalysis<ScalarEvolutionWrapperPass>();
+      SEWrapper.runOnFunction(F);
+  auto& SEInfo = SEWrapper.getSE();
+
   DEBUG_WITH_TYPE("loopbound", dbgs()
                                    << "Adding map for loop: " << *ML << "\n");
   if (SEInfo.hasLoopInvariantBackedgeTakenCount(Loop)) {
@@ -563,8 +571,11 @@ LoopBoundInfoPass::getCorrespondingLoop(const llvm::MachineLoop *const ML) {
 // LAVINIUM-TODO: Spostare in un posto sensato
 unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L, LoopBoundInfoPass* LBIP) {
   assert(L != nullptr && "Cannot analyze nullptr loop");
-  auto * SE = &LBIP->P->getAnalysis<ScalarEvolutionWrapperPass>().getSE();
-  int val = SE->getSmallConstantTripCount(L);
+  auto F = L->getExitBlock()->getParent();
+  auto  &SEWrapper =      LBIP->P->getAnalysis<ScalarEvolutionWrapperPass>();
+      SEWrapper.runOnFunction(*F);
+  auto& SE = SEWrapper.getSE();
+  int val = SE.getSmallConstantTripCount(L);
   if (val != 0 ) return val;
   auto *BB = L->getLoopLatch();
   auto *terminator = BB->getTerminator();

@@ -141,6 +141,13 @@ public:
     functionTracker->untrackFunction(Function);
   }
 
+    /*Untrack a function a function*/
+  bool isClonedFunction(llvm::Function *Function) {
+    assert(checkInit() && "Not Init");
+    assert(static_cast<bool>(functionTracker) && "Function Tracker not init\n");
+    return functionTracker->isClonedFunction(Function);
+  }
+
   // Run scheduled pass on the function
   void run(llvm::Function *Function) {
     assert(checkInit() && "Not Init");

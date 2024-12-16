@@ -27,6 +27,7 @@
 #include "PartitionUtil/PartitionToken.h"
 
 #include "LLVMPasses/TimingAnalysisMain.h"
+#include "Util/PassCache.h"
 #include "llvm/CodeGen/MachineDominators.h"
 
 #include "Util/Options.h"
@@ -55,6 +56,7 @@ void DirectiveHeuristicsPass::getAnalysisUsage(AnalysisUsage &AU) const {
 ////////////////////////////////////////////////////////////////////////////
 
 bool DirectiveHeuristicsPass::runOnMachineFunction(MachineFunction &MF) {
+  PassCache *passCache = PassCache::getInstance();
   // The partitioning on the callee site (added on each call)
   shared_ptr<PartitionToken> PtCallee(new PartitionTokenFunCallee(&MF));
   set<shared_ptr<PartitionToken>> PtsetCallee;
@@ -69,11 +71,17 @@ bool DirectiveHeuristicsPass::runOnMachineFunction(MachineFunction &MF) {
   // If Loop Peeling is desired, we do it
   if (LoopPeel > 0) {
     // Iterate over all level 1 loops and let them annotate
-    MachineDominatorTree &MDT = P->getAnalysis<MachineDominatorTree>();
-    MDT.runOnMachineFunction(MF);
-    MachineLoopInfo &MLI = P->getAnalysis<MachineLoopInfo>();
-    MLI.runOnMachineFunction(MF);
-    for (auto *MachineLoop : MLI) {
+    auto *MDT = passCache->getMachineDominatorTree(&MF);
+    if(!MDT){
+      MDT = new MachineDominatorTree{MF};
+      passCache->storeMachineDominatorTree(&MF, MDT);
+    }
+    auto *MLI = passCache->getMachineLoopInfo(&MF);
+    if(!MLI){
+      MLI = new MachineLoopInfo{*MDT};
+      passCache->storeMachineLoopInfo(&MF, MLI);
+    }
+    for (auto *MachineLoop : *MLI) {
       annotateLoopDirective(MachineLoop);
     }
   }

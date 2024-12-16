@@ -19,6 +19,7 @@
 #include "llvm/ADT/SmallPtrSet.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/IR/CFG.h"
+#include "llvm/IR/Dominators.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/PassManager.h"
 #include "llvm/Pass.h"
@@ -604,6 +605,7 @@ public:
 
   /// Calculate the natural loop information for a given function.
   bool runOnFunction(Function &F) override;
+  bool runOnFunctionLavinium(Function &, DominatorTreeWrapperPass&); 
 
   void verifyAnalysis() const override;
 

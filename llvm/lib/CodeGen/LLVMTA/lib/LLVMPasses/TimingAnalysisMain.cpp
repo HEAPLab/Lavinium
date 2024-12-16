@@ -43,6 +43,7 @@
 #include "PreprocessingAnalysis/ConstantValueDomain.h"
 
 #include "Util/Options.h"
+#include "Util/PassCache.h"
 #include "Util/PersistenceScope.h"
 #include "Util/Statistics.h"
 
@@ -128,6 +129,7 @@ bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
   runPreviousPasses(M);
   entryAnalysis(M);
   reset();
+  PassCache::getInstance()->reset();
   return Changed;
 }
 

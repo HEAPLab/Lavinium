@@ -14312,6 +14312,16 @@ bool ScalarEvolutionWrapperPass::runOnFunction(Function &F) {
   return false;
 }
 
+bool ScalarEvolutionWrapperPass::runOnFunctionLavinium(Function &F, DominatorTreeWrapperPass& DT,  LoopInfoWrapperPass& LI, TargetLibraryInfoWrapperPass & TI, AssumptionCacheTracker& AS) {
+  SE.release();
+  SE.reset(new ScalarEvolution(
+      F, TI.getTLI(F),
+      AS.getAssumptionCache(F),
+      DT.getDomTree(),
+      LI.getLoopInfo()));
+  return false;
+}
+
 void ScalarEvolutionWrapperPass::releaseMemory() { SE.reset(); }
 
 void ScalarEvolutionWrapperPass::print(raw_ostream &OS, const Module *) const {

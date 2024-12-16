@@ -3,6 +3,7 @@ message(STATUS "Found Util LIB")
 add_llvm_component_library(llvmtaUtil
 Graph.cpp
 Options.cpp
+PassCache.cpp
 PersistenceScope.cpp
 Statistics.cpp
 Util.cpp

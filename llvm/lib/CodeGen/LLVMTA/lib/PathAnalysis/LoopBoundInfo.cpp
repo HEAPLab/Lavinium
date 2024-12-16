@@ -30,11 +30,14 @@
 #include "LLVMPasses/MachineFunctionCollector.h"
 #include "LLVMPasses/TimingAnalysisMain.h"
 #include "Util/Options.h"
+#include "Util/PassCache.h"
 #include "Util/Util.h"
 
+#include "llvm/Analysis/AssumptionCache.h"
 #include "llvm/Analysis/LoopInfo.h"
 #include "llvm/Analysis/ScalarEvolution.h"
 #include "llvm/Analysis/ScalarEvolutionExpressions.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/CodeGen/MachineBasicBlock.h"
 #include "llvm/CodeGen/MachineDominators.h"
 #include "llvm/CodeGen/MachineFunction.h"
@@ -42,6 +45,9 @@
 
 #include "llvm/CodeGen/MachineLoopInfo.h"
 #include "llvm/IR/Constants.h"
+#include "llvm/IR/Dominators.h"
+#include "llvm/IR/LegacyPassManager.h"
+#include "llvm/Pass.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_os_ostream.h"
 
@@ -72,19 +78,35 @@ void LoopBoundInfoPass::getAnalysisUsage(AnalysisUsage &AU) const {
  * @return false
  */
 bool LoopBoundInfoPass::runOnMachineFunction(MachineFunction &MF) {
-  auto &LIWP = P->getAnalysis<LoopInfoWrapperPass>();
-  //LLAVINIUM-TODO SERVE?
-  LIWP.releaseMemory();
-  LIWP.runOnFunction(MF.getFunction());
-  LoopInfo &LI = P->getAnalysis<LoopInfoWrapperPass>().getLoopInfo();
-  for (auto *Loop : LI) {
+  PassCache *passCache = PassCache::getInstance();
+  Function *F = &MF.getFunction();
+  auto *LIWP = passCache->getLoopInfo(F);
+  if (!LIWP) {
+    // LAVINIUM-TODO store this?
+    DominatorTreeWrapperPass *DT = passCache->getDominatorTreePass(F);
+    if (!DT) {
+      DT = new DominatorTreeWrapperPass{};
+      DT->runOnFunction(MF.getFunction());
+      passCache->storeDominatorTreePass(F, DT);
+    }
+    LIWP = new LoopInfoWrapperPass{};
+    LIWP->runOnFunctionLavinium(MF.getFunction(), *DT);
+    passCache->storeLoopInfo(&MF.getFunction(), LIWP);
+  }
+  for (auto *Loop : LIWP->getLoopInfo()) {
     walkLoop(Loop);
   }
-  MachineDominatorTree &MDT = P->getAnalysis<MachineDominatorTree>();
-  MDT.runOnMachineFunction(MF);
-  MachineLoopInfo &MLI = P->getAnalysis<MachineLoopInfo>();
-  MLI.runOnMachineFunction(MF);
-  for (auto *MachineLoop : MLI) {
+  auto *MDT = passCache->getMachineDominatorTree(&MF);
+  if (!MDT) {
+    MDT = new MachineDominatorTree{MF};
+    passCache->storeMachineDominatorTree(&MF, MDT);
+  }
+  auto *MLI = passCache->getMachineLoopInfo(&MF);
+  if (!MLI) {
+    MLI = new MachineLoopInfo{*MDT};
+    passCache->storeMachineLoopInfo(&MF, MLI);
+  }
+  for (auto *MachineLoop : *MLI) {
     walkMachineLoop(MachineLoop);
   }
   return false;
@@ -149,11 +171,39 @@ bool LoopBoundInfoPass::isMachineLoopPartialMatch(const MachineLoop *Maloop,
 
 void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
                                        const Loop *Loop) {
-  auto& F = ML->getExitBlock()->getParent()->getFunction();
-  auto  &SEWrapper =
-      P->getAnalysis<ScalarEvolutionWrapperPass>();
-      SEWrapper.runOnFunction(F);
-  auto& SEInfo = SEWrapper.getSE();
+  auto &F = ML->getExitBlock()->getParent()->getFunction();
+  PassCache *passCache = PassCache::getInstance();
+  auto SeWrapper = passCache->getSCEVPass(&F);
+  if (!SeWrapper) {
+    SeWrapper = new ScalarEvolutionWrapperPass();
+    auto *DT = passCache->getDominatorTreePass(&F);
+    auto *LI = passCache->getLoopInfo(&F);
+    if(!DT){
+      DT = new DominatorTreeWrapperPass();
+      DT->runOnFunction(F);
+      passCache->storeDominatorTreePass(&F, DT);
+    }
+    if(!LI){
+      LI = new LoopInfoWrapperPass();
+      LI->runOnFunctionLavinium(F, *DT);
+      passCache->storeLoopInfo(&F, LI);
+    }    
+    auto * TLI = passCache->getTargetLibraryInfoWrapperPass(&F);
+    if(!TLI){
+      TLI = new TargetLibraryInfoWrapperPass();
+      TLI->runOnModule(*F.getParent());
+      passCache->storeTargetLibraryInfoWrapperPass(&F, TLI);
+    }
+    auto * AS = passCache->getAssumptionCacheTracker(&F);
+    if(!AS){
+      AS = new AssumptionCacheTracker();
+      AS->runOnModule(*F.getParent());
+      passCache->storeAssumptionCacheTracker(&F, AS);
+    }
+    SeWrapper->runOnFunctionLavinium(F, *DT, *LI, *TLI, *AS);
+    passCache->storeSCEVPass(&F, SeWrapper);
+  }
+  auto &SEInfo = SeWrapper->getSE();
 
   DEBUG_WITH_TYPE("loopbound", dbgs()
                                    << "Adding map for loop: " << *ML << "\n");
@@ -169,9 +219,10 @@ void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
     LowerLoopBoundsSCEV.insert(std::make_pair(ML, TakenCount));
   } else {
     const SCEV *MaxTakenCount = SEInfo.getConstantMaxBackedgeTakenCount(Loop);
-    //const SCEV *MaxTakenCount = SEInfo.getConstant(
-    //   ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()), 10));
-     
+    // const SCEV *MaxTakenCount = SEInfo.getConstant(
+    //    ConstantInt::get(Type::getInt32Ty(Loop->getHeader()->getContext()),
+    //    10));
+
     DEBUG_WITH_TYPE("loopbound", dbgs() << "Non-invariant Loop Bound: "
                                         << *MaxTakenCount << "\n");
     // FIXME do not use max backedge taken count since it returns ridiculous
@@ -569,14 +620,45 @@ LoopBoundInfoPass::getCorrespondingLoop(const llvm::MachineLoop *const ML) {
 }
 
 // LAVINIUM-TODO: Spostare in un posto sensato
-unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L, LoopBoundInfoPass* LBIP) {
+unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L,
+                                       LoopBoundInfoPass *LBIP) {
   assert(L != nullptr && "Cannot analyze nullptr loop");
   auto F = L->getExitBlock()->getParent();
-  auto  &SEWrapper =      LBIP->P->getAnalysis<ScalarEvolutionWrapperPass>();
-      SEWrapper.runOnFunction(*F);
-  auto& SE = SEWrapper.getSE();
+  PassCache *passCache = PassCache::getInstance();
+  auto SeWrapper = passCache->getSCEVPass(F);
+  if (!SeWrapper) {
+    SeWrapper = new ScalarEvolutionWrapperPass();
+    auto *DT = passCache->getDominatorTreePass(F);
+    auto *LI = passCache->getLoopInfo(F);
+    if(!DT){
+      DT = new DominatorTreeWrapperPass();
+      DT->runOnFunction(*F);
+      passCache->storeDominatorTreePass(F, DT);
+    }
+    if(!LI){
+      LI = new LoopInfoWrapperPass();
+      LI->runOnFunctionLavinium(*F, *DT);
+      passCache->storeLoopInfo(F, LI);
+    }
+    auto * TLI = passCache->getTargetLibraryInfoWrapperPass(F);
+    if(!TLI){
+      TLI = new TargetLibraryInfoWrapperPass();
+      TLI->runOnModule(*F->getParent());
+      passCache->storeTargetLibraryInfoWrapperPass(F, TLI);
+    }
+    auto * AS = passCache->getAssumptionCacheTracker(F);
+    if(!AS){
+      AS = new AssumptionCacheTracker();
+      AS->runOnModule(*F->getParent());
+      passCache->storeAssumptionCacheTracker(F, AS);
+    }
+    SeWrapper->runOnFunctionLavinium(*F, *DT, *LI, *TLI, *AS);
+    passCache->storeSCEVPass(F, SeWrapper);
+  }
+  auto &SE = SeWrapper->getSE();
   int val = SE.getSmallConstantTripCount(L);
-  if (val != 0 ) return val;
+  if (val != 0)
+    return val;
   auto *BB = L->getLoopLatch();
   auto *terminator = BB->getTerminator();
   auto *MD = terminator->getMetadata("lavinium.iterloop");

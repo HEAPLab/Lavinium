@@ -1446,8 +1446,7 @@ bool FPPassManager::runOnFunction(Function &F) {
         auto &Tracker =
             Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
         if (Tracker.needToResetCounter()) {
-          // Setting the index to 0 restart the passes
-          Index = 0;
+          return Changed;
         }
       }
 
@@ -1488,7 +1487,6 @@ bool FPPassManager::runOnFunction(Function &F) {
     removeDeadPasses(FP, Name, ON_FUNCTION_MSG);
   }
 
-
   return Changed;
 }
 
@@ -1514,15 +1512,18 @@ bool FPPassManager::runOnModule(Module &M) {
   if (LaviniumEnable) {
     std::vector<llvm::Function *> Funcs;
     for (Function &F : M) {
-        Funcs.push_back(&F);
+      Funcs.push_back(&F);
     }
+
     auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
     for (auto F : Funcs) {
       Tracker.trackFunction(F);
     }
-    for (Function *F : Funcs) {
-      Changed |= runOnFunction(*F);
-    }
+    do {
+      for (Function *F : Funcs) {
+        Changed |= runOnFunction(*F);
+      }
+    } while (Tracker.needToResetCounter());
   } else {
     for (Function &F : M) {
       Changed |= runOnFunction(F);

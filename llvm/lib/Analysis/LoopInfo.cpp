@@ -1182,6 +1182,12 @@ bool LoopInfoWrapperPass::runOnFunction(Function &) {
   return false;
 }
 
+bool LoopInfoWrapperPass::runOnFunctionLavinium(Function &, DominatorTreeWrapperPass& DTWP) {
+  releaseMemory();
+  LI.analyze(DTWP.getDomTree());
+  return false;
+}
+
 void LoopInfoWrapperPass::verifyAnalysis() const {
   // LoopInfoWrapperPass is a FunctionPass, but verifying every loop in the
   // function each time verifyAnalysis is called is very expensive. The

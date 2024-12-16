@@ -29,7 +29,11 @@
 #include "llvm/ADT/SetVector.h"
 #include "llvm/ADT/SmallPtrSet.h"
 #include "llvm/ADT/SmallVector.h"
+#include "llvm/Analysis/AssumptionCache.h"
+#include "llvm/Analysis/LoopInfo.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/IR/ConstantRange.h"
+#include "llvm/IR/Dominators.h"
 #include "llvm/IR/InstrTypes.h"
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/PassManager.h"
@@ -2259,6 +2263,7 @@ public:
   const ScalarEvolution &getSE() const { return *SE; }
 
   bool runOnFunction(Function &F) override;
+  bool runOnFunctionLavinium(Function &F, DominatorTreeWrapperPass& DT,  LoopInfoWrapperPass& LI, TargetLibraryInfoWrapperPass & TI, AssumptionCacheTracker& AS ); 
   void releaseMemory() override;
   void getAnalysisUsage(AnalysisUsage &AU) const override;
   void print(raw_ostream &OS, const Module * = nullptr) const override;

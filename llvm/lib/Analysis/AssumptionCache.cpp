@@ -32,6 +32,7 @@
 #include "llvm/Support/raw_ostream.h"
 #include <cassert>
 #include <utility>
+#include "/home/ilgeco/opt/Lavinium/llvm/lib/CodeGen/LLVMTA/include/Util/PassCache.h"
 
 using namespace llvm;
 using namespace llvm::PatternMatch;
@@ -309,7 +310,11 @@ AssumptionCache &AssumptionCacheTracker::getAssumptionCache(Function &F) {
   if (I != AssumptionCaches.end())
     return *I->second;
 
-  auto *TTIWP = getAnalysisIfAvailable<TargetTransformInfoWrapperPass>();
+  
+  TargetTransformInfoWrapperPass *TTIWP = nullptr;
+  if(getResolver() != nullptr){
+    TTIWP =  getAnalysisIfAvailable<TargetTransformInfoWrapperPass>();
+  }
   auto *TTI = TTIWP ? &TTIWP->getTTI(F) : nullptr;
 
   // Ok, build a new cache by scanning the function, insert it and the value

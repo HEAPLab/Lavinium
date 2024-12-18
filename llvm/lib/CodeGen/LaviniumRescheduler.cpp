@@ -146,9 +146,10 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
       Tracker.addToSchedule(Pass);
     }
     Tracker.addToSchedule("mem2reg");
+    Tracker.addToSchedule("loop-simplify");
     Tracker.addToSchedule("simplifycfg");
     for (auto &F : M) {
-      if (Tracker.isClonedFunction(&F))
+      if (Tracker.isClonedFunction(&F) || F.isDeclaration())
         continue;
       MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
       Tracker.run(&F);
@@ -160,7 +161,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
       Tracker.addToSchedule(Pass);
     }
     for (auto &F : M) {
-      if (Tracker.isClonedFunction(&F))
+      if (Tracker.isClonedFunction(&F) || F.isDeclaration())
         continue;
       Tracker.run(&F);
     }

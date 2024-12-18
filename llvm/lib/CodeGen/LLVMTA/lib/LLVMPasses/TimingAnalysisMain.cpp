@@ -106,6 +106,7 @@ void TimingAnalysisMain::runPreviousPasses(Module &M) {
 
   for (auto &F : M) {
     if(Tracker.isClonedFunction(&F)) continue; 
+    if(F.isDeclaration()) continue;
     MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
     asmDump->runOnMachineFunction(MF);
     MFC->runOnMachineFunction(MF);
@@ -136,10 +137,6 @@ bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
 void TimingAnalysisMain::getAnalysisUsage(AnalysisUsage &AU) const {
   MachineFunctionPass::getAnalysisUsage(AU);
   AU.setPreservesCFG();
-  AU.addRequiredTransitive<MachineDominatorTree>();
-  AU.addRequiredTransitive<LoopInfoWrapperPass>();
-  AU.addRequiredTransitive<MachineLoopInfo>();
-  AU.addRequiredTransitive<ScalarEvolutionWrapperPass>();
 }
 
 bool TimingAnalysisMain::entryAnalysis(Module &M) {

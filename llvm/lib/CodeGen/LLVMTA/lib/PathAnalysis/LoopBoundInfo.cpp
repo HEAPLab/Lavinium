@@ -33,6 +33,8 @@
 #include "Util/PassCache.h"
 #include "Util/Util.h"
 
+#include "llvm/ADT/SetVector.h"
+#include "llvm/ADT/SmallVector.h"
 #include "llvm/Analysis/AssumptionCache.h"
 #include "llvm/Analysis/LoopInfo.h"
 #include "llvm/Analysis/ScalarEvolution.h"
@@ -171,7 +173,9 @@ bool LoopBoundInfoPass::isMachineLoopPartialMatch(const MachineLoop *Maloop,
 
 void LoopBoundInfoPass::addSCEVMapping(const MachineLoop *ML,
                                        const Loop *Loop) {
-  auto &F = ML->getExitBlock()->getParent()->getFunction();
+  SmallVector<MachineBasicBlock*, 2> ret;
+  ML->getExitBlocks(ret);
+  auto &F = ret[0]->getParent()->getFunction();
   PassCache *passCache = PassCache::getInstance();
   auto SeWrapper = passCache->getSCEVPass(&F);
   if (!SeWrapper) {
@@ -623,7 +627,9 @@ LoopBoundInfoPass::getCorrespondingLoop(const llvm::MachineLoop *const ML) {
 unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L,
                                        LoopBoundInfoPass *LBIP) {
   assert(L != nullptr && "Cannot analyze nullptr loop");
-  auto F = L->getExitBlock()->getParent();
+  SmallVector<BasicBlock*, 3> ret;
+  L->getExitBlocks(ret);
+  auto F = ret[0]->getParent();
   PassCache *passCache = PassCache::getInstance();
   auto SeWrapper = passCache->getSCEVPass(F);
   if (!SeWrapper) {
@@ -659,7 +665,7 @@ unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L,
   int val = SE.getSmallConstantTripCount(L);
   if (val != 0)
     return val;
-  auto *BB = L->getLoopLatch();
+  auto *BB = L->getHeader();
   auto *terminator = BB->getTerminator();
   auto *MD = terminator->getMetadata("lavinium.iterloop");
   auto *OP = llvm::mdconst::dyn_extract<ConstantInt>(MD->getOperand(0));

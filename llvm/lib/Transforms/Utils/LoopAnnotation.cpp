@@ -115,16 +115,16 @@ void closeFile(int FD) {
 bool writeLoopToFile(Loop *L, DominatorTree *DT, LoopInfo *LI,
                      ScalarEvolution *SE, int FD) {
 
-  auto *loopLatch = L->getLoopLatch();
-  loopLatch->getTerminator();
+  auto *loopHeader = L->getHeader();
+  loopHeader->getTerminator();
   raw_fd_ostream out(FD, false);
   int val = SE->getSmallConstantTripCount(L);
 
   if (val) {
-    out << loopLatch->getParent()->getName() << " " << loopLatch->getName()
+    out << loopHeader->getParent()->getName() << " " << loopHeader->getName()
         << ": " << val << "\n";
   } else {
-    out << loopLatch->getParent()->getName() << " " << loopLatch->getName()
+    out << loopHeader->getParent()->getName() << " " << loopHeader->getName()
         << ": " << "$VAL$" << "\n";
   }
   NumAnnotation++;

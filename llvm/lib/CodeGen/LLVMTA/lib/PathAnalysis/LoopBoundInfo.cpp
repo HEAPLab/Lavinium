@@ -53,6 +53,7 @@
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_os_ostream.h"
 
+#include <algorithm>
 #include <boost/tokenizer.hpp>
 #include <cassert>
 #include <fstream>
@@ -615,7 +616,10 @@ void LoopBoundInfoPass::computeLoopBoundFromCVDomain(
 
 const llvm::Loop *
 LoopBoundInfoPass::getCorrespondingLoop(const llvm::MachineLoop *const ML) {
-  for (auto L : IrLoops) {
+  llvm::SmallVector<const llvm::Loop*, 10> sortedLoop{IrLoops.begin(), IrLoops.end()};
+
+  std::sort(sortedLoop.begin(), sortedLoop.end(), [] (auto* lft, auto* rgt  ) { return lft->getLoopDepth() > rgt->getLoopDepth(); } );
+  for (auto L : sortedLoop) {
     if (isMachineLoopPartialMatch(ML, L)) {
       return L;
     }
@@ -701,7 +705,6 @@ void LoopBoundInfoPass::computeLoopBounds(
         LoopBounds.insert(std::make_pair(Loop.first, CtxBounds));
       } else {
         DEBUG_WITH_TYPE("loopbound", dbgs() << "No Analysis info for bottom\n");
-        // LAVINIUM-TODO: implement the function below
         unsigned int UpperLoopBound =
             getLaviniumUpperLoopBound(getCorrespondingLoop(Loop.first), this);
         ManualUpperLoopBoundsNoCtx.insert(

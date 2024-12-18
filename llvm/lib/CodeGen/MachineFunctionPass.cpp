@@ -26,6 +26,7 @@
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/IR/Dominators.h"
 #include "llvm/IR/Function.h"
+#include "llvm/IR/LaviniumTracker.h"
 #include "llvm/IR/PrintPasses.h"
 
 using namespace llvm;
@@ -110,6 +111,13 @@ bool MachineFunctionPass::runOnFunction(Function &F) {
           << "; Delta: " << NV("Delta", Delta);
         return R;
       });
+    }
+  }
+
+  if (this->getPassName() == "LaviniumRescheduler") {
+    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
+    if (Tracker.needToResetCounter()) {
+      return RV;
     }
   }
 

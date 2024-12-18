@@ -1,3 +1,3 @@
 #Loop Lavinium File
-main if.then: 21
-main if.then2: 21
+main label1: 100
+main label2: 100

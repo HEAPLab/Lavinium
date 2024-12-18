@@ -1,3 +1,3 @@
 #Loop Lavinium File
-main for.inc: 2
-StandardNativeTree_predict0 if.end45: 21
+main for.cond: 2
+StandardNativeTree_predict0 while.body: 21

@@ -22,9 +22,7 @@ PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg
 TA_MUARCH = "--ta-muarch-type=inorder" 
 TA_MEMORY = "--ta-memory-type=separatecaches"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
-SECOND_COMPILATION_FLAG = f"{COMMON_FLAG}  -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-num-callsite-tokens=1" 
-
-
+SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-restart-after-external=true -mllvm --ta-lpsolver-effort=maximal" 
 
 def check_env():
     if LAVINIUM_PATH is None:
@@ -76,7 +74,7 @@ def compile(benchmarks : List[Path]):
             write_to_file(directory + "/post_annota_error",err)
         
         code,out,err = run(f"cd {directory}; {CLANG} {stem}-post-annota.ll -o {stem}-lavinium.ll {SECOND_COMPILATION_FLAG} ", True)
-        if b"unable to find library -lclang_rt.builtins-arm"  in err or b"ld.lld: error: target emulation unknown: -m" in err:
+        if b"ld.lld: error:" in err or b"unable to find library -lclang_rt.builtins-arm" in err or b"ld.lld: error: target emulation unknown: -m" in err:
             if b"18446744073709551615" in err:
                 color_print(b"\tLavinium    %b " % yellow("Unbounded :'("))
                 write_to_file(directory + "/lavinium_res",err)

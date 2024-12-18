@@ -1,0 +1,7 @@
+#Loop Lavinium File
+sort_f if.end107: $VAL$
+sort_f if.end81: $VAL$
+sort_f for.inc15: $VAL$
+sort_f while.body: $VAL$
+sort_f while.body76: $VAL$
+sort_f for.inc: $VAL$

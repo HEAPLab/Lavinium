@@ -33,6 +33,7 @@
 
 #include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
 #include "llvm/Support/Debug.h"
+#include "ExtRISCVWCET.h"
 
 #include <boost/tokenizer.hpp>
 #include <fstream>
@@ -351,7 +352,11 @@ std::list<std::string> CallGraph::getAllExternalFunctions() const {
 unsigned CallGraph::getExtFuncBound(std::string ef) const {
   auto extFuncBound = extFunc2bound.find(ef);
   //LAVINIUM-TODO Farsi una lista di extfunc note e il loro costo
-  return 21;
+  auto val = ExtRiscVWcet.find(ef);
+  if (val !=  ExtRiscVWcet.end()){
+    return val->second;
+  }
+
   if (extFuncBound == extFunc2bound.end()) {
     errs() << "No bound for external function \"" << ef << "\" found\n";
     abort();

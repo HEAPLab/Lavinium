@@ -184,10 +184,11 @@ void readFileToMetadata(int FD, Module &M) {
     if (auto *F = dyn_cast<Function>(M.getNamedValue(FName))) {
       for (auto &BB : *F) {
         if (BB.getName().equals(BBName)) {
-          auto terminator = BB.getTerminator();
           auto *MD = MDNode::get(C, {ConstantAsMetadata::get(ConstantInt::get(
                                         Type::getInt32Ty(C), iterations))});
-          terminator->setMetadata("lavinium.iterloop", MD);
+          for (auto &I : BB) {
+            I.setMetadata("lavinium.iterloop", MD);
+          }
         }
       }
     }

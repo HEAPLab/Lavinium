@@ -258,7 +258,7 @@ void fir_filter_int(long* in,long* out,long in_len,
     /* do accumulation and write result with scale factor */
 
     acc = (long)(*coef_ptr++) * (*data_ptr--);
-    // loop bound = 18
+    // loop bound = 34
     for(j = 1 ; j < acc_length ; j++)
       acc += (long)(*coef_ptr++) * (*data_ptr--);
     *out++ = (int)(acc/scale);

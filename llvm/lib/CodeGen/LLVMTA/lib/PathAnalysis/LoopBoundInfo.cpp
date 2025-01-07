@@ -671,8 +671,14 @@ unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L,
     return val;
   auto *BB = L->getHeader();
   auto *terminator = BB->getTerminator();
-  auto *MD = terminator->getMetadata("lavinium.iterloop");
-  auto *OP = llvm::mdconst::dyn_extract<ConstantInt>(MD->getOperand(0));
+  llvm::ConstantInt *OP;
+  for (auto &I : *BB) {
+    if (I.getMetadata("lavinium.iterloop")) {
+      auto *MD = I.getMetadata("lavinium.iterloop");
+      OP = llvm::mdconst::dyn_extract<ConstantInt>(MD->getOperand(0));
+      break;
+    }
+  }
   OP->dump();
   return OP->getZExtValue();
 }

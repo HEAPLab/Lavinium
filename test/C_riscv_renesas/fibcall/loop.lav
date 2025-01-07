@@ -1,2 +1,2 @@
 #Loop Lavinium File
-fib_f for.inc: $VAL$
+fib_f for.cond: 30

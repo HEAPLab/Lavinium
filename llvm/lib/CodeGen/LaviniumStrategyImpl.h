@@ -1,6 +1,7 @@
 #pragma once
 
 #include "llvm/ADT/DenseMap.h"
+#include "llvm/CodeGen/GlobalISel/LegalizerInfo.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Lavinium.h"
 #include "llvm/IR/LaviniumStrategy.h"
@@ -69,6 +70,18 @@ template <typename Metric> class StrategyImpl : public Strategy {
     return Res;
   }
 
+  bool anyPassesIsEquals(llvm::Function* Function){
+    auto &[Its, Depth] = Iterators.getOrInsertDefault(Function);
+      for (size_t i = 0; i <= Depth; i++) {
+        for (size_t j = i+1; j <= Depth; j++) {
+            if(Its.at(i) == Its.at(j)){
+              return true;
+            }
+        }
+      }
+      return false;
+  }
+
 public:
   StrategyImpl(const CachedFunctionMetric<Metric> *cached)
       : cachedFunctionMetric(cached), availablePasses() {
@@ -128,28 +141,42 @@ public:
     }
   }
 
+  
+
   std::optional<std::vector<std::string>>
   suggestCartesian(llvm::Function *Function) {
 
     if (!Iterators.contains(Function)) {
       initialize(Function);
     }
-
-    auto &[Its, Depth] = Iterators.getOrInsertDefault(Function);
-
     std::vector<std::string> res;
-    if (Its.at(Depth) == availablePasses.end()) {
-      bool canContinue = cascadeAdvanceCartesian(Function, Depth);
-      if (!canContinue) {
-        return std::nullopt;
-      }
-    }
-    auto &It = Its.at(Depth);
+    bool allDifferent;
+    do{
+      allDifferent = true;
+      res.clear();
+      auto &[Its, Depth] = Iterators.getOrInsertDefault(Function);
 
-    for (size_t i = 0; i <= Depth; i++) {
-      res.push_back(Its[i]->c_str());
-    }
-    It = std::next(It);
+      if (Its.at(Depth) == availablePasses.end()) {
+        bool canContinue = cascadeAdvanceCartesian(Function, Depth);
+        if (!canContinue) {
+          return std::nullopt;
+        }
+      }
+      auto &It = Its.at(Depth);
+      
+      if(anyPassesIsEquals(Function)){
+        It = std::next(It);
+        allDifferent=false;
+        continue;
+      }
+
+      for (size_t i = 0; i <= Depth; i++) {
+        res.push_back(Its[i]->c_str());
+      }
+      It = std::next(It);
+      
+    } while(!allDifferent);
+
     return res;
   }
 

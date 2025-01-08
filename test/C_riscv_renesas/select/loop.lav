@@ -1,5 +1,5 @@
 #Loop Lavinium File
-select_f if.end93: 17
-select_f if.end77: 8
-select_f while.body63: 16
-select_f while.body68: 16
+select_f while.cond: 17
+select_f while.cond56: 8
+select_f while.cond60: 16
+select_f while.cond65: 16

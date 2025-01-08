@@ -1,5 +1,5 @@
 #Loop Lavinium File
-foo for.inc28: 5
-foo for.inc25: 5
-foo for.inc22: 5
-foo for.inc: 5
+foo for.cond: 5
+foo for.cond1: 5
+foo for.cond4: 5
+foo for.cond7: 5

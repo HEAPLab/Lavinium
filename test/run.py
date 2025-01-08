@@ -18,7 +18,8 @@ LAVINIUMPASSES = "../../passes"
 CLANG =  LAVINIUM_PATH + "/clang" if LAVINIUM_PATH is not None else None
 OPT =  LAVINIUM_PATH + "/opt" if LAVINIUM_PATH is not None else None
 COMMON_FLAG = f"--target=riscv32 -fno-builtin --sysroot='{SYSROOT}' -march=rv32im" if SYSROOT is not None else None
-PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,indvars,loop-simplify,instcombine),globaldce,function(dce)\""
+PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota\""
+PASSES_LLVMTA = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,indvars,loop-simplify,instcombine),globaldce,function(dce)\""
 TA_MUARCH = "--ta-muarch-type=inorder" 
 TA_MEMORY = "--ta-memory-type=separatecaches"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
@@ -132,7 +133,11 @@ if __name__ == '__main__':
     parser.add_argument('-compile', metavar='bool', type=bool, default=False, nargs='?', help='Compile Benchmarks' , const=True)
     parser.add_argument('-debug', metavar='bool', type=bool, default=False, nargs='?', help='Enable Debug' , const=True)
     parser.add_argument('-cdir', metavar='name', type=str, default=False, nargs='?', help='Path for the benchmarks folder' , const=True)
+    parser.add_argument('-enable-llvmta-passes', metavar='bool', type=bool, default=False, nargs='?', help='Run the default LLVMTA preprocessing passes (indvars ,instcombine, globaldce, dce) before launching Lavinium.', const=True)
     args = parser.parse_args()
+
+    if args.enable_llvmta_passes:
+        PASSES = PASSES_LLVMTA
 
     if args.debug:
         debug.DEBUG = args.debug

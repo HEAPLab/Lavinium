@@ -52,7 +52,7 @@ void main()
   i = 2;
   while(i <= 10){
       j = i;
-      while (insertsort_a[j] < insertsort_a[j-1])
+      while (insertsort_a[j] < insertsort_a[j-1] && j-1>=0)
       {
             temp = insertsort_a[j];
             insertsort_a[j] = insertsort_a[j-1];

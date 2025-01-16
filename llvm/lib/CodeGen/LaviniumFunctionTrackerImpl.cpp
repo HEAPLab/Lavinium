@@ -30,6 +30,7 @@ bool FunctionTrackerImpl::isClonedFunction(const llvm::Function *lft) {
 void FunctionTrackerImpl::restoreOriginalFunction(llvm::Function *Function) {
   assert(ClonedPair.count(Function) == 1  &&      "Restoring a not saved Function");
   auto *ClonedFunction = ClonedPair.at(Function);
+  llvm::dbgs() << "Cloning function " << ClonedFunction->getName() << " into " << Function->getName() << "\n";
   Function->deleteBody();
   llvm::ValueToValueMapTy VM;
   llvm::SmallVector<llvm::ReturnInst *, 3> Ret;

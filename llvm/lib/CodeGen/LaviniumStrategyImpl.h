@@ -106,7 +106,8 @@ public:
     if (Depth == MaxDepth) {
       return false;
     } else {
-      auto &minimum_last = findMinimum(Function, Depth)->getIds().back();
+      auto IDS = findMinimum(Function, Depth)->getIds();
+      auto &minimum_last = IDS[IDS.size()-4];
       Its[Depth] = std::find_if(
           availablePasses.begin(), availablePasses.end(),
           [&minimum_last](auto &elem) { return elem == minimum_last; });
@@ -232,7 +233,8 @@ public:
 
     while (begin != end) {
       auto &[key, data] = *begin;
-      if (key.size() - 1 != (size_t)Depth) {
+      //LAVINIUM-TODO: -4 is a magic number due to always scheduling mem2reg loopsimplify simplifycfg at the end
+      if (key.size() - 4 != (size_t)Depth) {
         begin++;
         continue;
       }

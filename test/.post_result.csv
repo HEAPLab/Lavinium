@@ -1,730 +1,91 @@
-passes,mean,var,max,min
-b'jump-threading - mem2reg - loop-simplify - simplifycfg',0.9876167488718649,0.00199348381053199,1.0,0.8390177353342428
-b'instcombine - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9888974937587497,0.002169807945779753,1.0291073640136024,0.8390177353342428
-b'jump-threading - instcombine - mem2reg - loop-simplify - simplifycfg',0.9898640974401955,0.002201633266632234,1.0291073640136024,0.8390177353342428
-b'dse - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'bdce - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'lower-constant-intrinsics - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'aggressive-instcombine - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'libcalls-shrinkwrap - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'instsimplify - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'correlated-propagation - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909140181751055,0.0021565974070204574,1.029110855361091,0.8390177353342428
-b'div-rem-pairs - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909151195983352,0.0021566021238789692,1.0291073640136024,0.8390177353342428
-b'lower-expect - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909151195983352,0.0021566021238789692,1.0291073640136024,0.8390177353342428
-b'alignment-from-assumptions - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909151195983352,0.0021566021238789692,1.0291073640136024,0.8390177353342428
-b'callsite-splitting - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909151195983352,0.0021566021238789692,1.0291073640136024,0.8390177353342428
-b'float2int - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909151195983352,0.0021566021238789692,1.0291073640136024,0.8390177353342428
-b'adce - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9909151195983352,0.0021566021238789692,1.0291073640136024,0.8390177353342428
-b'loop-distribute - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918806218565516,0.002184199504703026,1.029110855361091,0.8390177353342428
-b'memcpyopt - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918806218565516,0.002184199504703026,1.029110855361091,0.8390177353342428
-b'slp-vectorizer - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918806218565516,0.002184199504703026,1.029110855361091,0.8390177353342428
-b'reassociate - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918806218565516,0.002184199504703026,1.029110855361091,0.8390177353342428
-b'loop-sink - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918806218565516,0.002184199504703026,1.029110855361091,0.8390177353342428
-b'jump-threading - mem2reg - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - memcpyopt - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - lower-expect - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - loop-sink - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - instsimplify - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - float2int - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'sccp - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'mem2reg - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'jump-threading - loop-simplify - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'loop-load-elim - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'pgo-memop-opt - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'loop-simplify - jump-threading - mem2reg - loop-simplify - simplifycfg',0.9918817232797813,0.002184201914842083,1.0291073640136024,0.8390177353342428
-b'instcombine - mem2reg - loop-simplify - simplifycfg',0.9979823741604144,5.2920582371327806e-05,1.0,0.9737708640853866
-b'instsimplify - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'lower-expect - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'loop-sink - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'mem2reg - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'float2int - mem2reg - loop-simplify - simplifycfg',1.0,0.0,1.0,1.0
-b'bdce - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'dse - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'instsimplify - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'correlated-propagation - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'lower-constant-intrinsics - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'libcalls-shrinkwrap - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'aggressive-instcombine - instcombine - mem2reg - loop-simplify - simplifycfg',1.001279643463655,0.00014198128636866628,1.029110855361091,0.9737708640853866
-b'instcombine - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - dse - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - float2int - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'adce - instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'div-rem-pairs - instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'callsite-splitting - instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - sccp - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'alignment-from-assumptions - instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'float2int - instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - reassociate - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'lower-expect - instcombine - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - bdce - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - adce - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'instcombine - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0012807448868848,0.00014196126652279815,1.0291073640136024,0.9737708640853866
-b'lcssa - instcombine - mem2reg - loop-simplify - simplifycfg',1.002246247145101,0.00014787457232836524,1.029110855361091,0.9737708640853866
-b'reassociate - instcombine - mem2reg - loop-simplify - simplifycfg',1.002246247145101,0.00014787457232836524,1.029110855361091,0.9737708640853866
-b'memcpyopt - instcombine - mem2reg - loop-simplify - simplifycfg',1.002246247145101,0.00014787457232836524,1.029110855361091,0.9737708640853866
-b'slp-vectorizer - instcombine - mem2reg - loop-simplify - simplifycfg',1.002246247145101,0.00014787457232836524,1.029110855361091,0.9737708640853866
-b'loop-distribute - instcombine - mem2reg - loop-simplify - simplifycfg',1.002246247145101,0.00014787457232836524,1.029110855361091,0.9737708640853866
-b'loop-sink - instcombine - mem2reg - loop-simplify - simplifycfg',1.002246247145101,0.00014787457232836524,1.029110855361091,0.9737708640853866
-b'mem2reg - instcombine - mem2reg - loop-simplify - simplifycfg',1.0022473485683308,0.00014785224576304096,1.0291073640136024,0.9737708640853866
-b'speculative-execution - instcombine - mem2reg - loop-simplify - simplifycfg',1.0022473485683308,0.00014785224576304096,1.0291073640136024,0.9737708640853866
-b'loop-load-elim - instcombine - mem2reg - loop-simplify - simplifycfg',1.0022473485683308,0.00014785224576304096,1.0291073640136024,0.9737708640853866
-b'sccp - instcombine - mem2reg - loop-simplify - simplifycfg',1.0022473485683308,0.00014785224576304096,1.0291073640136024,0.9737708640853866
-b'pgo-memop-opt - instcombine - mem2reg - loop-simplify - simplifycfg',1.0022473485683308,0.00014785224576304096,1.0291073640136024,0.9737708640853866
-b'loop-simplify - instcombine - mem2reg - loop-simplify - simplifycfg',1.0022473485683308,0.00014785224576304096,1.0291073640136024,0.9737708640853866
-b'instsimplify - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - reassociate - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - reassociate - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - sccp - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - sccp - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'dse - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'lower-constant-intrinsics - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'correlated-propagation - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'instsimplify - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'bdce - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'aggressive-instcombine - float2int - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'libcalls-shrinkwrap - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032972693032407,7.464661654704149e-05,1.029110855361091,0.9999821901505247
-b'alignment-from-assumptions - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - float2int - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - float2int - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'adce - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'alignment-from-assumptions - float2int - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'float2int - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'lower-expect - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - float2int - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - float2int - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'callsite-splitting - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'div-rem-pairs - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0032983707264704,7.462178180457444e-05,1.0291073640136024,1.0
-b'reassociate - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - float2int - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - float2int - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - float2int - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'lcssa - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - float2int - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - float2int - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'reassociate - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-distribute - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-sink - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'memcpyopt - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'slp-vectorizer - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042638729846867,7.63143726173714e-05,1.029110855361091,0.9999821901505247
-b'loop-simplify - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - float2int - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-load-elim - float2int - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - float2int - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'sccp - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'loop-simplify - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - float2int - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'pgo-memop-opt - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'mem2reg - float2int - mem2reg - loop-simplify - simplifycfg',1.0042649744079164,7.628723115544832e-05,1.0291073640136024,1.0
-b'jump-threading - dse - mem2reg - loop-simplify - simplifycfg',1.0084199817338542,0.006076730825987108,1.2170032509186681,0.8390177353342428
-b'jump-threading - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0084199817338542,0.006076730825987108,1.2170032509186681,0.8390177353342428
-b'jump-threading - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0084199817338542,0.006076730825987108,1.2170032509186681,0.8390177353342428
-b'speculative-execution - jump-threading - mem2reg - loop-simplify - simplifycfg',1.0084227217106965,0.006076707494331892,1.2170032509186681,0.8390177353342428
-b'callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0156334404677556,0.007253783276954307,1.2929644376970857,0.9413532133159006
-b'bdce - mem2reg - loop-simplify - simplifycfg',1.0156334404677556,0.007253783276954307,1.2929644376970857,0.9413532133159006
-b'aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0156334404677556,0.007253783276954307,1.2929644376970857,0.9413532133159006
-b'alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0156334404677556,0.007253783276954307,1.2929644376970857,0.9413532133159006
-b'adce - mem2reg - loop-simplify - simplifycfg',1.0156334404677556,0.007253783276954307,1.2929644376970857,0.9413532133159006
-b'adce - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0167890983428793,0.003621368389146572,1.2170032509186681,0.9967816124058367
-b'adce - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0167890983428793,0.003621368389146572,1.2170032509186681,0.9967816124058367
-b'adce - dse - mem2reg - loop-simplify - simplifycfg',1.0167890983428793,0.003621368389146572,1.2170032509186681,0.9967816124058367
-b'instcombine - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0178217433178,0.0036976169090929254,1.2170032509186681,0.9737708640853866
-b'dse - mem2reg - loop-simplify - simplifycfg',1.01824068960837,0.006922542042130008,1.2929644376970857,0.9690974485867343
-b'div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.01824068960837,0.006922542042130008,1.2929644376970857,0.9690974485867343
-b'correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.01824068960837,0.006922542042130008,1.2929644376970857,0.9690974485867343
-b'alignment-from-assumptions - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'callsite-splitting - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'alignment-from-assumptions - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - bdce - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - adce - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'callsite-splitting - dse - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'lower-expect - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'lower-expect - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'instsimplify - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'callsite-splitting - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'alignment-from-assumptions - dse - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'correlated-propagation - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - dse - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'lower-expect - dse - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'loop-simplify - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'loop-simplify - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'loop-simplify - dse - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - bdce - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'div-rem-pairs - dse - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'float2int - adce - mem2reg - loop-simplify - simplifycfg',1.0198366291805434,0.0035580591829527854,1.2170032509186681,1.0
-b'instsimplify - dse - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - adce - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'bdce - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'bdce - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - bdce - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'aggressive-instcombine - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'aggressive-instcombine - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'aggressive-instcombine - dse - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'bdce - dse - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'instsimplify - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'lower-constant-intrinsics - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - dse - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'dse - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'lower-constant-intrinsics - dse - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'dse - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'libcalls-shrinkwrap - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'lower-constant-intrinsics - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'libcalls-shrinkwrap - dse - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - bdce - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'correlated-propagation - adce - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'libcalls-shrinkwrap - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0198393691573857,0.0035579680750400535,1.2170032509186681,1.0
-b'loop-load-elim - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'mem2reg - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'loop-load-elim - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'loop-load-elim - dse - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'speculative-execution - dse - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'speculative-execution - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'speculative-execution - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'pgo-memop-opt - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'mem2reg - dse - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'mem2reg - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'pgo-memop-opt - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'sccp - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'sccp - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'pgo-memop-opt - dse - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'sccp - dse - mem2reg - loop-simplify - simplifycfg',1.0208032328619894,0.0035250884257064315,1.2170032509186681,1.0
-b'speculative-execution - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'slp-vectorizer - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'slp-vectorizer - dse - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'reassociate - dse - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'slp-vectorizer - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'lcssa - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'memcpyopt - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'loop-sink - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'loop-sink - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'loop-sink - dse - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'loop-distribute - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'reassociate - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'memcpyopt - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - instsimplify - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'speculative-execution - float2int - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'memcpyopt - dse - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'loop-distribute - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'loop-distribute - dse - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'reassociate - correlated-propagation - mem2reg - loop-simplify - simplifycfg',1.0208059728388317,0.0035249915794383427,1.2170032509186681,1.0
-b'lcssa - jump-threading - mem2reg - loop-simplify - simplifycfg',1.080988425496155,0.020158255849248904,1.432362585788646,0.8390177353342428
-b'jump-threading - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'jump-threading - lcssa - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'jump-threading - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'jump-threading - reassociate - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'jump-threading - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'jump-threading - sccp - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'jump-threading - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0809895269193848,0.020158205559364303,1.432362585788646,0.8390177353342428
-b'sccp - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'lcssa - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'loop-distribute - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'reassociate - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.087118730557455,0.014638610217101661,1.432362585788646,1.0
-b'loop-simplify - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-simplify - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-simplify - lcssa - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-simplify - sccp - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-load-elim - sccp - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-simplify - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-simplify - reassociate - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-load-elim - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-simplify - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-load-elim - reassociate - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-load-elim - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-load-elim - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'loop-load-elim - lcssa - mem2reg - loop-simplify - simplifycfg',1.0881828684676222,0.015415124926373022,1.432362585788646,1.0
-b'instcombine - lcssa - mem2reg - loop-simplify - simplifycfg',1.0903885485264884,0.016301324872209644,1.432362585788646,0.9737708640853866
-b'lower-constant-intrinsics - reassociate - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'lower-constant-intrinsics - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'lower-constant-intrinsics - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'lower-constant-intrinsics - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'lower-constant-intrinsics - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'lower-constant-intrinsics - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'lower-constant-intrinsics - sccp - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - sccp - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - reassociate - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'instsimplify - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'libcalls-shrinkwrap - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - sccp - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'correlated-propagation - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - sccp - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - reassociate - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'dse - reassociate - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - sccp - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'bdce - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - reassociate - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - lcssa - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'aggressive-instcombine - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0924050729428443,0.01584452614013822,1.432362585788646,1.0
-b'float2int - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'float2int - lcssa - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'float2int - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - sccp - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - sccp - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - reassociate - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - sccp - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'float2int - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - reassociate - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'float2int - reassociate - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - lcssa - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - lcssa - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - reassociate - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - sccp - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - sccp - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'adce - reassociate - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - lcssa - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'div-rem-pairs - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'callsite-splitting - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'float2int - sccp - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lower-expect - lcssa - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - reassociate - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'alignment-from-assumptions - lcssa - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'float2int - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.092406174366074,0.015844448605372118,1.432362585788646,1.0
-b'lcssa - mem2reg - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - memcpyopt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - reassociate - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - sccp - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - lcssa - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'reassociate - sccp - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'reassociate - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - lcssa - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'slp-vectorizer - sccp - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'slp-vectorizer - reassociate - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - sccp - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - reassociate - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'slp-vectorizer - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-sink - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - lower-expect - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-distribute - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - loop-simplify - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'reassociate - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'reassociate - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-distribute - lcssa - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-distribute - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-distribute - reassociate - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-distribute - sccp - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'loop-distribute - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'reassociate - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - lower-constant-intrinsics - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - reassociate - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - float2int - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - libcalls-shrinkwrap - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'reassociate - lcssa - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'slp-vectorizer - lcssa - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'slp-vectorizer - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'slp-vectorizer - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'memcpyopt - sccp - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'lcssa - loop-sink - mem2reg - loop-simplify - simplifycfg',1.0933716766242902,0.01565957471228073,1.432362585788646,1.0
-b'pgo-memop-opt - lcssa - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'pgo-memop-opt - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'pgo-memop-opt - sccp - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'sccp - lcssa - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'sccp - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'sccp - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'sccp - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'pgo-memop-opt - reassociate - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'sccp - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'pgo-memop-opt - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'sccp - reassociate - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - lcssa - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'pgo-memop-opt - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - sccp - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - reassociate - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'mem2reg - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.09337277804752,0.015659494870795165,1.432362585788646,1.0
-b'jump-threading - adce - mem2reg - loop-simplify - simplifycfg',1.0946976996696691,0.022430558191729608,1.432362585788646,0.8390177353342428
-b'jump-threading - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0946976996696691,0.022430558191729608,1.432362585788646,0.8390177353342428
-b'jump-threading - bdce - mem2reg - loop-simplify - simplifycfg',1.0946976996696691,0.022430558191729608,1.432362585788646,0.8390177353342428
-b'jump-threading - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0946976996696691,0.022430558191729608,1.432362585788646,0.8390177353342428
-b'jump-threading - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0946976996696691,0.022430558191729608,1.432362585788646,0.8390177353342428
-b'jump-threading - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0947004396465114,0.022430650787085088,1.432362585788646,0.8390177353342428
-b'loop-simplify - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-sink - adce - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-sink - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-sink - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-distribute - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-sink - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-distribute - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-distribute - bdce - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-distribute - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-distribute - adce - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-sink - bdce - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'loop-load-elim - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0971547705459237,0.01674902425351985,1.432362585788646,1.0
-b'speculative-execution - mem2reg - loop-simplify - simplifycfg',1.0988623977623806,0.016503920396232333,1.432362585788646,1.0
-b'adce - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.0988623977623806,0.016503920396232333,1.432362585788646,1.0
-b'adce - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.0988623977623806,0.016503920396232333,1.432362585788646,1.0
-b'adce - bdce - mem2reg - loop-simplify - simplifycfg',1.0988623977623806,0.016503920396232333,1.432362585788646,1.0
-b'adce - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.0988623977623806,0.016503920396232333,1.432362585788646,1.0
-b'bdce - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'lower-expect - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'loop-simplify - adce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'callsite-splitting - bdce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'lower-expect - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'lower-expect - adce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'callsite-splitting - adce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'lower-constant-intrinsics - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'loop-simplify - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'libcalls-shrinkwrap - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'dse - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'alignment-from-assumptions - bdce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'lower-expect - bdce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'alignment-from-assumptions - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'alignment-from-assumptions - adce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'aggressive-instcombine - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'loop-simplify - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'loop-simplify - bdce - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'callsite-splitting - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'callsite-splitting - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'loop-simplify - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'alignment-from-assumptions - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'lower-expect - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061143471163581,0.0177777149243094,1.432362585788646,1.0
-b'libcalls-shrinkwrap - adce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'div-rem-pairs - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'dse - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'dse - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'dse - bdce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'libcalls-shrinkwrap - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'libcalls-shrinkwrap - bdce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'libcalls-shrinkwrap - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'libcalls-shrinkwrap - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'dse - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'callsite-splitting - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'dse - adce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'lower-constant-intrinsics - bdce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'bdce - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'adce - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'aggressive-instcombine - adce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'aggressive-instcombine - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'aggressive-instcombine - bdce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'aggressive-instcombine - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'alignment-from-assumptions - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'bdce - adce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'bdce - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'float2int - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'lower-expect - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'lower-constant-intrinsics - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'lower-constant-intrinsics - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'lower-constant-intrinsics - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'lower-constant-intrinsics - adce - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'bdce - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1061170870932007,0.017777739743407375,1.432362585788646,1.0
-b'speculative-execution - adce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'speculative-execution - bdce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'speculative-execution - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'slp-vectorizer - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'speculative-execution - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'speculative-execution - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'pgo-memop-opt - bdce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-sink - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'mem2reg - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'mem2reg - bdce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'mem2reg - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'mem2reg - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'mem2reg - adce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'reassociate - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'sccp - adce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'sccp - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'sccp - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'sccp - bdce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'sccp - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-load-elim - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-load-elim - bdce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-load-elim - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-load-elim - adce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-load-elim - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'memcpyopt - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'pgo-memop-opt - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'lcssa - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'pgo-memop-opt - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'pgo-memop-opt - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'loop-distribute - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'pgo-memop-opt - adce - mem2reg - loop-simplify - simplifycfg',1.1070809507978043,0.01756405205419877,1.432362585788646,1.0
-b'reassociate - adce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'pgo-memop-opt - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - reassociate - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - pgo-memop-opt - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'memcpyopt - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'memcpyopt - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'memcpyopt - bdce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'memcpyopt - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - loop-load-elim - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - loop-distribute - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'reassociate - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - lcssa - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'reassociate - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'reassociate - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'sccp - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'slp-vectorizer - adce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'slp-vectorizer - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'slp-vectorizer - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'slp-vectorizer - bdce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'slp-vectorizer - callsite-splitting - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - bdce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - alignment-from-assumptions - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - aggressive-instcombine - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - adce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - dse - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - sccp - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'lcssa - div-rem-pairs - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'mem2reg - speculative-execution - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'memcpyopt - adce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'reassociate - bdce - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
-b'speculative-execution - slp-vectorizer - mem2reg - loop-simplify - simplifycfg',1.1070836907746466,0.017564071134941378,1.432362585788646,1.0
+,pass1,pass2,mean,var,max,min
+0,gvn,loop(indvars),1.1669528649883931,0.04730754347442853,1.5711470060586636,0.9188267394270123
+1,gvn,lcssa,1.165907140100109,0.04756510225612423,1.5711470060586636,0.9188267394270123
+2,gvn,loop(loop-idiom),1.165907140100109,0.04756510225612423,1.5711470060586636,0.9188267394270123
+3,gvn,loop-mssa(licm),1.1589731234338334,0.04367724750090026,1.5711470060586636,0.9338335607094134
+4,gvn,loop-vectorize,1.1392400124348314,0.04064658880684147,1.5622827049862666,0.9188267394270123
+5,gvn,loop(loop-deletion),1.099635758003352,0.1401375305848359,1.5711470060586636,0.0572987721691678
+14,instcombine,loop-mssa(licm),1.0770409920439599,0.01888987105575296,1.432362585788646,0.8554201093103199
+27,instsimplify,loop-mssa(licm),1.0743472072113294,0.009067032810781665,1.3376080357904745,0.9737708640853866
+145,instsimplify,loop(loop-idiom),1.073280810770609,0.014662998882021746,1.432362585788646,1.0
+148,instsimplify,lcssa,1.073280810770609,0.014662998882021746,1.432362585788646,1.0
+202,instsimplify,loop(indvars),1.0704711048650164,0.014549806253184437,1.432362585788646,0.9934223845524247
+215,sccp,loop(indvars),1.0704711048650164,0.014549806253184437,1.432362585788646,0.9934223845524247
+218,aggressive-instcombine,loop(indvars),1.0704711048650164,0.014549806253184437,1.432362585788646,0.9934223845524247
+219,loop(indvars),sccp,1.0701882505911098,0.014542819165767914,1.432362585788646,0.9934223845524247
+220,loop(indvars),aggressive-instcombine,1.0701882505911098,0.014542819165767914,1.432362585788646,0.9934223845524247
+225,correlated-propagation,loop-mssa(licm),1.0661545090652222,0.010515639716330539,1.3376080357904745,0.9467749313815188
+226,correlated-propagation,lcssa,1.0650881126245022,0.016092676348594355,1.432362585788646,0.9467749313815188
+227,correlated-propagation,loop(loop-idiom),1.0650881126245022,0.016092676348594355,1.432362585788646,0.9467749313815188
+228,correlated-propagation,loop(indvars),1.0622784067189093,0.015929609062968694,1.432362585788646,0.9467749313815188
+229,jump-threading,loop(loop-idiom),1.0621933638774208,0.018482218697235233,1.432362585788646,0.8390177353342428
+230,jump-threading,loop(indvars),1.0615929291806052,0.018070838043394818,1.432362585788646,0.8390177353342428
+231,instcombine,loop(indvars),1.0594770934356923,0.019654968799442812,1.432362585788646,0.842019566658681
+232,instcombine,lcssa,1.0581065531120626,0.0187388371417445,1.432362585788646,0.8551680047245235
+233,instcombine,loop(loop-idiom),1.0581065531120626,0.0187388371417445,1.432362585788646,0.8551680047245235
+234,jump-threading,loop-mssa(licm),1.057401126445667,0.01436456530427,1.3376080357904745,0.8096862210095498
+235,loop(indvars),gvn,1.0554694645012572,0.008819269885143427,1.2058699145732894,0.9188267394270123
+242,loop(loop-idiom),gvn,1.0551330220744184,0.008567510188371484,1.2058699145732894,0.9188267394270123
+247,loop-vectorize,gvn,1.0551330220744184,0.008567510188371484,1.2058699145732894,0.9188267394270123
+250,gvn,correlated-propagation,1.0551330220744184,0.008567510188371484,1.2058699145732894,0.9188267394270123
+257,lcssa,gvn,1.0551330220744184,0.008567510188371484,1.2058699145732894,0.9188267394270123
+290,loop(loop-idiom),jump-threading,1.0539566845647073,0.018527130438364316,1.432362585788646,0.8390177353342428
+293,gvn,mem2reg+loop-unroll<O3>,1.053619245459655,0.11691174993011959,1.5711470060586636,0.2042099222703323
+294,jump-threading,gvn,1.0534022066181723,0.015611534562322256,1.2150369262410021,0.7305593451568895
+297,correlated-propagation,gvn,1.0520179108916248,0.007676276396013901,1.165373469196971,0.9188267394270123
+302,instsimplify,loop-vectorize,1.0519276369814126,0.004446772211473209,1.2033981490137422,1.0
+343,gvn,jump-threading,1.0506107032238807,0.01473285305657525,1.1782141855526918,0.7305593451568895
+344,loop(indvars),jump-threading,1.0482027394877356,0.018491101511849926,1.432362585788646,0.8390177353342428
+345,loop-mssa(licm),jump-threading,1.0478286581841376,0.014458032837673399,1.3376080357904745,0.8096862210095498
+346,loop-mssa(licm),gvn,1.0454195188014148,0.009907932722989824,1.2058699145732894,0.8895200711908622
+347,correlated-propagation,loop-vectorize,1.0430335508524367,0.005191651838438509,1.185730756731972,0.9467749313815188
+348,jump-threading,loop-vectorize,1.0402721796810064,0.0075263612273854695,1.1923558897243107,0.8390177353342428
+349,gvn,instcombine,1.0320876488668878,0.013625936712349665,1.2106981239537902,0.7856874237418449
+350,loop-vectorize,jump-threading,1.032035500368293,0.007180064479022859,1.1923558897243107,0.8390177353342428
+351,instcombine,loop-vectorize,1.0291739717247614,0.006106149538710648,1.1595331975450687,0.8551680047245235
+402,instcombine,gvn,1.0117588649588347,0.013883740593832747,1.2106981239537902,0.7744583233512917
+405,instcombine,speculative-execution,1.0046214130296052,0.008700105535127522,1.2170032509186681,0.7734164767757356
+408,loop(indvars),instsimplify,1.0022509598537817,0.00010515905558263808,1.035840093546737,0.9934223845524247
+409,jump-threading,loop(loop-deletion),1.0020611359416458,0.09456549173007639,1.432362585788646,0.0572987721691678
+412,loop-mssa(licm),instcombine,1.001396985164415,0.006406919724373379,1.1350618185612187,0.7736240103850375
+459,loop(indvars),correlated-propagation,1.0010572186077975,0.0007888467316484127,1.044950631828101,0.9467749313815188
+490,instsimplify,loop(loop-deletion),1.000765331706699,0.09453708174729288,1.432362585788646,0.0572987721691678
+514,loop-vectorize,instsimplify,1.0,0.0,1.0,1.0
+971,lcssa,instsimplify,1.0,0.0,1.0,1.0
+974,loop(loop-idiom),instsimplify,1.0,0.0,1.0,1.0
+1024,loop-mssa(licm),instsimplify,0.9998328802724382,0.001627447347106067,1.0689655172413792,0.8906903319395852
+1025,mem2reg+loop-unroll<O3>,loop-mssa(licm),0.9991022628315611,0.03449973198162412,1.2544341911182084,0.5025040429860712
+1026,loop-vectorize,correlated-propagation,0.9986923670520602,0.0006773743992233203,1.044950631828101,0.9467749313815188
+1027,loop(loop-idiom),correlated-propagation,0.9986923670520602,0.0006773743992233203,1.044950631828101,0.9467749313815188
+1028,lcssa,correlated-propagation,0.9986923670520602,0.0006773743992233203,1.044950631828101,0.9467749313815188
+1029,loop-mssa(licm),correlated-propagation,0.9985252473244984,0.0023043482619283626,1.0689655172413792,0.8906903319395852
+1082,loop(loop-deletion),jump-threading,0.9938244566289323,0.09353727540249589,1.432362585788646,0.0572987721691678
+1119,instsimplify,jump-threading,0.9927054530171646,0.0023918841313096094,1.0426376776755388,0.8390177353342428
+1128,correlated-propagation,loop(loop-deletion),0.992572633560592,0.09467954811360176,1.432362585788646,0.0572987721691678
+1129,correlated-propagation,jump-threading,0.992247996475536,0.002388145361032098,1.0426376776755388,0.8390177353342428
+1130,jump-threading,instsimplify,0.9921424078855487,0.0023350915142959553,1.0382751092279265,0.8390177353342428
+1131,jump-threading,correlated-propagation,0.9916616659135113,0.002328600358349439,1.0382751092279265,0.8390177353342428
+1132,reassociate,instcombine,0.990199976324461,0.004904936476889386,1.0631296269091912,0.7734164767757356
+1133,loop(indvars),instcombine,0.9898704891422417,0.004688577361734191,1.0631296269091912,0.7734164767757356
+1134,loop(loop-deletion),gvn,0.9888616399776612,0.0852341050625075,1.2058699145732894,0.0572987721691678
+1137,instcombine,reassociate,0.9878899970014323,0.004615422219930539,1.0631296269091912,0.7734164767757356
+1149,loop-vectorize,instcombine,0.9878899970014323,0.004615422219930539,1.0631296269091912,0.7734164767757356
+1177,lcssa,instcombine,0.9878899970014323,0.004615422219930539,1.0631296269091912,0.7734164767757356
+1178,loop(loop-idiom),instcombine,0.9878899970014323,0.004615422219930539,1.0631296269091912,0.7734164767757356
+1185,speculative-execution,instcombine,0.9878893730496033,0.004615264266108956,1.063110707496984,0.7734164767757356
+1188,instcombine,loop(loop-deletion),0.9855910740481524,0.09622878811932678,1.432362585788646,0.0572987721691678
+1218,instsimplify,mem2reg+loop-unroll<O3>,0.9853465862233421,0.06352894043890397,1.357368376141309,0.2655328916479733
+1244,jump-threading,instcombine,0.9788110372742889,0.006549142416049467,1.0625219799053585,0.7734164767757356
+1245,instcombine,jump-threading,0.9782624592114796,0.006592843494100748,1.06777156033957,0.7734164767757356
+1246,correlated-propagation,mem2reg+loop-unroll<O3>,0.977153888077235,0.06339771102888309,1.357368376141309,0.2655328916479733
+1247,jump-threading,mem2reg+loop-unroll<O3>,0.9742591393301537,0.06523573382380081,1.357368376141309,0.2655328916479733
+1248,loop-mssa(licm),mem2reg+loop-unroll<O3>,0.9621325353885066,0.05836757607539813,1.1454902798737518,0.21659971829516406
+1249,instcombine,mem2reg+loop-unroll<O3>,0.9567672267978556,0.09022916115463397,1.357368376141309,0.2655328916479733
+1250,mem2reg+loop-unroll<O3>,jump-threading,0.9444270232841933,0.051462957146895215,1.1418321558781501,0.2655328916479733
+1251,mem2reg+loop-unroll<O3>,instsimplify,0.9297294740170928,0.04395402683645669,1.0766276986090964,0.2655328916479733
+1252,mem2reg+loop-unroll<O3>,correlated-propagation,0.928421841069153,0.044432310449750684,1.0766276986090964,0.2655328916479733
+1253,mem2reg+loop-unroll<O3>,gvn,0.9276158769478854,0.07085503777421386,1.2058699145732894,0.2042099222703323
+1254,loop(loop-deletion),instsimplify,0.9274845209360898,0.06836043115028911,1.0,0.0572987721691678
+1255,loop(loop-deletion),correlated-propagation,0.92617688798815,0.06883235435191663,1.044950631828101,0.0572987721691678
+1256,loop(loop-deletion),instcombine,0.9153745179375221,0.07107316758758887,1.0631296269091912,0.0572987721691678
+1259,mem2reg+loop-unroll<O3>,instcombine,0.9042959041388742,0.06787840434668233,1.0766276986090964,0.2655328916479733

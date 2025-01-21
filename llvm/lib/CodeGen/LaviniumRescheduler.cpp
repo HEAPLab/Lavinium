@@ -41,24 +41,6 @@ using namespace Lavinium;
 
 namespace Lavinium {
 // LAVINIUM-TODO Da rimuovere sta roba
-void write_module(llvm::Twine filename, const llvm::Module &M) {
-  int file = 0;
-  auto err = llvm::sys::fs::openFileForWrite(filename, file);
-  assert(!err.value() && "Fail open module");
-  llvm::raw_fd_ostream stream{file, false};
-  M.print(stream, nullptr);
-  llvm::sys::fs::closeFile(file);
-}
-
-void write_module(const char *filename, const llvm::Module &M) {
-  int file = 0;
-  auto err = llvm::sys::fs::openFileForWrite(filename, file);
-  assert(!err.value() && "Fail open module");
-  llvm::raw_fd_ostream stream{file, false};
-  M.print(stream, nullptr);
-  llvm::sys::fs::closeFile(file);
-}
-
 class LaviniumRescheduler : public MachineFunctionPass {
 public:
   static char ID;
@@ -177,7 +159,6 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     Tracker.addToSchedule("mem2reg");
     Tracker.addToSchedule("loop-simplify");
     Tracker.addToSchedule("simplifycfg");
-    write_module(removeMe + "_pre.ll", M);
     for (auto &F : M) {
       if (Tracker.isClonedFunction(&F) || F.isDeclaration())
         continue;
@@ -185,7 +166,6 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
       Tracker.run(&F);
       ResetMF(MF);
     }
-    write_module(removeMe + "_post.ll", M);
   } else {
     std::vector<std::string> FinalPass = Strategy.getFinal(Function);
     for (auto Pass : FinalPass) {

@@ -1,7 +1,7 @@
 #Loop Lavinium File
 sort_f for.cond: 11
-sort_f for.cond67: 14
-sort_f for.cond1: 15
-sort_f while.cond: 40
-sort_f while.cond73: 53
-sort_f for.cond4: 47
+sort_f for.cond67: 8
+sort_f for.cond1: 6
+sort_f while.cond: 17
+sort_f while.cond73: 17
+sort_f for.cond4: 6

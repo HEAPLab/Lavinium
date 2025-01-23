@@ -14,10 +14,6 @@
 namespace Lavinium {
 
 template <typename Metric>
-using CachedPassesType = std::unordered_map<LaviniumScheduledPasses, Metric>;
-
-template <typename Metric>
-using CachedFunctionMetric =
-    llvm::DenseMap<llvm::Function *, CachedPassesType<Metric>>;
+using CachedPassesMetric = std::unordered_map<LaviniumScheduledPasses, Metric>;
 
 } // namespace Lavinium

@@ -40,7 +40,6 @@ using namespace Lavinium;
 #define DEBUG_TYPE "LaviniumRescheduler 1"
 
 namespace Lavinium {
-// LAVINIUM-TODO Da rimuovere sta roba
 class LaviniumRescheduler : public MachineFunctionPass {
 public:
   static char ID;
@@ -52,7 +51,7 @@ public:
   void getAnalysisUsage(AnalysisUsage &AU) const override;
   void ResetMF(MachineFunction &MF);
   bool trackCorrectlyInit(llvm::Function *);
-  void printResult(llvm::Function *Function);
+  void printResult();
   StringRef getPassName() const override { return "LaviniumRescheduler"; }
 
 private:
@@ -86,10 +85,10 @@ bool LaviniumRescheduler ::trackCorrectlyInit(llvm::Function *Function) {
   return true;
 }
 
-void LaviniumRescheduler::printResult(llvm::Function *Function) {
+void LaviniumRescheduler::printResult() {
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-  auto CachedMetrics = Tracker.getCachedMetrics(Function);
-  llvm::dbgs() << "WCET Result of " << Function->getName() << '\n';
+  auto CachedMetrics = Tracker.getCachedMetrics();
+  llvm::dbgs() << "WCET Result\n";
 
   for (auto &[Keys, CachedMetric] : CachedMetrics) {
     llvm::dbgs() << Keys.toString();
@@ -134,7 +133,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
 
   // LAVINIUM-TODO read the file
   unsigned long x = readWCET();
-  Tracker.storeMetric(Function, x);
+  Tracker.storeMetric(x);
 
   // Restore original Function to run different optimizations
   for (auto &F : M) {
@@ -147,7 +146,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   // List Pass Names HERE: ./llvm/lib/Passes/PassRegistry.def
   auto &Strategy = Tracker.getStrategy();
   std::optional<std::vector<std::string>> NextPasses =
-      Strategy.suggestPasses(Function);
+      Strategy.suggestPasses();
   if (NextPasses) {
     llvm::dbgs() << "Scheduled Passes:\n";
     std::string removeMe = "";
@@ -167,7 +166,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
       ResetMF(MF);
     }
   } else {
-    std::vector<std::string> FinalPass = Strategy.getFinal(Function);
+    std::vector<std::string> FinalPass = Strategy.getFinal();
     for (auto Pass : FinalPass) {
       Tracker.addToSchedule(Pass);
     }
@@ -178,7 +177,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     }
 
     Tracker.clearScheduled();
-    printResult(Function);
+    printResult();
     _Exit(0);
   }
   return true;

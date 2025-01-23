@@ -9,7 +9,7 @@
 #include "clang/CodeGen/BackendUtil.h"
 #include "../lib/CodeGen/LaviniumFunctionTrackerImpl.h"
 #include "../lib/CodeGen/LaviniumPassManagerImpl.h"
-#include "../lib/CodeGen/LaviniumStrategyImpl.h"
+#include "../lib/CodeGen/LaviniumStrategies/LaviniumStrategyEnum.h"
 #include "clang/Basic/CodeGenOptions.h"
 #include "clang/Basic/Diagnostic.h"
 #include "clang/Basic/LangOptions.h"
@@ -1095,12 +1095,8 @@ void EmitAssemblyHelper::RunCodegenPipeline(
 
   // Lavinium Init
   if (LaviniumEnable) {
-    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-    auto &cached = Tracker.getCachedFunctions();
-
-    Tracker.Init(std::make_unique<Lavinium::FunctionTrackerImpl>(),
-                 std::make_unique<Lavinium::PassManagerWrapperImpl>(),
-                 std::make_unique<Lavinium::StrategyImpl<uint64_t>>(&cached));
+    // get and initialize the tracker
+    Lavinium::LaviniumTrackerInitializer::InitTracker();
   }
 
   // Append any output we need to the pass manager.

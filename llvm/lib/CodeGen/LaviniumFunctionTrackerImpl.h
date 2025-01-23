@@ -1,3 +1,5 @@
+#pragma once
+
 #include "llvm/IR/LaviniumFunctionTracker.h"
 
 namespace Lavinium {

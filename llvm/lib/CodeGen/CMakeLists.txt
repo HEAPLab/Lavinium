@@ -313,6 +313,7 @@ add_llvm_component_library(LLVMCodeGen
   Target
   TargetParser
   TransformUtils
+  Lavinium
   )
 
 target_link_libraries(LLVMCodeGen PRIVATE lpsolve55)

@@ -76,6 +76,7 @@ add_llvm_component_library(LLVMCore
 
   DEPENDS
   intrinsics_gen
+  LLVMLavinium
 
   LINK_COMPONENTS
   BinaryFormat

@@ -61,6 +61,27 @@ static cl::opt<std::string, true>
     lavfile("lavinium-file", cl::desc("File Containing pass to run"),
             cl::location(LaviniumFile), cl::init(""));
 
+std::string LaviniumStrategyName;
+static cl::opt<std::string, true>
+    lavstrat("lavinium-strategy", cl::desc("The name of the strategy to use (default greedy)"),
+            cl::location(LaviniumStrategyName), cl::init("greedy"));
+
+int LaviniumDepth;
+static cl::opt<int, true>
+    lavdepth("lavinium-depth", cl::desc("The depth of the exploration, only valid for Cartesian and Greedy (default 2)"),
+            cl::location(LaviniumDepth), cl::init(2));
+
+int LaviniumPopulationSize;
+static cl::opt<int, true>
+    lavpop("lavinium-population", cl::desc("The amount of sequences of passes to generate (population), only valid for Random (default 32)"),
+            cl::location(LaviniumPopulationSize), cl::init(32));
+
+std::string LaviniumWeightingStrategy;
+static cl::opt<std::string, true>
+    lavweight("lavinium-weights", cl::desc("The weighting strategy to use, only valid for random (default off)"),
+            cl::location(LaviniumStrategyName), cl::init("off"));
+
+
 static cl::opt<enum PassDebugLevel> PassDebugging(
     "debug-pass", cl::Hidden,
     cl::desc("Print legacy PassManager debugging information"),

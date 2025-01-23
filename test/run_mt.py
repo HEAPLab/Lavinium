@@ -11,7 +11,6 @@ import modules.debug as debug
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor
 
-
 C_DIR = Path("./C")
 LAVINIUM_PATH = os.getenv('LAVINIUM_PATH') 
 SYSROOT = os.getenv('SYSROOT')
@@ -25,6 +24,7 @@ TA_MUARCH = "--ta-muarch-type=inorder"
 TA_MEMORY = "--ta-memory-type=separatecaches"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
 SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-restart-after-external=true -mllvm --ta-lpsolver-effort=maximal" 
+
 
 def check_env():
     if LAVINIUM_PATH is None:
@@ -151,6 +151,7 @@ if __name__ == '__main__':
     parser.add_argument('-debug', metavar='bool', type=bool, default=False, nargs='?', help='Enable Debug' , const=True)
     parser.add_argument('-cdir', metavar='name', type=str, default=False, nargs='?', help='Path for the benchmarks folder' , const=True)
     parser.add_argument('-enable-llvmta-passes', metavar='bool', type=bool, default=False, nargs='?', help='Run the default LLVMTA preprocessing passes (indvars ,instcombine, globaldce, dce) before launching Lavinium.', const=True)
+    parser.add_argument('-custom_args', metavar='custom_args', type=str, default="", help="Add custom arguments to pass to the clang frontend")
     args = parser.parse_args()
 
     if args.enable_llvmta_passes:
@@ -177,6 +178,8 @@ if __name__ == '__main__':
     if args.clean:
         clean(benchmarks, (".c", ".h", ".lav"))
         
+    SECOND_COMPILATION_FLAG += (" " + args.custom_args)
+    
     if args.compile:
         compiled, results = compile(benchmarks)
         results = pd.DataFrame(results)

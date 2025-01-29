@@ -166,15 +166,16 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
       ResetMF(MF);
     }
   } else {
-    std::vector<std::string> FinalPass = Strategy.getFinal();
-    for (auto Pass : FinalPass) {
-      Tracker.addToSchedule(Pass);
-    }
-    for (auto &F : M) {
-      if (Tracker.isClonedFunction(&F) || F.isDeclaration())
-        continue;
-      Tracker.run(&F);
-    }
+    //LAVINIUM-TODO create real binary at end
+    /*std::vector<std::string> FinalPass = Strategy.getFinal();*/
+    /*for (auto Pass : FinalPass) {*/
+    /*  Tracker.addToSchedule(Pass);*/
+    /*}*/
+    /*for (auto &F : M) {*/
+    /*  if (Tracker.isClonedFunction(&F) || F.isDeclaration())*/
+    /*    continue;*/
+    /*  Tracker.run(&F);*/
+    /*}*/
 
     Tracker.clearScheduled();
     printResult();

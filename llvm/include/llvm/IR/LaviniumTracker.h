@@ -15,6 +15,7 @@
 #include "llvm/Pass.h"
 #include <algorithm>
 #include <cassert>
+#include <cstdint>
 #include <memory>
 #include <utility>
 
@@ -72,10 +73,15 @@ public:
     
     if (Scheduled.isEmpty()) {
       Scheduled = LaviniumScheduledPasses("baseline");
-    }
     CachedFunctions.insert(
         std::pair{std::move(Scheduled), M});
     return true;
+    }
+    Scheduled.pop(3);
+    CachedFunctions.insert(
+        std::pair{std::move(Scheduled), M});
+    return true;
+
   }
 
   // Retrive the stored Metrics for a functions
@@ -171,6 +177,7 @@ struct LaviniumTrackerInitializer {
       {"cartesian", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyCartesian<uint64_t>>();}},
       {"greedy", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyGreedy<uint64_t>>();}},
       {"random", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyRandom<uint64_t>>();}},
+      {"genetic", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyGenetic<uint64_t>>();}},
     };
 
     // call the strategy initializer

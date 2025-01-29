@@ -81,6 +81,20 @@ static cl::opt<std::string, true>
     lavweight("lavinium-weights", cl::desc("The weighting strategy to use, only valid for random (default off)"),
             cl::location(LaviniumStrategyName), cl::init("off"));
 
+int GeneticSamples;
+static cl::opt<int, true>
+    gensam("genetic-sample", cl::desc("Total number of samples of the genetic alghoritm created"),
+            cl::location(GeneticSamples), cl::init(10000));
+
+int GeneticSize;
+static cl::opt<int, true>
+    gensiz("genetic-size", cl::desc("Size of a genetic Sample"),
+            cl::location(GeneticSize), cl::init(10));
+
+int GeneticPool;
+static cl::opt<int, true>
+    genpool("genetic-pool", cl::desc("Number of samples in the pool"),
+            cl::location(GeneticPool), cl::init(200));
 
 static cl::opt<enum PassDebugLevel> PassDebugging(
     "debug-pass", cl::Hidden,

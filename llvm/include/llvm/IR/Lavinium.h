@@ -14,5 +14,7 @@ extern int LaviniumDepth;
 extern std::string LaviniumStrategyName;
 extern int LaviniumPopulationSize;
 extern int GeneticSamples;
-extern int GeneticSize;
+extern int SequenceLength;
 extern int GeneticPool;
+extern int AssRulePool;
+extern int AssSamples;

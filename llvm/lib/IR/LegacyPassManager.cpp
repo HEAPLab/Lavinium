@@ -86,15 +86,26 @@ static cl::opt<int, true>
     gensam("genetic-sample", cl::desc("Total number of samples of the genetic alghoritm created"),
             cl::location(GeneticSamples), cl::init(10000));
 
-int GeneticSize;
+int SequenceLength;
 static cl::opt<int, true>
-    gensiz("genetic-size", cl::desc("Size of a genetic Sample"),
-            cl::location(GeneticSize), cl::init(10));
+    seqlen("sequence-length", cl::desc("Maximum length of a sequence to explore"),
+            cl::location(SequenceLength), cl::init(10));
 
 int GeneticPool;
 static cl::opt<int, true>
-    genpool("genetic-pool", cl::desc("Number of samples in the pool"),
+    genpool("genetic-pool", cl::desc("Number of samples in the genetic pool"),
             cl::location(GeneticPool), cl::init(200));
+
+int AssRulePool;
+static cl::opt<int, true>
+    asspool("assrule-pool", cl::desc("Number of samples in the assrule pool"),
+            cl::location(AssRulePool), cl::init(200));
+
+int AssSamples;
+static cl::opt<int, true>
+    asssam("ass-sample", cl::desc("Total number of samples of the association alghoritm created"),
+            cl::location(AssSamples), cl::init(1000));
+
 
 static cl::opt<enum PassDebugLevel> PassDebugging(
     "debug-pass", cl::Hidden,

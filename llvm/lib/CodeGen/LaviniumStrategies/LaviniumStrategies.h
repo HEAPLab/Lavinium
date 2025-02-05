@@ -2,5 +2,5 @@
 #include "LaviniumStrategyEnum.h"
 #include "LaviniumStrategyCartesian.h"
 #include "LaviniumStrategyGreedy.h"
-#include "LaviniumStrategyRandom.h"
+#include "LaviniumStrategyAssociationRule.h"
 #include "LaviniumStrategyGenetic.h"

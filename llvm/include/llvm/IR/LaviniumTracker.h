@@ -176,8 +176,8 @@ struct LaviniumTrackerInitializer {
     const static std::map<std::string, std::function<void ()>> ExpToStrategy = {
       {"cartesian", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyCartesian<uint64_t>>();}},
       {"greedy", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyGreedy<uint64_t>>();}},
-      {"random", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyRandom<uint64_t>>();}},
       {"genetic", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyGenetic<uint64_t>>();}},
+      {"association", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyAssociation>();}},
     };
 
     // call the strategy initializer

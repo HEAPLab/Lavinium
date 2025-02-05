@@ -61,14 +61,14 @@ private:
                    1); // used to extract the passes to select
     std::uniform_int_distribution<> SizeDistribution =
         std::uniform_int_distribution<>(
-            0, GeneticSize); // used to extract the passes to select
+            0, SequenceLength); // used to extract the passes to select
     for (int i = 0; i < GeneticPool; i++) {
       int RandomSize = SizeDistribution(gen);
       std::vector<csiter> tmp;
       for (int j = 0; j < RandomSize; j++) {
         tmp.push_back(this->availablePasses.cbegin() + PassDistribution(gen));
       }
-      for (int j = 0; j < GeneticSize - RandomSize; j++) {
+      for (int j = 0; j < SequenceLength - RandomSize; j++) {
         tmp.push_back(this->availablePasses.cbegin() +
                       (this->availablePasses.size() - 1));
       }
@@ -106,7 +106,7 @@ private:
   void evolve() {
     // Reset index restarting at the first Sample
     Index = 0;
-    assert(GeneticPool % 4 == 0 && "GeneticSize has to be a multiple of 4");
+    assert(GeneticPool % 4 == 0 && "SequenceLength has to be a multiple of 4");
     auto Sorter = [this](const Sequence &lft, const Sequence &rgt) {
       return this->cmpSequences(lft, rgt);
     };
@@ -121,7 +121,7 @@ private:
         0, StoredSequences.size() - 1); // Used to select a sequence randomly
     std::uniform_int_distribution<> RandomIndexPoint(
         0,
-        GeneticSize - 1); // Used to select a split point and a gene to mutate
+        SequenceLength - 1); // Used to select a split point and a gene to mutate
     for (int i = 0; i < StoredSequences.size() / 2; i++) {
       int F = RandomSequencePicker(gen);
       int S = RandomSequencePicker(gen);
@@ -140,7 +140,7 @@ private:
         std::uniform_int_distribution<>(
             0, this->availablePasses.size() -
                    1); // used to extract the passes to select
-    int toMutate = GeneticSize * 0.15;
+    int toMutate = SequenceLength * 0.15;
     for (int i = 0; i < toMutate; i++) {
       int randomindex = RandomIndexPoint(gen);
       auto &RS = StoredSequences.at(RandomSequencePicker(gen));
@@ -150,7 +150,7 @@ private:
 
   assert(StoredSequences.size() == GeneticPool);
     for (auto& stored : StoredSequences){
-      assert(stored.size() == GeneticSize);
+      assert(stored.size() == SequenceLength);
     }
   }
 };

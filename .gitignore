@@ -40,4 +40,7 @@ test/C_riscv_renesas/**/post_annota_error
 test/C_riscv_renesas/**/lavinium_error
 test/C_riscv_renesas/**/compilation_error
 test/**/*.csv
+test/**/*.dot
+test/**/*.png
+test/**/*.svg
 test/C_new/fir/a.out

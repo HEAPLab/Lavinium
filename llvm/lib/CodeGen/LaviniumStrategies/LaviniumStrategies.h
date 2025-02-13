@@ -4,3 +4,4 @@
 #include "LaviniumStrategyGreedy.h"
 #include "LaviniumStrategyAssociationRule.h"
 #include "LaviniumStrategyGenetic.h"
+#include "LaviniumStrategyRandom.h"

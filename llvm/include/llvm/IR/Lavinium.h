@@ -18,3 +18,5 @@ extern int SequenceLength;
 extern int GeneticPool;
 extern int AssRulePool;
 extern int AssSamples;
+extern bool AssClean;
+extern int RandomSamples;

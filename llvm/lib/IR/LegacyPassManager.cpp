@@ -107,6 +107,16 @@ static cl::opt<int, true>
             cl::location(AssSamples), cl::init(1000));
 
 
+bool AssClean;
+static cl::opt<bool, true>
+    asscln("ass-clean", cl::desc("Use cleaning rules in association"),
+            cl::location(AssClean), cl::init(false));
+
+int RandomSamples;
+static cl::opt<int, true>
+    ransam("rand-sample", cl::desc("Total number of samples of the random alghoritm"),
+            cl::location(RandomSamples), cl::init(10000));
+
 static cl::opt<enum PassDebugLevel> PassDebugging(
     "debug-pass", cl::Hidden,
     cl::desc("Print legacy PassManager debugging information"),

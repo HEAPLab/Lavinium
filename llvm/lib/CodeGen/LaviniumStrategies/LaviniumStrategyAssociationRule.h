@@ -25,11 +25,10 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <format>
 
 namespace Lavinium {
 
-// LAVINIUM-TODO finish
-// Ma non lo fa lui
 namespace {
 class WeightForPass {
 private:
@@ -511,6 +510,71 @@ public:
     tmpFile.close();
     return ret;
   }
+  std::string to_csv() {
+    static int fileC = 0;
+    auto CarToStr = [](CARACTER c) -> char {
+      switch (c) {
+      case CARACTER::B:
+        return '-';
+        break;
+      case CARACTER::N:
+        return 'o';
+        break;
+      case CARACTER::P:
+        return '+';
+        break;
+      }
+    };
+
+    std::string ret;
+    ret += "Id,Label,WCET,RELATIVEWCET,length\n";
+    std::unordered_map<sequence *, int> elements;
+    sequenceLength_t count = 1;
+    elements.reserve(storage.size());
+    for (sequenceLength_t i = 0; i <= maxSize; i++) {
+      auto &sequences = IndexLenSeq[i];
+      for (sequence *s : sequences) {
+        ret += std::to_string(count) + ",";
+        elements.insert({s, count++});
+        int j = 0;
+        for (auto &pass : s->passes) {
+          ret += namingMap[pass];
+          ret += CarToStr(s->caracter[j]);
+          j++;
+        }
+        ret +=  "," + std::to_string(s->wcet);
+        char buff[50] = {0};
+        int size = snprintf(buff, 50, ",%.16f", baseline/ (double) s->wcet );
+        ret.append(buff, buff+size);
+        ret +=  "," + std::to_string(s->size());
+        ret += "\n";
+      }
+    }
+    std::ofstream tmpFile;
+    tmpFile.open(std::to_string(fileC) + "_n.csv");
+    tmpFile << ret;
+    tmpFile.close();
+    ret = "";
+
+    ret += "Source,Target,Type,Id,Label\n";
+    int c = 0;
+    for (sequenceLength_t i = 0; i <= maxSize; i++) {
+      auto &sequences = IndexLenSeq[i];
+      for (sequence *s : sequences) {
+        for (auto &parentMatch : s->parent) {
+          sequence *parent = parentMatch.first;
+          int sIndex = elements.at(s);
+          int pIndex = elements.at(parent);
+          ret += std::to_string(sIndex) + "," + std::to_string(pIndex) + "," + "Directed," + std::to_string(c++) + ",\n";
+        }
+      }
+    }
+
+    tmpFile.open(std::to_string(fileC++) + "_e.csv");
+    tmpFile << ret;
+    tmpFile.close();
+    return ret;
+  }
 
   double updateWeight(std::unordered_map<std::string, WeightForPass> &WM) {
 
@@ -550,50 +614,31 @@ class StrategyAssociation : public Strategy<uint64_t> {
   std::mt19937 gen;
   Lattice lattice;
   std::vector<std::string> lastGenerated;
+  std::pair<std::string, uint64_t> cleanPassWcet = {"", 0};
+  int cleanCycle;
 
-public:
-  StrategyAssociation(const CachedPassesMetric<uint64_t> *cached)
-      : Strategy<uint64_t>(cached), Generated(0), gen(rd()), lattice(),
-        lastGenerated() {
-    initialize();
-    lattice.setNaming(this->availablePasses);
-  };
-
-  std::optional<std::vector<std::string>> suggestPasses() override {
-
-    if (Generated == 0) {
-      Generated++;
-      lastGenerated = std::vector<std::string>{"no-op-function"};
-      return std::vector<std::string>{"no-op-function"};
-    }
-
-    uint64_t wcet =
-        this->cachedPassesMetric->at(LaviniumScheduledPasses(lastGenerated));
-
-    if (Generated == 1) {
-      lattice.setBaseLine(wcet);
-    } else {
-      lattice.insert(std::move(lastGenerated), wcet);
-    }
-    lattice.to_dot();
+  std::optional<std::vector<std::string>> correlation(uint64_t wcet) {
 
     std::vector<std::string> tmp;
-    if (Generated < AssRulePool) {
-      std::uniform_int_distribution<> PassDistribution =
-          std::uniform_int_distribution<>(
-              0, this->availablePasses.size() -
-                     1); // used to extract the passes to select
-      std::uniform_int_distribution<> SizeDistribution =
-          std::uniform_int_distribution<>(
-              1, SequenceLength); // used to extract the passes to select
-      int RandomSize = SizeDistribution(gen);
-      for (int j = 0; j < RandomSize; j++) {
-        tmp.push_back(this->availablePasses[PassDistribution(gen)]);
+    if (AssClean)
+      if (cleanCycle < lastGenerated.size()) {
+        if (cleanCycle == 0) {
+          cleanPassWcet = {lastGenerated[0], wcet};
+          lastGenerated.erase(lastGenerated.begin());
+          cleanCycle++;
+          return lastGenerated;
+        }
+        if (cleanPassWcet.second < wcet) {
+          lastGenerated.insert(lastGenerated.begin() + cleanCycle,
+                               std::move(cleanPassWcet.first));
+        }
+        cleanPassWcet = {lastGenerated[cleanCycle], wcet};
+        lastGenerated.erase(lastGenerated.begin());
+        cleanCycle++;
+        return lastGenerated;
       }
-      Generated++;
-      lastGenerated = tmp;
-      return tmp;
-    }
+    cleanCycle = 0;
+
     double totalWeight = lattice.updateWeight(weightsMap);
     if (Generated < AssSamples) {
       std::uniform_real_distribution<> PassDistribution =
@@ -612,7 +657,7 @@ public:
             tmp.push_back(WM.first);
             break;
           }
-          if(randomWeight >= totalWeight){
+          if (randomWeight >= totalWeight) {
             tmp.push_back(WM.first);
             break;
           }
@@ -623,31 +668,78 @@ public:
       lastGenerated = tmp;
       return tmp;
     }
-
     Generated++;
-    return {};
+    return std::nullopt;
   }
 
-  ~StrategyAssociation() override = default;
+  public:
+    StrategyAssociation(const CachedPassesMetric<uint64_t> *cached)
+        : Strategy<uint64_t>(cached), Generated(0), gen(rd()), lattice(),
+          lastGenerated() {
+      initialize();
+      lattice.setNaming(this->availablePasses);
+    };
 
-private:
-  void initialize() {
-    // Initialize all passes with default weight (1)
-    for (const auto &pass : this->availablePasses) {
-      weightsMap.insert({pass, WeightForPass{}});
-    }
-  }
+    std::optional<std::vector<std::string>> suggestPasses() override {
 
-  void NormalizeWeights() {
-    double tot = 0;
-    for (auto p : weightsMap) {
-      tot += p.second.getWeight();
+      if (Generated == 0) {
+        Generated++;
+        lastGenerated = std::vector<std::string>{"no-op-function"};
+        return std::vector<std::string>{"no-op-function"};
+      }
+
+      uint64_t wcet =
+          this->cachedPassesMetric->at(LaviniumScheduledPasses(lastGenerated));
+
+      if (Generated == 1) {
+        lattice.setBaseLine(wcet);
+      } else {
+        if(!lastGenerated.empty())
+        lattice.insert(std::move(lastGenerated), wcet);
+      }
+      /*lattice.to_dot();*/
+      lattice.to_csv();
+
+      std::vector<std::string> tmp;
+      if (Generated < AssRulePool) {
+        std::uniform_int_distribution<> PassDistribution =
+            std::uniform_int_distribution<>(
+                0, this->availablePasses.size() -
+                       1); // used to extract the passes to select
+        std::uniform_int_distribution<> SizeDistribution =
+            std::uniform_int_distribution<>(
+                1, SequenceLength); // used to extract the passes to select
+        int RandomSize = SizeDistribution(gen);
+        for (int j = 0; j < RandomSize; j++) {
+          tmp.push_back(this->availablePasses[PassDistribution(gen)]);
+        }
+        Generated++;
+        lastGenerated = tmp;
+        return tmp;
+      }
+      return correlation(wcet);
     }
 
-    for (auto p : weightsMap) {
-      p.second.setWeight(p.second.getWeight() / tot);
+    ~StrategyAssociation() override = default;
+
+  private:
+    void initialize() {
+      // Initialize all passes with default weight (1)
+      for (const auto &pass : this->availablePasses) {
+        weightsMap.insert({pass, WeightForPass{}});
+      }
     }
-  }
-};
+
+    void NormalizeWeights() {
+      double tot = 0;
+      for (auto p : weightsMap) {
+        tot += p.second.getWeight();
+      }
+
+      for (auto p : weightsMap) {
+        p.second.setWeight(p.second.getWeight() / tot);
+      }
+    }
+  };
 
 } // namespace Lavinium

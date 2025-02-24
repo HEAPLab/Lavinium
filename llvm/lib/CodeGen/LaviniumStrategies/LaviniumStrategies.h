@@ -5,3 +5,4 @@
 #include "LaviniumStrategyAssociationRule.h"
 #include "LaviniumStrategyGenetic.h"
 #include "LaviniumStrategyRandom.h"
+#include "LaviniumStrategyCartesianPruned.h"

@@ -179,6 +179,7 @@ struct LaviniumTrackerInitializer {
       {"genetic", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyGenetic<uint64_t>>();}},
       {"association", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyAssociation>();}},
       {"random", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyRandom>();}},
+      {"cartesian-pruned", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyCartesianPruned<uint64_t>>();}},
     };
 
     // call the strategy initializer

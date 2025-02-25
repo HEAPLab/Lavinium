@@ -158,6 +158,7 @@ private:
 
     while (begin != end) {
       auto &[key, data] = *begin;
+      if(key.getIds()[0] == "baseline"){continue;}
       if (min_data > data) {
         min_data = std::min(data, min_data);
         min_key = &key;

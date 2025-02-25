@@ -138,7 +138,7 @@ private:
             AllPassSnippet.cbegin(), AllPassSnippet.cend(),
           [&minimumPass](const Sequence &elem) { 
           if(elem.size() != 1) return false;
-          return *elem[1] == minimumPass; 
+          return *elem[0] == minimumPass; 
           }));
       assert(ret[i] != AllPassSnippet.end() && "Minimum not founded");
       i++;
@@ -158,7 +158,10 @@ private:
 
     while (begin != end) {
       auto &[key, data] = *begin;
-      if(key.getIds()[0] == "baseline"){continue;}
+      if(key.getIds()[0] == "baseline"){
+        begin++;
+        continue;
+        }
       if (min_data > data) {
         min_data = std::min(data, min_data);
         min_key = &key;
@@ -213,7 +216,7 @@ private:
     prevSequence = Sequence();
   }
 
-  // return true if can continue scheduling cartesian
+  // return false if can continue scheduling cartesian
   bool cascadeAdvanceCartesian() {
 
     // increment the iterator of the singleIdx
@@ -228,14 +231,14 @@ private:
     if (currIdx >= SOPD.at(currDepth-1).size()) {
       // check whether we had an improvement
       if (SOPD.at(currDepth).size() == 0) {
-        return false; // we had no improvement, we can run the greedy
+        return true; // we had no improvement, we can run the greedy
       }
       currDepth++;
       currIdx = 0;
       // create a new vector for the next depth
       SOPD.push_back(std::vector<Sequence>());
     }
-    return true;
+    return false;
   }
 
 };

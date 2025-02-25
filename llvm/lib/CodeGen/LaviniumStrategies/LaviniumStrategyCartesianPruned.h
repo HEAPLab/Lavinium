@@ -175,11 +175,12 @@ private:
 
 
   void initialize() {
-    MaxDepth = LaviniumDepth;
 
-    for (int i=0; i<=MaxDepth; i++) {
-      SOPD.push_back(std::vector<Sequence>());
-    }
+    // SOPD has 2 items at the beginning, one for depth 0 (single passes), one for depth 1 (pairs of passes)
+    SOPD.push_back(std::vector<Sequence>());
+    SOPD.push_back(std::vector<Sequence>());
+
+    // insert the available passes into the allpasssnippet and sopd
     for (csiter Item = this->availablePasses.cbegin(); Item != this->availablePasses.cend(); ++Item) {
       AllPassSnippet.push_back(Sequence{Item}); // push the vector in the SOPD at depth 0
       SOPD.at(0).push_back(Sequence{Item});
@@ -212,7 +213,7 @@ private:
     prevSequence = Sequence();
   }
 
-  // return true if can continue scheduling
+  // return true if can continue scheduling cartesian
   bool cascadeAdvanceCartesian() {
 
     // increment the iterator of the singleIdx
@@ -225,10 +226,16 @@ private:
     }
     // check if we reached the end of the sequences at the current depth (i.e. we should go deeper)
     if (currIdx >= SOPD.at(currDepth-1).size()) {
+      // check whether we had an improvement
+      if (SOPD.at(currDepth).size() == 0) {
+        return false; // we had no improvement, we can run the greedy
+      }
       currDepth++;
       currIdx = 0;
+      // create a new vector for the next depth
+      SOPD.push_back(std::vector<Sequence>());
     }
-    return currDepth >= MaxDepth;
+    return true;
   }
 
 };

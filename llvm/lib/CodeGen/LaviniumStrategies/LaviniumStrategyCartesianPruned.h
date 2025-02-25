@@ -31,6 +31,8 @@ std::vector<Sequence> AllPassSnippet;
 // Contains a vectore of const_iterator of SDT elements used for Greedy
 StrategyDeepTracker<std::pair<std::vector<std::vector<Sequence>::const_iterator>, std::vector<Sequence>::const_iterator>> GreedySDT;
 
+std::map<std::string, std::set<std::string>> mapIdempotentPasses;
+
 // Vector of set of sequences of passes. 
 // Each each element of the vector is the set of sequences obtained with the exploration at the depth corresponding to the index.
 std::vector<std::vector<Sequence>> SOPD;// Sequences Of Passes per Depth 
@@ -61,7 +63,6 @@ public:
     std::vector<std::string> res;
 
     if (cartesianExplored) {
-      // greedy TODO
     auto &[Prevs, Current] = GreedySDT.Data;    // the vector of iterators
 
     std::vector<std::string> res;
@@ -98,10 +99,15 @@ public:
       LaviniumScheduledPasses prev{p};
       // check whether we have already explored prev, if yes, add the new pass to the sequence
       if (this->cachedPassesMetric->find(prev) != this->cachedPassesMetric->end()) {
-        // concatenate the two
-        seq.push_back(singlePass);
+        auto entry = mapIdempotentPasses.find(*p.back());
+        std::string lastPass = *singlePass;
+        // the entry cannot be found
+        if (entry == mapIdempotentPasses.end() || entry->second.find(lastPass) == entry->second.end()) { // the pass can be scheduled
+          // concatenate the two
+          seq.push_back(singlePass);
 
-        cartesianExplored = cascadeAdvanceCartesian();
+          cartesianExplored = cascadeAdvanceCartesian();
+        }
       }
       if(cartesianExplored){
         initGreedy();
@@ -216,6 +222,32 @@ private:
     prevSequence = Sequence();
   }
 
+  void saveIdempotentPairs() {
+    for (auto sequence : SOPD[1]) {
+      Sequence s1 = Sequence(sequence);
+      Sequence s2 = Sequence();
+      s2.push_back(sequence[1]);
+      s2.push_back(sequence[0]);
+      
+      const Sequence &cs1 = s1;
+      const Sequence &cs2 = s2;
+      LaviniumScheduledPasses original{cs1};
+      LaviniumScheduledPasses inverted{cs2};
+
+      if (this->cachedPassesMetric->find(original)->second ==
+          this->cachedPassesMetric->find(inverted)->second) { // they are idempotent
+        if (mapIdempotentPasses.find(original.at(0)) == mapIdempotentPasses.end()) { // there is no entry for the pass
+          mapIdempotentPasses.insert(std::pair<std::string, std::set<std::string>>(original.at(0), std::set<std::string>()));
+        }
+        if (mapIdempotentPasses.find(inverted.at(0)) == mapIdempotentPasses.end()) { // there is no entry for the pass
+          mapIdempotentPasses.insert(std::pair<std::string, std::set<std::string>>(inverted.at(0), std::set<std::string>()));
+        }
+        mapIdempotentPasses.find(original.at(0))->second.insert(inverted.at(0));
+        mapIdempotentPasses.find(inverted.at(0))->second.insert(original.at(0));
+      }
+    }
+  }
+
   // return false if can continue scheduling cartesian
   bool cascadeAdvanceCartesian() {
 
@@ -237,6 +269,10 @@ private:
       currIdx = 0;
       // create a new vector for the next depth
       SOPD.push_back(std::vector<Sequence>());
+      if (currDepth == 2) { // if we have explored all combinations of passes (pairs)
+        // fill a data structure containing idempotent pairs
+        saveIdempotentPairs();
+      }
     }
     return false;
   }

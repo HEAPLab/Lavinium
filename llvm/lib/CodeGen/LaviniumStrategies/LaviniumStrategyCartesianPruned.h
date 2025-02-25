@@ -27,7 +27,9 @@ using Sequence = std::vector<csiter>;
 template <typename Metric> class StrategyCartesianPruned : public Strategy<Metric> {
 
 // Contains a vector of const_iterators of strings. The strings are the passes.
-StrategyDeepTracker <std::vector<Sequence>> SDT;
+std::vector<Sequence> AllPassSnippet;
+// Contains a vectore of const_iterator of SDT elements used for Greedy
+StrategyDeepTracker<std::pair<std::vector<std::vector<Sequence>::const_iterator>, std::vector<Sequence>::const_iterator>> GreedySDT;
 
 // Vector of set of sequences of passes. 
 // Each each element of the vector is the set of sequences obtained with the exploration at the depth corresponding to the index.
@@ -60,7 +62,27 @@ public:
 
     if (cartesianExplored) {
       // greedy TODO
-      return std::nullopt;
+    auto &[Prevs, Current] = GreedySDT.Data;    // the vector of iterators
+
+    std::vector<std::string> res;
+    if (Current == AllPassSnippet.end()) {
+      std::vector<std::vector<Sequence>::const_iterator> tmp = AdvanceGreedy();
+      if (Prevs.size() == tmp.size()) return std::nullopt;
+      Prevs = tmp;
+    }
+
+    for(const auto & Prev : Prevs){
+      for(size_t j = 0; j < Prev->size(); j++){
+          res.push_back((*Prev)[j]->c_str());
+      }
+    }   
+    for(size_t j = 0; j < Current->size(); j++){
+          res.push_back((*Current)[j]->c_str());
+      }
+
+    Current = std::next(Current);
+    return res;
+
     }
     else { // explore the cartesian space
       Sequence seq;
@@ -81,6 +103,9 @@ public:
 
         cartesianExplored = cascadeAdvanceCartesian();
       }
+      if(cartesianExplored){
+        initGreedy();
+      }
 
       currSequence = Sequence(seq);
 
@@ -96,6 +121,58 @@ public:
 
 private:
 
+
+  void initGreedy(){
+    auto tmp = std::vector(MaxDepth, AllPassSnippet.cbegin());
+    GreedySDT = StrategyDeepTracker<std::pair<std::vector<std::vector<Sequence>::const_iterator>, std::vector<Sequence>::const_iterator>>{{tmp, AllPassSnippet.cbegin()},0};
+  }
+
+  // return true if can continue scheduling
+  std::vector<std::vector<Sequence>::const_iterator> AdvanceGreedy() {
+
+      std::vector<std::vector<Sequence>::const_iterator> ret;
+      auto minimumPasses = findMinimum()->getIds();
+      int i = 0;
+      for (const auto & minimumPass: minimumPasses){
+      ret.push_back( std::find_if(
+            AllPassSnippet.cbegin(), AllPassSnippet.cend(),
+          [&minimumPass](const Sequence &elem) { 
+          if(elem.size() != 1) return false;
+          return *elem[1] == minimumPass; 
+          }));
+      assert(ret[i] != AllPassSnippet.end() && "Minimum not founded");
+      i++;
+      return ret;
+    }
+  }
+
+  // Find the minimum wcet for a certain up to a certain level of depth
+  auto findMinimum() {
+    typename CachedPassesMetric<Metric>::mapped_type min_data;
+    const typename CachedPassesMetric<Metric>::key_type *min_key;
+    auto begin = this->cachedPassesMetric->begin();
+    auto end = this->cachedPassesMetric->end();
+
+    min_data = begin->second;
+    min_key = &(begin->first);
+
+    while (begin != end) {
+      auto &[key, data] = *begin;
+      if (min_data > data) {
+        min_data = std::min(data, min_data);
+        min_key = &key;
+      } else if (min_data == data && key.size() < min_key->size()) {
+        min_data = std::min(data, min_data);
+        min_key = &key;
+      }
+      begin++;
+    }
+    return min_key;
+  }
+
+
+
+
   void initialize() {
     MaxDepth = LaviniumDepth;
 
@@ -103,7 +180,7 @@ private:
       SOPD.push_back(std::vector<Sequence>());
     }
     for (csiter Item = this->availablePasses.cbegin(); Item != this->availablePasses.cend(); ++Item) {
-      SDT.Data.push_back(Sequence{Item}); // push the vector in the SOPD at depth 0
+      AllPassSnippet.push_back(Sequence{Item}); // push the vector in the SOPD at depth 0
       SOPD.at(0).push_back(Sequence{Item});
     } 
   }
@@ -118,7 +195,7 @@ private:
     auto begin = this->cachedPassesMetric->begin();
     auto end = this->cachedPassesMetric->end();
     while (begin != end) {
-      std::cout << begin->second << "\n";
+      llvm::dbgs() << begin->second << "\n";
       begin++;
     }
 
@@ -126,7 +203,7 @@ private:
       this->cachedPassesMetric->find(prev)->second) {
       // we are improving => push the current sequence into SDT and SOPD
       
-      SDT.Data.push_back(currSequence);
+      AllPassSnippet.push_back(currSequence);
       SOPD.at(currDepth).push_back(currSequence);   
     }
 

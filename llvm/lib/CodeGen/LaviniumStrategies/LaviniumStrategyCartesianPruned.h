@@ -15,6 +15,7 @@
 #include <optional>
 #include <string>
 #include <vector>
+#include <set>
 
 namespace Lavinium {
 
@@ -63,25 +64,30 @@ public:
     std::vector<std::string> res;
 
     if (cartesianExplored) {
-    auto &[Prevs, Current] = GreedySDT.Data;    // the vector of iterators
-
     std::vector<std::string> res;
+    Sequence tmp;
+    const Sequence& ltmp =tmp;
+    do{
+    auto &[Prevs, Current] = GreedySDT.Data;
+    tmp.clear();
+
     if (Current == AllPassSnippet.end()) {
       std::vector<std::vector<Sequence>::const_iterator> tmp = AdvanceGreedy();
       if (Prevs.size() == tmp.size()) return std::nullopt;
       Prevs = tmp;
+      Current = AllPassSnippet.begin();
     }
-
-    for(const auto & Prev : Prevs){
-      for(size_t j = 0; j < Prev->size(); j++){
-          res.push_back((*Prev)[j]->c_str());
-      }
-    }   
-    for(size_t j = 0; j < Current->size(); j++){
-          res.push_back((*Current)[j]->c_str());
-      }
+    for (const auto& Prev : Prevs){
+      std::copy(Prev->begin(), Prev->end(), std::back_inserter(tmp));
+    }
+    std::copy(Current->begin(), Current->end(), std::back_inserter(tmp));
 
     Current = std::next(Current);
+    }
+    while(this->cachedPassesMetric->find(ltmp) != this->cachedPassesMetric->end());
+    for(const auto & t : tmp){
+          res.push_back(t->c_str());
+    }   
     return res;
 
     }
@@ -89,7 +95,6 @@ public:
       Sequence seq;
       
       // take the single pass
-      auto singlePass = this->availablePasses.cbegin() + singleIdx;
 
       // take the passes at currDepth-1
       seq = SOPD.size() > 0 ? Sequence(SOPD.at(currDepth-1).at(currIdx)) : Sequence();
@@ -97,7 +102,11 @@ public:
 
       const Sequence &p = prevSequence;
       LaviniumScheduledPasses prev{p};
+      bool newPass = false;
       // check whether we have already explored prev, if yes, add the new pass to the sequence
+      do{
+      auto singlePass = this->availablePasses.cbegin() + singleIdx;
+      newPass = true;
       if (this->cachedPassesMetric->find(prev) != this->cachedPassesMetric->end()) {
         auto entry = mapIdempotentPasses.find(*p.back());
         std::string lastPass = *singlePass;
@@ -105,10 +114,12 @@ public:
         if (entry == mapIdempotentPasses.end() || entry->second.find(lastPass) == entry->second.end()) { // the pass can be scheduled
           // concatenate the two
           seq.push_back(singlePass);
-
-          cartesianExplored = cascadeAdvanceCartesian();
+        }else {
+          newPass = false;
         }
       }
+      cartesianExplored = cascadeAdvanceCartesian();
+      }while(!newPass && !cartesianExplored);
       if(cartesianExplored){
         initGreedy();
       }
@@ -129,8 +140,7 @@ private:
 
 
   void initGreedy(){
-    auto tmp = std::vector(MaxDepth, AllPassSnippet.cbegin());
-    GreedySDT = StrategyDeepTracker<std::pair<std::vector<std::vector<Sequence>::const_iterator>, std::vector<Sequence>::const_iterator>>{{tmp, AllPassSnippet.cbegin()},0};
+    GreedySDT = StrategyDeepTracker<std::pair<std::vector<std::vector<Sequence>::const_iterator>, std::vector<Sequence>::const_iterator>>{{{}, AllPassSnippet.cbegin()},0};
   }
 
   // return true if can continue scheduling
@@ -193,6 +203,8 @@ private:
     for (csiter Item = this->availablePasses.cbegin(); Item != this->availablePasses.cend(); ++Item) {
       AllPassSnippet.push_back(Sequence{Item}); // push the vector in the SOPD at depth 0
       SOPD.at(0).push_back(Sequence{Item});
+      mapIdempotentPasses.insert(std::pair<std::string, std::set<std::string>>(*Item, std::set<std::string>()));
+      mapIdempotentPasses.find(*Item)->second.insert(*Item);
     } 
   }
 
@@ -228,6 +240,8 @@ private:
       Sequence s2 = Sequence();
       s2.push_back(sequence[1]);
       s2.push_back(sequence[0]);
+
+
       
       const Sequence &cs1 = s1;
       const Sequence &cs2 = s2;

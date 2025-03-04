@@ -82,7 +82,6 @@ const std::string& at(size_t n) const{
   bool owned() const {return ownedData == OwnedData::TRUE;}
 
   std::string toString() const {
-    assert(ownedData== OwnedData::TRUE);
     std::string name;
     for (auto [i, Key] : llvm::enumerate(Ids)) {
       name += Key;

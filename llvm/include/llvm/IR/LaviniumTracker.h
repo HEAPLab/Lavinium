@@ -108,6 +108,7 @@ public:
 
     // if it 
     if (Tracker.checkInit()) {
+      cached.clear();
       Tracker.setStrategy(std::move(std::make_unique<StrategyType>(&cached)));
     }
     else {

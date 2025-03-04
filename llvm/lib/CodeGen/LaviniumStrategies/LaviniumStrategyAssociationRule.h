@@ -697,7 +697,7 @@ class StrategyAssociation : public Strategy<uint64_t> {
         if(!lastGenerated.empty())
         lattice.insert(std::move(lastGenerated), wcet);
       }
-      /*lattice.to_dot();*/
+      lattice.to_dot();
       lattice.to_csv();
 
       std::vector<std::string> tmp;

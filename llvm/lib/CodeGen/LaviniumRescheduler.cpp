@@ -51,7 +51,7 @@ public:
   void getAnalysisUsage(AnalysisUsage &AU) const override;
   void ResetMF(MachineFunction &MF);
   bool trackCorrectlyInit(llvm::Function *);
-  void printResult();
+  void printResult(llvm::Module& M);
   StringRef getPassName() const override { return "LaviniumRescheduler"; }
 
 private:
@@ -85,16 +85,20 @@ bool LaviniumRescheduler ::trackCorrectlyInit(llvm::Function *Function) {
   return true;
 }
 
-void LaviniumRescheduler::printResult() {
+void LaviniumRescheduler::printResult(llvm::Module& M) {
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
   auto CachedMetrics = Tracker.getCachedMetrics();
-  llvm::dbgs() << "WCET Result\n";
+  llvm::dbgs() << "WCET Result Start " << Tracker.getFunctionToAnalyze(M)->getName() << "\n";
 
   for (auto &[Keys, CachedMetric] : CachedMetrics) {
+    llvm::dbgs() << Tracker.getFunctionToAnalyze(M)->getName();
+    llvm::dbgs() << ",";
     llvm::dbgs() << Keys.toString();
     llvm::dbgs() << ": ";
     llvm::dbgs() << CachedMetric << "\n";
   }
+  llvm::dbgs() << "WCET Result End " << Tracker.getFunctionToAnalyze(M)->getName() << "\n";
+
 }
 
 unsigned long LaviniumRescheduler::readWCET() {
@@ -162,10 +166,10 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
 
     Tracker.clearScheduled();
 
+    printResult(M);
     F = Tracker.incrementCurrFunction(); // increase the current function
     if (F == nullptr) {
       Tracker.clearScheduled();
-      printResult();
       _Exit(0);
     }
 
@@ -204,7 +208,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     /*}*/
 
     Tracker.clearScheduled();
-    printResult();
+    printResult(M);
     _Exit(0);
   }
   return true;

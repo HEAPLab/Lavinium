@@ -113,22 +113,24 @@ def extract_value(parent, name, data):
     start = 0 
     end = 0
     res = []
+    pairs = []
     for i, line in enumerate(splitted_data):
-        if line.startswith(b"WCET Result"):
+        if line.startswith(b"WCET Result Start"):
             start = i+1
-        if line.startswith(b"ld.lld: error:"):
+        if line.startswith(b"WCET Result End"):
             end = i
-            break
-    if start == 0 or end == 0 or start == end:
+            pairs.append((start,end))
+    
+    if pairs == []:
         raise Exception(f"Malformed result of {name}")
-    splitted_data = splitted_data[start:end]
-
-    for line in splitted_data:
-        split_line = line.split(b":")
-        chosed_pass = split_line[0]
-        wcet = split_line[1]
-        wcet = int(wcet)
-        res.append((f"{parent}/{name}", chosed_pass, wcet))
+    for start,end in pairs:
+        datas = splitted_data[start:end]
+        for line in datas:
+            split_line = line.split(b":")
+            chosed_pass = split_line[0]
+            wcet = split_line[1]
+            wcet = int(wcet)
+            res.append((f"{parent}/{name}", chosed_pass, wcet))
     return res
 
 

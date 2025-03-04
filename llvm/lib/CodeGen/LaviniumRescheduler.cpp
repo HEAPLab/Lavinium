@@ -120,6 +120,7 @@ unsigned long LaviniumRescheduler::readWCET() {
 }
 
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
+  
   getAnalysis<Lavinium::LaviniumAnalyzerReset>();
   llvm::Module &M = *MF.getFunction().getParent();
   MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
@@ -131,22 +132,51 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   trackCorrectlyInit(Function);
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
 
-  // LAVINIUM-TODO read the file
+  llvm::Function *F = Tracker.getFunctionToAnalyze(M); // get the current function to analyze
+  
   unsigned long x = readWCET();
   Tracker.storeMetric(x);
 
-  // Restore original Function to run different optimizations
-  for (auto &F : M) {
-    if (Tracker.isClonedFunction(&F) || F.isDeclaration())
-      continue;
-    Tracker.restoreOriginalFunction(&F);
-  }
-
   // Add to the list of passes
   // List Pass Names HERE: ./llvm/lib/Passes/PassRegistry.def
-  auto &Strategy = Tracker.getStrategy();
+  auto *Strategy = &(Tracker.getStrategy());
   std::optional<std::vector<std::string>> NextPasses =
-      Strategy.suggestPasses();
+      Strategy->suggestPasses();
+
+  if (!NextPasses) { // we have finished scheduling passes
+    // find the minimum and schedule the passes
+    std::vector<std::string> bestSeq = Tracker.findOptimizedSequence();
+
+    // reschedule the passes on the current function
+    for (auto Pass : bestSeq) {
+        Tracker.addToSchedule(Pass);
+    } 
+    Tracker.addToSchedule("mem2reg");
+    Tracker.addToSchedule("loop-simplify");
+    Tracker.addToSchedule("simplifycfg");
+
+    // run the optimal transformations on the current function
+    MachineFunction &MF = MMI.getOrCreateMachineFunction(*F);
+    Tracker.run(F);
+    ResetMF(MF);
+
+    Tracker.clearScheduled();
+
+    F = Tracker.incrementCurrFunction(); // increase the current function
+    if (F == nullptr) {
+      Tracker.clearScheduled();
+      printResult();
+      _Exit(0);
+    }
+
+    LaviniumTrackerInitializer::InitTracker(); // reistanzia la strategia
+    Strategy = &(Tracker.getStrategy());
+    NextPasses = Strategy->suggestPasses();
+  }
+  // Restore original Function to run different optimizations
+  
+  Tracker.restoreOriginalFunction(F);
+
   if (NextPasses) {
     llvm::dbgs() << "Scheduled Passes:\n";
     std::string removeMe = "";
@@ -158,13 +188,9 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     Tracker.addToSchedule("mem2reg");
     Tracker.addToSchedule("loop-simplify");
     Tracker.addToSchedule("simplifycfg");
-    for (auto &F : M) {
-      if (Tracker.isClonedFunction(&F) || F.isDeclaration())
-        continue;
-      MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
-      Tracker.run(&F);
-      ResetMF(MF);
-    }
+    MachineFunction &MF = MMI.getOrCreateMachineFunction(*F);
+    Tracker.run(F);
+    ResetMF(MF);
   } else {
     //LAVINIUM-TODO create real binary at end
     /*std::vector<std::string> FinalPass = Strategy.getFinal();*/

@@ -77,7 +77,7 @@ const std::string& at(size_t n) const{
     return true;
   }
 
-  auto &getIds() const { return this->Ids; }
+  auto &getIds() const { assert(owned() && "We have no data :("); return this->Ids; }
   auto &getCiterIds() const { return *this->CiterIds; }
   bool owned() const {return ownedData == OwnedData::TRUE;}
 

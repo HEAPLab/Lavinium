@@ -38,7 +38,6 @@ private:
     PassManager.swap(PMW);
   }
 
-  void setStrategy(std::unique_ptr<Strategy<Metric>> &&ST) { AppliedStrategy.swap(ST); }
 
 public:
   void Init(std::unique_ptr<FunctionTracker> FT,
@@ -48,6 +47,8 @@ public:
     setPassManagerWrapper(std::move(PMW));
     setStrategy(std::move(ST));
   }
+
+  void setStrategy(std::unique_ptr<Strategy<Metric>> &&ST) { AppliedStrategy.swap(ST); }
 
   bool checkInit() const {
     return static_cast<bool>(AppliedStrategy) &&
@@ -105,10 +106,16 @@ public:
     auto &Tracker = LaviniumTracker<Metric>::getTrackerInstace();
     auto &cached = Tracker.getCachedFunctions();
 
-    // initialize the tracker passing it the 
-    Tracker.Init(std::make_unique<FunctionTrackerImpl>(),
-                  std::make_unique<PassManagerWrapperImpl>(),
-                  std::make_unique<StrategyType>(&cached));
+    // if it 
+    if (Tracker.checkInit()) {
+      Tracker.setStrategy(std::move(std::make_unique<StrategyType>(&cached)));
+    }
+    else {
+      // initialize the tracker passing it the 
+      Tracker.Init(std::make_unique<FunctionTrackerImpl>(),
+                    std::make_unique<PassManagerWrapperImpl>(),
+                    std::make_unique<StrategyType>(&cached));
+    }
 
     return Tracker;
   }
@@ -138,7 +145,7 @@ public:
     functionTracker->untrackFunction(Function);
   }
 
-    /*Untrack a function a function*/
+    /*Untrack a function a function*/ 
   bool isClonedFunction(llvm::Function *Function) {
     assert(checkInit() && "Not Init");
     assert(static_cast<bool>(functionTracker) && "Function Tracker not init\n");
@@ -155,6 +162,52 @@ public:
 
   auto &getCachedFunctions() { return CachedFunctions; }
 
+  auto getFunctionToAnalyze(llvm::Module &Md) {
+    // initialize if empty
+    if (FunctionsToAnalyze.size() == 0) {
+      for (llvm::Function &F : Md) {
+        // check whether the function is a cloned one (or a declaration), if not, it is an original and we push it
+        if (!isClonedFunction(&F) && !F.isDeclaration()) {
+          FunctionsToAnalyze.push_back(&F);
+        }
+      }
+    }
+
+    if (CurrentFunction == nullptr) {
+      assert(FunctionsToAnalyze.size() > 0); // we cannot have a module with no functions
+      CurrentFunction = FunctionsToAnalyze[0];
+    }
+
+    return CurrentFunction;
+  }
+
+  llvm::Function *incrementCurrFunction() {
+    auto i = std::find(FunctionsToAnalyze.begin(), FunctionsToAnalyze.end(), CurrentFunction);
+    assert(i != FunctionsToAnalyze.end() && "Cannot find function in the list of functions to analyze");
+    if (i+1 != FunctionsToAnalyze.end()) {
+      CurrentFunction = *(i+1);
+    }
+    else CurrentFunction = nullptr;
+
+    return CurrentFunction;
+  }
+
+  std::vector<std::string> findOptimizedSequence() {
+    auto best = CachedFunctions.begin();
+    for (auto elem = CachedFunctions.begin(); elem != CachedFunctions.end(); ++elem) {
+      if ((elem->second < best->second) || 
+          (elem->second == best->second && elem->first.size() < best->first.size())) {
+        best = elem;
+      }
+    }
+
+    return best->first.getIds();
+  }
+
+  void reinstantiateStrategy() {
+    
+  }
+
 private:
   LaviniumTracker()
       : CachedFunctions(), Scheduled(), functionTracker(), PassManager(){};
@@ -168,6 +221,8 @@ private:
   std::unique_ptr<PassManagerWrapper> PassManager;
   std::unique_ptr<Strategy<Metric>> AppliedStrategy;
   template <typename ANY> friend LaviniumTracker<ANY> getInstace();
+  std::vector<llvm::Function*> FunctionsToAnalyze;
+  llvm::Function *CurrentFunction = nullptr;
 };
 
 struct LaviniumTrackerInitializer {

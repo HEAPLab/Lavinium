@@ -123,6 +123,26 @@ unsigned long LaviniumRescheduler::readWCET() {
   return ret;
 }
 
+void write_module(llvm::Twine filename, const llvm::Module &M)
+{
+  int file = 0;
+  auto err = llvm::sys::fs::openFileForWrite(filename, file);
+  assert(!err.value() && "Fail open module");
+  llvm::raw_fd_ostream stream{file, false};
+  M.print(stream, nullptr);
+  llvm::sys::fs::closeFile(file);
+}
+
+void write_module(const char *filename, const llvm::Module &M)
+{
+  int file = 0;
+  auto err = llvm::sys::fs::openFileForWrite(filename, file);
+  assert(!err.value() && "Fail open module");
+  llvm::raw_fd_ostream stream{file, false};
+  M.print(stream, nullptr);
+  llvm::sys::fs::closeFile(file);
+}
+
 bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   
   getAnalysis<Lavinium::LaviniumAnalyzerReset>();
@@ -170,6 +190,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     F = Tracker.incrementCurrFunction(); // increase the current function
     if (F == nullptr) {
       Tracker.clearScheduled();
+      write_module("out.ll", M);
       _Exit(0);
     }
 

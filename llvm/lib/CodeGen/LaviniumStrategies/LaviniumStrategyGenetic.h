@@ -38,6 +38,7 @@ public:
   };
 
   std::optional<std::vector<std::string>> suggestPasses() override {
+    this->logFile << "Genetic progress: " << (float)Evaluated / (float)GeneticSamples << std::endl;
     if (Evaluated >= GeneticSamples) {
       return std::nullopt;
     }

@@ -228,7 +228,6 @@ public:
   };
 
   std::optional<std::vector<std::string>> suggestPasses() override {
-
     // verify whether the current sequence improved the WCET (wrt the previous)
     // and eventually add it to the SDT
     /*verifyImprovement();*/
@@ -263,6 +262,7 @@ public:
       for (const auto &t : tmp) {
         res.push_back(t->c_str());
       }
+      this->logFile << "Greedy's sequence length = " << res.size() << std::endl;
       return res;
 
     } else { // explore the cartesian space
@@ -332,6 +332,7 @@ public:
       auto optSeq = CE->next();
 
       if (!optSeq.has_value()){
+        this->logFile << "Cartesian pruned explored, now launching greedy" << std::endl;
         cartesianExplored=true;
         initGreedy();
         return suggestPasses();
@@ -340,6 +341,8 @@ public:
       for (auto elem : seq) {
         res.push_back(*elem.base());
       }
+
+      this->logFile << "Cartesian's sequence length = " << res.size() << std::endl;
     }
     return res;
   }

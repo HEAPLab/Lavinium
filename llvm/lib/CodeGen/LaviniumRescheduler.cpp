@@ -190,7 +190,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     F = Tracker.incrementCurrFunction(); // increase the current function
     if (F == nullptr) {
       Tracker.clearScheduled();
-      write_module("out.ll", M);
+      write_module("out.ll", M); // write the module in output
       _Exit(0);
     }
 

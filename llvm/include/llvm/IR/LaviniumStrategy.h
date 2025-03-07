@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 #include <vector>
+#include <fstream>
 
 // clang-format off
 // ╔═╗┌┬┐┬─┐┌─┐┌┬┐┌─┐┌─┐┬ ┬
@@ -30,11 +31,14 @@ protected:
   const CachedPassesMetric<Metric> *cachedPassesMetric;
   std::vector<std::string> availablePasses;
   Strategy(const CachedPassesMetric<Metric> *cached) : cachedPassesMetric(cached), availablePasses() {
+    logFile.open ("lav_heuristics_progress.log", std::ios_base::app); // shall we close this eventually?
     if (LaviniumFile != "") parsePasses(LaviniumFile);
     else assert(false && "Please provide a PASSES file");
   }
   Strategy(const Strategy &) = delete;
   Strategy(Strategy &&) = delete;
+
+  std::ofstream logFile;
 
 public:
   virtual ~Strategy() = default;

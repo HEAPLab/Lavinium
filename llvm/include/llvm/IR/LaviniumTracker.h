@@ -74,13 +74,14 @@ public:
     
     if (Scheduled.isEmpty()) {
       Scheduled = LaviniumScheduledPasses("baseline");
-    CachedFunctions.insert(
-        std::pair{std::move(Scheduled), M});
-    return true;
     }
-    Scheduled.pop(3);
+    else {
+      Scheduled.pop(3);
+    }
     CachedFunctions.insert(
         std::pair{std::move(Scheduled), M});
+
+    
     return true;
 
   }

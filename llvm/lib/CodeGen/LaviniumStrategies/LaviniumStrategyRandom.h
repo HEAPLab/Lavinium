@@ -22,6 +22,8 @@ public:
       : Strategy<uint64_t>(cached), Generated(0), gen(rd()) {}
 
   std::optional<std::vector<std::string>> suggestPasses() override {
+
+    this->logFile << "Random progress " << (float)Generated / (float)RandomSamples << std::endl;
     std::vector<std::string> tmp;
     if (Generated < RandomSamples) {
       std::uniform_int_distribution<> PassDistribution =

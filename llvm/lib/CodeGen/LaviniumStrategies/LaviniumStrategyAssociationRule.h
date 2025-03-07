@@ -681,7 +681,7 @@ class StrategyAssociation : public Strategy<uint64_t> {
     };
 
     std::optional<std::vector<std::string>> suggestPasses() override {
-
+      this->logFile << "Association Progress: " << ((float)Generated / (float)AssRulePool) << std::endl;
       if (Generated == 0) {
         Generated++;
         lastGenerated = std::vector<std::string>{"no-op-function"};

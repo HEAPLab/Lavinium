@@ -35,6 +35,9 @@ public:
     auto &Its = SDT.Data;    // the vector of iterators
     auto &Depth = SDT.Depth; // the depth of the exploration
 
+
+    this->logFile << "Greedy's depth: " << Depth << std::endl;
+
     std::vector<std::string> res;
     if (Its.at(Depth) == this->availablePasses.end()) {
       bool canContinue = cascadeAdvanceGreedy();

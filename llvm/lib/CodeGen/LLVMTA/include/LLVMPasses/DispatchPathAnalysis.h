@@ -50,6 +50,7 @@
 #include "Util/TplTools.h"
 #include "Util/Util.h"
 
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 #include "llvm/Support/Format.h"
 
 #include <fstream>

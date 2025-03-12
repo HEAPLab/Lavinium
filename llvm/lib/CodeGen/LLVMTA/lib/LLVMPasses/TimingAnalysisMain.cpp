@@ -51,6 +51,7 @@
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/IR/LaviniumTracker.h"
 #include "llvm/LLVMTA/LLVMPasses/TimeAnalysisAccessor.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 #include "llvm/Support/Format.h"
 
 #include <cmath>

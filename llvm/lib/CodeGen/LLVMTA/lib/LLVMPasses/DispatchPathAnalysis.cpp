@@ -30,6 +30,7 @@
 #include "Util/Options.h"
 #include "Util/Util.h"
 
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 #include "llvm/Support/Format.h"
 
 #include <boost/multiprecision/cpp_int.hpp>
@@ -72,6 +73,7 @@ doPathAnalysis(const std::string identifier, const ExtremumType extremumType,
   case LpSolverType::LPSOLVE:
     if (!QuietMode)
       VERBOSE_PRINT(" -> Using Solver: LPsolve\n");
+    
     pathAnalysis.reset(
         new PathAnalysisLPSolve(extremumType, objective, constraints));
     break;

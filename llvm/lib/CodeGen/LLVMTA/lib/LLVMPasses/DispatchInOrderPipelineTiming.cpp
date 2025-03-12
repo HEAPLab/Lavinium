@@ -33,6 +33,7 @@
 #include "Memory/SingleMemoryTopology.h"
 #include "Memory/util/CacheUtils.h"
 #include "MicroarchitecturalAnalysis/InOrderPipelineState.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 
 namespace TimingAnalysisPass {
 

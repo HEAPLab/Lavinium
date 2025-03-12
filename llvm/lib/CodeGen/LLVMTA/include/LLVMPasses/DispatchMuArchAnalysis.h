@@ -31,6 +31,7 @@
 #include "AnalysisFramework/PartitioningDomain.h"
 #include "LLVMPasses/DispatchPathAnalysis.h"
 #include "MicroarchitecturalAnalysis/StateExplorationDomain.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 
 #include <fstream>
 

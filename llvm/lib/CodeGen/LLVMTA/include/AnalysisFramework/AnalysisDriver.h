@@ -33,6 +33,7 @@
 #include "llvm/CodeGen/MachineJumpTableInfo.h"
 #include "llvm/CodeGen/MachineModuleInfo.h"
 #include "llvm/IR/Module.h"
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 #include "llvm/Support/Debug.h"
 
 #include "AnalysisFramework/AnalysisDomain.h"

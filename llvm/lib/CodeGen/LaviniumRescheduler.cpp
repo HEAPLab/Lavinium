@@ -180,9 +180,15 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     Tracker.addToSchedule("simplifycfg");
 
     // run the optimal transformations on the current function
+    {
     MachineFunction &MF = MMI.getOrCreateMachineFunction(*F);
     Tracker.run(F);
+    for(auto& F : M){
+      if(Tracker.isClonedFunction(&F) || F.isDeclaration()) continue;
+    MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
     ResetMF(MF);
+    }
+    }
 
     Tracker.clearScheduled();
 
@@ -213,20 +219,16 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     Tracker.addToSchedule("mem2reg");
     Tracker.addToSchedule("loop-simplify");
     Tracker.addToSchedule("simplifycfg");
+    {
     MachineFunction &MF = MMI.getOrCreateMachineFunction(*F);
-    Tracker.run(F);
+    Tracker.run(F); 
+    for(auto& F : M){
+      if(Tracker.isClonedFunction(&F) || F.isDeclaration()) continue;
+    MachineFunction &MF = MMI.getOrCreateMachineFunction(F);
     ResetMF(MF);
+    }
+    }
   } else {
-    //LAVINIUM-TODO create real binary at end
-    /*std::vector<std::string> FinalPass = Strategy.getFinal();*/
-    /*for (auto Pass : FinalPass) {*/
-    /*  Tracker.addToSchedule(Pass);*/
-    /*}*/
-    /*for (auto &F : M) {*/
-    /*  if (Tracker.isClonedFunction(&F) || F.isDeclaration())*/
-    /*    continue;*/
-    /*  Tracker.run(&F);*/
-    /*}*/
 
     Tracker.clearScheduled();
     printResult(M);

@@ -50,6 +50,7 @@
 #include "Util/TplTools.h"
 #include "Util/Util.h"
 
+#include "llvm/LLVMTA/LLVMPasses/TimeHelper.h"
 #include "llvm/Support/Format.h"
 
 #include <fstream>
@@ -179,9 +180,11 @@ dispatchTimingPathAnalysis(const PAI &microArchAnaInfo) {
   case PathAnalysisType::SIMPLEILP: {
     InsensitiveGraph<MuArchDomain> sg(microArchAnaInfo);
     InsensitiveGraph<MuArchDomain> arrivalCurveSg(microArchAnaInfo);
+
     return dispatchTimingPathAnalysisWeightProvider(&sg, &arrivalCurveSg);
   }
   case PathAnalysisType::GRAPHILP: {
+
     StateSensitiveGraph<MuArchDomain> sg(microArchAnaInfo);
     StateSensitiveGraph<MuArchDomain> arrivalCurveSg(microArchAnaInfo);
     return dispatchTimingPathAnalysisWeightProvider(&sg, &arrivalCurveSg);

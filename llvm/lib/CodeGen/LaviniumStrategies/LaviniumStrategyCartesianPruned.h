@@ -25,170 +25,193 @@ namespace {
 using csiter = std::vector<std::string>::const_iterator;
 using Sequence = std::vector<csiter>;
 
-
-
-template<typename Metric>
-class CartesianElement
-{
-  enum class CartesianState{
-  ORIG, 
-  INVE,
-  PRUN,
-  SKIP,
+template <typename Metric> class CartesianElement {
+  enum class CartesianState {
+    ORIG,
+    INVE,
+    PRUN,
+    SKIP,
   };
 
-  std::vector<Sequence>& AllPassSnippet;
-  const std::vector<std::string>& availablePasses;
-  const CachedPassesMetric<Metric>& cachedPassesMetric;
+  std::vector<Sequence> &AllPassSnippet;
+  const std::vector<std::string> &availablePasses;
+  const CachedPassesMetric<Metric> &cachedPassesMetric;
   std::unordered_map<std::string, csiter> availablePassesLUT;
   size_t allPassIndex = 0;
-  size_t availablePassesIndex = 0;
+  size_t comparisonIndex = 0;
   enum CartesianState CS = CartesianState::ORIG;
 
-  template<typename T>
-  friend class StrategyCartesianPruned;
+  template <typename T> friend class StrategyCartesianPruned;
 
-//Return the cartesian product of element in position (AllPassSnippet X availablePassesIndex)
-//NB AllPassSnippet[allPassIndex] are vector that is flattned at the beggining of the result
-std::optional<Sequence>  originalCartesian(){
-  if(allPassIndex >= AllPassSnippet.size()){
-    return std::nullopt;
+  // Return the cartesian product of element in position (AllPassSnippet X
+  // comparisonIndex) NB AllPassSnippet[allPassIndex] are vector that is
+  // flattned at the beggining of the result
+  std::optional<Sequence> originalCartesian() {
+    if (allPassIndex >= AllPassSnippet.size()) {
+      return std::nullopt;
+    }
+    CS = CartesianState::INVE;
+    Sequence res;
+    assert(allPassIndex < AllPassSnippet.size() &&
+           "All pass index out of bound");
+    assert(comparisonIndex < AllPassSnippet.size() &&
+           "Comparison index out of bound");
+    const Sequence &firstPart = AllPassSnippet[allPassIndex];
+    std::copy(firstPart.begin(), firstPart.end(), std::back_inserter(res));
+    const Sequence &secondPart = AllPassSnippet[comparisonIndex];
+    std::copy(secondPart.begin(), secondPart.end(), std::back_inserter(res));
+    if (firstPart.size() != secondPart.size() || firstPart.size() > 2 ||
+        cachedPassesMetric.find((const Sequence &)res) !=
+            cachedPassesMetric.end() ||
+        std::any_of(firstPart.begin(), firstPart.end(),
+                    [secondPart](csiter iter) {
+                      return std::find_if(secondPart.begin(), secondPart.end(),
+                                          [iter](csiter other) {
+                                            return *iter == *other;
+                                          }) != secondPart.end();
+                    }))
+
+    {
+      CS = CartesianState::SKIP;
+      return std::nullopt;
+    }
+    return res;
   }
-  CS = CartesianState::INVE;
-  Sequence res;
-  assert(allPassIndex < AllPassSnippet.size() && "All pass index out of bound");
-  assert(availablePassesIndex < availablePasses.size() && "Avaialable pass index out of bound");
-  const Sequence& firstPart = AllPassSnippet[allPassIndex];
-  std::copy(firstPart.begin(), firstPart.end(), std::back_inserter(res));
-  auto second_part = availablePasses.begin() + availablePassesIndex; 
-  res.push_back(second_part);
-  if(cachedPassesMetric.find((const Sequence &)res) != cachedPassesMetric.end() ||
-    std::any_of(res.begin(), res.end()-1,[second_part](csiter iter){return *iter == *second_part;})){
-    CS = CartesianState::SKIP;
-    return std::nullopt;
+
+  // Return the cartesian product of element in position (comparisonIndex X
+  // AllPassSnippet) NB AllPassSnippet[allPassIndex] are vector that is flattned
+  // at the end of the result
+  std::optional<Sequence> inverseCartesian() {
+    CS = CartesianState::PRUN;
+    Sequence res;
+    assert(allPassIndex < AllPassSnippet.size() &&
+           "All pass index out of bound");
+    assert(comparisonIndex < AllPassSnippet.size() &&
+           "Comparison index out of bound");
+    const Sequence &firstPart = AllPassSnippet[comparisonIndex];
+    std::copy(firstPart.begin(), firstPart.end(), std::back_inserter(res));
+    const Sequence &secondPart = AllPassSnippet[allPassIndex];
+    std::copy(secondPart.begin(), secondPart.end(), std::back_inserter(res));
+    return res;
   }
-  return res;
-}
 
-
-//Return the cartesian product of element in position (availablePassesIndex X AllPassSnippet)
-//NB AllPassSnippet[allPassIndex] are vector that is flattned at the end of the result
-std::optional<Sequence>  inverseCartesian(){
-  CS = CartesianState::PRUN;
-  Sequence res;
-  assert(allPassIndex < AllPassSnippet.size() && "All pass index out of bound");
-  assert(availablePassesIndex < availablePasses.size() && "Avaialable pass index out of bound");
-  res.push_back(availablePasses.begin() + availablePassesIndex);
-  const Sequence& secondPart = AllPassSnippet[allPassIndex];
-  std::copy(secondPart.begin(), secondPart.end(), std::back_inserter(res));
-  return res;
-}
-
-//the only stable iterator are the one that refear to availablePasses. AllPassSnippet can be invalidated by next due to prune
-Sequence toStableIterator(Sequence& seq){
-  Sequence res;
-  res.reserve(seq.size());
-  for(csiter elem : seq){
-    res.push_back(availablePassesLUT[*elem]);
+  // the only stable iterator are the one that refear to availablePasses.
+  // AllPassSnippet can be invalidated by next due to prune
+  Sequence toStableIterator(Sequence &seq) {
+    Sequence res;
+    res.reserve(seq.size());
+    for (csiter elem : seq) {
+      res.push_back(availablePassesLUT[*elem]);
+    }
+    return res;
   }
-  return res;
-}
 
-
-void dump(){
-  for(auto x : cachedPassesMetric){
-    llvm::dbgs() << x.first.toString() << "\n";
+  void dump() {
+    for (auto x : cachedPassesMetric) {
+      llvm::dbgs() << x.first.toString() << "\n";
+    }
   }
-}
 
-// Check if the original sequence and is inverse are variant. if so they are added to the passes to test.
-void prune(){
-  Sequence original;
-  const Sequence& firstPart = AllPassSnippet[allPassIndex];
-  std::copy(firstPart.begin(), firstPart.end(), std::back_inserter(original));
-  original.push_back(availablePasses.begin() + availablePassesIndex);
+  // Check if the original sequence and is inverse are variant. if so they are
+  // added to the passes to test.
+  void prune() {
+    CS = CartesianState::ORIG;
+    Sequence original;
+    {
+      const Sequence &firstPart = AllPassSnippet[allPassIndex];
+      std::copy(firstPart.begin(), firstPart.end(),
+                std::back_inserter(original));
+      const Sequence &secondPart = AllPassSnippet[comparisonIndex];
+      std::copy(secondPart.begin(), secondPart.end(),
+                std::back_inserter(original));
+    }
 
-
-  CS = CartesianState::ORIG;
-  Sequence inverted;
-  inverted.push_back(availablePasses.begin() + availablePassesIndex);
-  const Sequence& secondPart = AllPassSnippet[allPassIndex];
-  std::copy(secondPart.begin(), secondPart.end(), std::back_inserter(inverted));
-  if(cachedPassesMetric.find((const Sequence &) original) != cachedPassesMetric.end()){
-    dump();
+    Sequence inverted;
+    {
+      const Sequence &secondPart = AllPassSnippet[comparisonIndex];
+      std::copy(secondPart.begin(), secondPart.end(),
+                std::back_inserter(inverted));
+      const Sequence &firstPart = AllPassSnippet[allPassIndex];
+      std::copy(firstPart.begin(), firstPart.end(),
+                std::back_inserter(inverted));
+    }
+    assert(cachedPassesMetric.find((const Sequence &)original) !=
+               cachedPassesMetric.end() &&
+           "original not found");
+    assert(cachedPassesMetric.find((const Sequence &)inverted) !=
+               cachedPassesMetric.end() &&
+           "original not found");
+    if (cachedPassesMetric.at((const Sequence &)original) !=
+        cachedPassesMetric.at((const Sequence &)inverted)) {
+      original = toStableIterator(original);
+      inverted = toStableIterator(inverted);
+      AllPassSnippet.push_back(original);
+      AllPassSnippet.push_back(inverted);
+    }
   }
-  assert(cachedPassesMetric.find((const Sequence &) original) != cachedPassesMetric.end() && "original not found");
-  assert(cachedPassesMetric.find((const Sequence &) inverted) != cachedPassesMetric.end() && "original not found");
-  if(cachedPassesMetric.at((const Sequence &)original) != cachedPassesMetric.at((const Sequence &)inverted)){
-  original = toStableIterator(original);
-  inverted = toStableIterator(inverted);
-  AllPassSnippet.push_back(original);
-  AllPassSnippet.push_back(inverted);
+
+  void increment() {
+    comparisonIndex++;
+    if (comparisonIndex >= AllPassSnippet.size()) {
+      comparisonIndex = 0;
+      // originalCartesian is in charge to check if all PassIndex is to big and
+      // terminate
+      allPassIndex++;
+    }
   }
-}
 
-void increment(){
-  availablePassesIndex++;
-  if(availablePassesIndex >= availablePasses.size()){
-    availablePassesIndex=0;
-    //originalCartesian is in charge to check if all PassIndex is to big and terminate
-    allPassIndex++;
-  }
-}
-
-
-  public:
-  
-  CartesianElement( std::vector<Sequence>& SCPAllPassSnippet, const std::vector<std::string>& SCPavailablePasses, const CachedPassesMetric<Metric>& SCPcachedPassesMetric ) : 
-    AllPassSnippet(SCPAllPassSnippet), 
-    availablePasses(SCPavailablePasses), 
-    cachedPassesMetric(SCPcachedPassesMetric), availablePassesLUT() {
+public:
+  CartesianElement(std::vector<Sequence> &SCPAllPassSnippet,
+                   const std::vector<std::string> &SCPavailablePasses,
+                   const CachedPassesMetric<Metric> &SCPcachedPassesMetric)
+      : AllPassSnippet(SCPAllPassSnippet), availablePasses(SCPavailablePasses),
+        cachedPassesMetric(SCPcachedPassesMetric), availablePassesLUT() {
     availablePassesLUT.reserve(availablePasses.size());
     csiter begin = availablePasses.begin();
     csiter end = availablePasses.end();
-    for(;begin != end; ++begin){
+    for (; begin != end; ++begin) {
       availablePassesLUT[*begin] = begin;
     }
   }
 
-
-  //Like an iterator (allPassIndex, availablePassesIndex) pair points to the first not explored
-  std::optional<Sequence> next(){
-    switch (CS){
-      case CartesianState::ORIG:
-      {
+  // Like an iterator (allPassIndex, comparisonIndex) pair points to the first
+  // not explored
+  std::optional<Sequence> next() {
+    while (1) {
+      switch (CS) {
+      case CartesianState::ORIG: {
         auto ret = originalCartesian();
-        if(CS == CartesianState::SKIP){
-          return next();
+        if (CS != CartesianState::SKIP) {
+          return ret;
         }
-        return ret;
-      }
-        break;
+      } break;
       case CartesianState::INVE:
         return inverseCartesian();
         break;
       case CartesianState::PRUN:
         prune();
         increment();
-        return next();
         break;
       case CartesianState::SKIP:
         increment();
         CS = CartesianState::ORIG;
-        return next();
-      break;
+        break;
+      }
     }
   }
-
-    
-
+  std::string log() {
+    return std::to_string(allPassIndex) + ", " +
+           std::to_string(comparisonIndex) + " < " +
+           std::to_string(AllPassSnippet.size()) + "\n";
+  }
 };
 
+template<typename Clock, typename Duration>
+void setNow(std::chrono::time_point<Clock,Duration>& time){
+    time = std::chrono::time_point_cast<Duration>(Clock::now());
+}
+
 } // namespace
-
-
-
-
 
 template <typename Metric>
 class StrategyCartesianPruned : public Strategy<Metric> {
@@ -224,13 +247,28 @@ public:
   StrategyCartesianPruned(const CachedPassesMetric<Metric> *cached)
       : Strategy<Metric>(cached), CE() {
     initialize();
-    CE = std::unique_ptr<CartesianElement<Metric>>( new CartesianElement<Metric>(AllPassSnippet, this->availablePasses, *this->cachedPassesMetric));
+    CE = std::unique_ptr<CartesianElement<Metric>>(new CartesianElement<Metric>(
+        AllPassSnippet, this->availablePasses, *this->cachedPassesMetric));
   };
 
   std::optional<std::vector<std::string>> suggestPasses() override {
     // verify whether the current sequence improved the WCET (wrt the previous)
     // and eventually add it to the SDT
     /*verifyImprovement();*/
+    static auto p0 = std::chrono::system_clock::now();
+    static auto last = std::chrono::system_clock::now();
+    const auto p1 = std::chrono::system_clock::now();
+    this->logFile
+        << "("
+        << std::chrono::duration_cast<std::chrono::seconds>(p1 - p0).count()
+        << "s , +"
+        << std::chrono::duration_cast<std::chrono::seconds>(p1 - last).count()
+        << "s ) \t";
+    if (!cartesianExplored) {
+      this->logFile << CE->log();
+    }
+    this->logFile.flush();
+    setNow(last);
 
     std::vector<std::string> res;
 
@@ -274,7 +312,8 @@ public:
       /*  seq = SOPD.size() > 0 ? Sequence(SOPD.at(currDepth - 1).at(currIdx))*/
       /*                        : Sequence();*/
       /*  prevSequence = Sequence(seq);*/
-      /*  auto singlePass = this->availablePasses.cbegin() + schedInverseIndex;*/
+      /*  auto singlePass = this->availablePasses.cbegin() +
+       * schedInverseIndex;*/
       /*  Sequence tmp;*/
       /*  tmp.push_back(singlePass);*/
       /*  std::copy(seq.begin(), seq.end(), std::back_inserter(tmp));*/
@@ -288,7 +327,8 @@ public:
       /*}*/
       /**/
       /*bool newPass = false;*/
-      /*// check whether we have already explored prev, if yes, add the new pass*/
+      /*// check whether we have already explored prev, if yes, add the new
+       * pass*/
       /*// to the sequence*/
       /*do {*/
       /*  // take the passes at currDepth-1*/
@@ -311,7 +351,8 @@ public:
       /*            entry->second.end()) { // the pass can be scheduled*/
       /*      // concatenate the two*/
       /*      seq.push_back(singlePass);*/
-      /*      if(this->cachedPassesMetric->find((const Sequence &)seq) == this->cachedPassesMetric->end()){*/
+      /*      if(this->cachedPassesMetric->find((const Sequence &)seq) ==
+       * this->cachedPassesMetric->end()){*/
       /*      schedInverse = true;*/
       /*      schedInverseIndex = singleIdx;*/
       /**/
@@ -328,12 +369,11 @@ public:
       /*if (cartesianExplored) {*/
       /*  initGreedy();*/
       /*}*/
-      
+
       auto optSeq = CE->next();
 
-      if (!optSeq.has_value()){
-        this->logFile << "Cartesian pruned explored, now launching greedy" << std::endl;
-        cartesianExplored=true;
+      if (!optSeq.has_value()) {
+        cartesianExplored = true;
         initGreedy();
         return suggestPasses();
       }
@@ -341,8 +381,6 @@ public:
       for (auto elem : seq) {
         res.push_back(*elem.base());
       }
-
-      this->logFile << "Cartesian's sequence length = " << res.size() << std::endl;
     }
     return res;
   }
@@ -404,7 +442,8 @@ private:
 
   void initialize() {
 
-    // // SOPD has 2 items at the beginning, one for depth 0 (single passes), one
+    // // SOPD has 2 items at the beginning, one for depth 0 (single passes),
+    // one
     // // for depth 1 (pairs of passes)
     SOPD.push_back(std::vector<Sequence>());
     SOPD.push_back(std::vector<Sequence>());
@@ -446,22 +485,25 @@ private:
     for (auto sequence : sequences) {
       Sequence s1 = Sequence(sequence);
       Sequence s2 = Sequence();
-      
-      s2.push_back(sequence[sequence.size()-1]);
-      std::copy(sequence.begin(), sequence.end()-1, std::back_inserter(s2));
+
+      s2.push_back(sequence[sequence.size() - 1]);
+      std::copy(sequence.begin(), sequence.end() - 1, std::back_inserter(s2));
 
       const Sequence &cs1 = s1;
       const Sequence &cs2 = s2;
       LaviniumScheduledPasses original{cs1};
       LaviniumScheduledPasses inverted{cs2};
-      assert(this->cachedPassesMetric->find(original) != this->cachedPassesMetric->end());
-      assert(this->cachedPassesMetric->find(inverted) != this->cachedPassesMetric->end());
+      assert(this->cachedPassesMetric->find(original) !=
+             this->cachedPassesMetric->end());
+      assert(this->cachedPassesMetric->find(inverted) !=
+             this->cachedPassesMetric->end());
 
       if (this->cachedPassesMetric->find(original)->second ==
           this->cachedPassesMetric->find(inverted)
               ->second) { // they are idempotent
 
-        mapIdempotentPasses[original.at(original.size()-1)].insert(inverted.at(0));
+        mapIdempotentPasses[original.at(original.size() - 1)].insert(
+            inverted.at(0));
         mapIdempotentPasses[(inverted.at(0))].insert(original.at(0));
       }
     }
@@ -490,12 +532,11 @@ private:
       currIdx = 0;
       // create a new vector for the next depth
       SOPD.push_back(std::vector<Sequence>());
-        // fill a data structure containing idempotent pairs
-        saveIdempotentPairs(SOPD.at(currDepth-1));
+      // fill a data structure containing idempotent pairs
+      saveIdempotentPairs(SOPD.at(currDepth - 1));
     }
     return false;
   }
 };
-
 
 } // namespace Lavinium

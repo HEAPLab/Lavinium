@@ -181,6 +181,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
 
     // run the optimal transformations on the current function
     {
+    Tracker.restoreOriginalFunction(F);
     MachineFunction &MF = MMI.getOrCreateMachineFunction(*F);
     Tracker.run(F);
     for(auto& F : M){

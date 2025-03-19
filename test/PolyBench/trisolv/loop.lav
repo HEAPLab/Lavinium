@@ -1,0 +1,6 @@
+#Loop Lavinium File
+init_array for.cond: 41
+init_array for.cond2: 41
+kernel_trisolv for.cond: 41
+kernel_trisolv for.cond2: 41
+print_array for.cond: 41

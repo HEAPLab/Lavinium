@@ -1,0 +1,7 @@
+#Loop Lavinium File
+init_array for.cond: 41
+kernel_durbin for.cond: 40
+kernel_durbin for.cond4: 40
+kernel_durbin for.cond13: 40
+kernel_durbin for.cond25: 40
+print_array for.cond: 41

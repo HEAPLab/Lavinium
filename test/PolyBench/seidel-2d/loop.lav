@@ -1,0 +1,8 @@
+#Loop Lavinium File
+init_array for.cond: 41
+init_array for.cond1: 41
+kernel_seidel_2d for.cond: 21
+kernel_seidel_2d for.cond1: 39
+kernel_seidel_2d for.cond4: 39
+print_array for.cond: 41
+print_array for.cond3: 41

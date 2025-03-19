@@ -1,0 +1,10 @@
+#Loop Lavinium File
+polybench_flush_cache for.cond: 4194561
+init_array for.cond3: 39
+init_array for.cond: 43
+init_array for.cond7: 43
+kernel_atax for.cond1: 39
+kernel_atax for.cond: 43
+kernel_atax for.cond5: 43
+kernel_atax for.cond16: 43
+print_array for.cond: 43

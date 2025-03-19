@@ -1,0 +1,11 @@
+#Loop Lavinium File
+init_array for.cond16: 21
+init_array for.cond: 21
+init_array for.cond20: 21
+init_array for.cond35: 21
+init_array for.cond1: 31
+kernel_symm for.cond: 21
+kernel_symm for.cond1: 31
+kernel_symm for.cond4: 21
+print_array for.cond: 21
+print_array for.cond3: 31

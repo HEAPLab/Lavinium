@@ -1,0 +1,14 @@
+#Loop Lavinium File
+init_array for.cond: 11
+init_array for.cond1: 11
+init_array for.cond4: 11
+kernel_heat_3d for.cond: 21
+kernel_heat_3d for.cond1: 9
+kernel_heat_3d for.cond58: 9
+kernel_heat_3d for.cond4: 9
+kernel_heat_3d for.cond61: 9
+kernel_heat_3d for.cond7: 9
+kernel_heat_3d for.cond64: 9
+print_array for.cond: 11
+print_array for.cond3: 11
+print_array for.cond6: 11

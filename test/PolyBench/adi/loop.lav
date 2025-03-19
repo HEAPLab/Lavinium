@@ -1,0 +1,12 @@
+#Loop Lavinium File
+init_array for.cond: 21
+init_array for.cond1: 21
+kernel_adi for.cond: 21
+kernel_adi for.cond11: 19
+kernel_adi for.cond76: 19
+kernel_adi for.cond21: 19
+kernel_adi for.cond58: 19
+kernel_adi for.cond87: 19
+kernel_adi for.cond129: 19
+print_array for.cond: 21
+print_array for.cond3: 21

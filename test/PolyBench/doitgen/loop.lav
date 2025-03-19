@@ -1,0 +1,14 @@
+#Loop Lavinium File
+kernel_doitgen for.cond: 11
+kernel_doitgen for.cond1: 9
+kernel_doitgen for.cond4: 13
+kernel_doitgen for.cond19: 13
+kernel_doitgen for.cond7: 13
+init_array for.cond16: 13
+init_array for.cond: 11
+init_array for.cond20: 13
+init_array for.cond1: 9
+init_array for.cond4: 13
+print_array for.cond: 11
+print_array for.cond3: 9
+print_array for.cond6: 13

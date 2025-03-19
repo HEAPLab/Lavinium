@@ -1,0 +1,9 @@
+#Loop Lavinium File
+init_array for.cond: 21
+init_array for.cond1: 31
+init_array for.cond8: 31
+kernel_trmm for.cond: 21
+kernel_trmm for.cond1: 31
+kernel_trmm for.cond4: 31
+print_array for.cond: 21
+print_array for.cond3: 31

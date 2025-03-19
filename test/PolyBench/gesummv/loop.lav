@@ -1,0 +1,6 @@
+#Loop Lavinium File
+init_array for.cond: 31
+init_array for.cond2: 31
+kernel_gesummv for.cond: 31
+kernel_gesummv for.cond2: 31
+print_array for.cond: 31

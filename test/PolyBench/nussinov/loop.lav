@@ -1,0 +1,9 @@
+#Loop Lavinium File
+init_array for.cond1: 61
+init_array for.cond: 61
+init_array for.cond5: 61
+kernel_nussinov for.cond: 61
+kernel_nussinov for.cond1: 61
+kernel_nussinov for.cond106: 61
+print_array for.cond: 61
+print_array for.cond3: 61

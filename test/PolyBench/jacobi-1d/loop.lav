@@ -1,0 +1,6 @@
+#Loop Lavinium File
+init_array for.cond: 31
+kernel_jacobi_1d for.cond: 21
+kernel_jacobi_1d for.cond1: 29
+kernel_jacobi_1d for.cond9: 29
+print_array for.cond: 31

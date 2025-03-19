@@ -1,0 +1,9 @@
+#Loop Lavinium File
+init_array for.cond2: 43
+init_array for.cond: 39
+init_array for.cond11: 39
+kernel_bicg for.cond1: 43
+kernel_bicg for.cond: 39
+kernel_bicg for.cond5: 39
+print_array for.cond12: 43
+print_array for.cond: 39

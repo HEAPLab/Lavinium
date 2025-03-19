@@ -6,6 +6,10 @@
 
 
 std::unordered_map<std::string, unsigned int> ExtRiscVWcet = { 
+{ "free", 100}, // TODO-LAVINIUM real number
+{ "strcmp", 100}, // TODO-LAVINIUM real number
+{ "fprintf", 100}, // TODO-LAVINIUM real number
+{ "malloc", 100}, // TODO-LAVINIUM real number
 { "__ashldi3", 8.5048828125}, 
 { "__ashrdi3", 9.5048828125}, 
 { "__divsi3", 27.5048828125}, 

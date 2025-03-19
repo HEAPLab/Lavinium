@@ -196,9 +196,12 @@ public:
 
   std::vector<std::string> findOptimizedSequence() {
     auto best = CachedFunctions.begin();
+
     for (auto elem = CachedFunctions.begin(); elem != CachedFunctions.end(); ++elem) {
       if ((elem->second < best->second) || 
-          (elem->second == best->second && elem->first.size() < best->first.size())) {
+          (elem->second == best->second && elem->first.size() < best->first.size()
+
+           )) {
         best = elem;
       }
     }

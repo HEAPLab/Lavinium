@@ -170,6 +170,8 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   if (!NextPasses) { // we have finished scheduling passes
     // find the minimum and schedule the passes
     std::vector<std::string> bestSeq = Tracker.findOptimizedSequence();
+    auto it = std::remove(bestSeq.begin(), bestSeq.end(), "baseline");
+    bestSeq.erase(it, bestSeq.end());
 
     // reschedule the passes on the current function
     for (auto Pass : bestSeq) {

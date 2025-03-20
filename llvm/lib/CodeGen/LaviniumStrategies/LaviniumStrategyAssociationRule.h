@@ -505,9 +505,9 @@ public:
 
     ret += "}\n";
     std::ofstream tmpFile;
-    tmpFile.open(std::to_string(fileC++) + ".dot");
+    /* tmpFile.open(std::to_string(fileC++) + ".dot");
     tmpFile << ret;
-    tmpFile.close();
+    tmpFile.close(); */
     return ret;
   }
   std::string to_csv() {
@@ -551,9 +551,9 @@ public:
       }
     }
     std::ofstream tmpFile;
-    tmpFile.open(std::to_string(fileC) + "_n.csv");
+    /* tmpFile.open(std::to_string(fileC) + "_n.csv");
     tmpFile << ret;
-    tmpFile.close();
+    tmpFile.close(); */
     ret = "";
 
     ret += "Source,Target,Type,Id,Label\n";
@@ -570,9 +570,9 @@ public:
       }
     }
 
-    tmpFile.open(std::to_string(fileC++) + "_e.csv");
+    /* tmpFile.open(std::to_string(fileC++) + "_e.csv");
     tmpFile << ret;
-    tmpFile.close();
+    tmpFile.close(); */
     return ret;
   }
 

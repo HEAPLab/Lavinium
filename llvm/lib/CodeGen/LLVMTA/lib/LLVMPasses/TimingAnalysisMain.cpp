@@ -91,6 +91,7 @@ TargetMachine &TimingAnalysisMain::getTargetMachine() {
 
 void TimingAnalysisMain::runPreviousPasses(Module &M) {
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
+  AnalysisEntryPoint.setValue(Tracker.getLaviniumAnalysisEntryPt()); // set the analysis entry pt to the last function
   MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
   asmDump = createAsmDumpAndCheckPass(*TargetMachineInstance);
   MFC = createMachineFunctionCollector();
@@ -121,9 +122,9 @@ bool TimingAnalysisMain::runOnMachineFunction(MachineFunction &MF) {
   llvm::Module& M = *MF.getFunction().getParent();
   bool Changed = false;
 
-  auto *Function = &MF.getFunction();
-  if(Function->getName() != "main")
-  return false;
+  auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
+  if (MF.getFunction().getName() != Tracker.getLaviniumAnalysisEntryPt())
+    return false;
 
   if (runned)
     return Changed;

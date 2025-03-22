@@ -38,6 +38,7 @@ private:
     PassManager.swap(PMW);
   }
 
+  std::string LaviniumAnalysisEntryPt;
 
 public:
   void Init(std::unique_ptr<FunctionTracker> FT,
@@ -49,6 +50,10 @@ public:
   }
 
   void setStrategy(std::unique_ptr<Strategy<Metric>> &&ST) { AppliedStrategy.swap(ST); }
+
+  void setLaviniumAnalysisEntryPt(std::string name) { LaviniumAnalysisEntryPt = std::move(name); }
+
+  const std::string &getLaviniumAnalysisEntryPt() { return LaviniumAnalysisEntryPt; }
 
   bool checkInit() const {
     return static_cast<bool>(AppliedStrategy) &&

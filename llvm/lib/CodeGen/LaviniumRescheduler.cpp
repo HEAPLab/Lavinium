@@ -150,11 +150,13 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   MachineModuleInfo &MMI = getAnalysis<MachineModuleInfoWrapperPass>().getMMI();
 
   auto *Function = &MF.getFunction();
-  if (Function->getName() != "main")
-    return false;
 
   trackCorrectlyInit(Function);
   auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
+  
+  if (Function->getName() != Tracker.getLaviniumAnalysisEntryPt())
+    return false;
+
 
   llvm::Function *F = Tracker.getFunctionToAnalyze(M); // get the current function to analyze
   

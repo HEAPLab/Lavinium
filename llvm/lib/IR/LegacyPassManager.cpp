@@ -1555,14 +1555,19 @@ bool FPPassManager::runOnModule(Module &M) {
         std::find_if(M.begin(), M.end(), [](const llvm::Function &F) {
           return F.getName() == "main";
         });
-    assert(iter_main != M.end() && "Main not found");
-    // Put it last
-    auto *mainFunction = &*iter_main;
-    mainFunction->removeFromParent();
-    M.getFunctionList().push_back(mainFunction);
-    auto end = M.end();
-    end--;
-    assert(end->getName() == "main");
+    if(iter_main == M.end()) {
+      std::cerr << "WARNING: main() not found, running Lavinium assuming the main is the last function of the module!" << std::endl;
+      std::cerr << "New main: " << M.getFunctionList().back().getName().str() << "\n";
+    }
+    else {
+      // Put it last
+      auto *mainFunction = &*iter_main;
+      mainFunction->removeFromParent();
+      M.getFunctionList().push_back(mainFunction);
+      auto end = M.end();
+      end--;
+      assert(end->getName() == "main");
+    }
   }
 
   if (LaviniumEnable) {
@@ -1575,6 +1580,7 @@ bool FPPassManager::runOnModule(Module &M) {
     for (auto F : Funcs) {
       Tracker.trackFunction(F);
     }
+    Tracker.setLaviniumAnalysisEntryPt(Funcs.back()->getName().str());
     do {
       for (Function *F : Funcs) {
         Changed |= runOnFunction(*F);
@@ -1585,7 +1591,7 @@ bool FPPassManager::runOnModule(Module &M) {
       Changed |= runOnFunction(F);
     }
   }
-
+  return Changed;
   if (LaviniumEnable) {
     auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
     std::vector<llvm::Function *> Funcs;
@@ -1595,7 +1601,6 @@ bool FPPassManager::runOnModule(Module &M) {
       }
     }
     for (Function *F : Funcs) {
-      llvm::dbgs() << "Funct untrack " << F->getName(); 
       Tracker.untrackFunction(F);
     }
   }

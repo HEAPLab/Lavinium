@@ -48,7 +48,7 @@ void FunctionTrackerImpl::untrackFunction(llvm::Function *Function) {
          "Release a not saved Function");
 
   auto *ClonedFunction = ClonedPair.at(Function);
-  ClonedFunction->deleteBody();
+    ClonedFunction->deleteBody();
   ClonedFunction->eraseFromParent();
   ClonedPair = {};
 }

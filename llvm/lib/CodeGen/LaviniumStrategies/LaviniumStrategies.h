@@ -6,3 +6,4 @@
 #include "LaviniumStrategyGenetic.h"
 #include "LaviniumStrategyRandom.h"
 #include "LaviniumStrategyCartesianPruned.h"
+#include "LaviniumStrategyNone.h"

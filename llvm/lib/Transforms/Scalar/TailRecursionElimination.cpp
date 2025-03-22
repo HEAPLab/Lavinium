@@ -927,19 +927,19 @@ FunctionPass *llvm::createTailCallEliminationPass() {
 PreservedAnalyses TailCallElimPass::run(Function &F,
                                         FunctionAnalysisManager &AM) {
 
-  TargetTransformInfo &TTI = AM.getResult<TargetIRAnalysis>(F);
-  AliasAnalysis &AA = AM.getResult<AAManager>(F);
-  auto &ORE = AM.getResult<OptimizationRemarkEmitterAnalysis>(F);
-  auto *DT = AM.getCachedResult<DominatorTreeAnalysis>(F);
-  auto *PDT = AM.getCachedResult<PostDominatorTreeAnalysis>(F);
-  // There is no noticable performance difference here between Lazy and Eager
-  // UpdateStrategy based on some test results. It is feasible to switch the
-  // UpdateStrategy to Lazy if we find it profitable later.
-  DomTreeUpdater DTU(DT, PDT, DomTreeUpdater::UpdateStrategy::Eager);
-  bool Changed = TailRecursionEliminator::eliminate(F, &TTI, &AA, &ORE, DTU);
-
-  if (!Changed)
-    return PreservedAnalyses::all();
+  /*TargetTransformInfo &TTI = AM.getResult<TargetIRAnalysis>(F);*/
+  /*AliasAnalysis &AA = AM.getResult<AAManager>(F);*/
+  /*auto &ORE = AM.getResult<OptimizationRemarkEmitterAnalysis>(F);*/
+  /*auto *DT = AM.getCachedResult<DominatorTreeAnalysis>(F);*/
+  /*auto *PDT = AM.getCachedResult<PostDominatorTreeAnalysis>(F);*/
+  /*// There is no noticable performance difference here between Lazy and Eager*/
+  /*// UpdateStrategy based on some test results. It is feasible to switch the*/
+  /*// UpdateStrategy to Lazy if we find it profitable later.*/
+  /*DomTreeUpdater DTU(DT, PDT, DomTreeUpdater::UpdateStrategy::Eager);*/
+  /*bool Changed = TailRecursionEliminator::eliminate(F, &TTI, &AA, &ORE, DTU);*/
+  /**/
+  /*if (!Changed)*/
+  /*  return PreservedAnalyses::all();*/
   PreservedAnalyses PA;
   PA.preserve<DominatorTreeAnalysis>();
   PA.preserve<PostDominatorTreeAnalysis>();

@@ -669,9 +669,13 @@ unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L,
   int val = SE.getSmallConstantTripCount(L);
   if (val != 0)
     return val;
-  auto *BB = L->getHeader();
-  auto *terminator = BB->getTerminator();
-  llvm::ConstantInt *OP;
+  /*auto *BB = L->getHeader();*/
+  const auto& AllSubLoops = L->getSubLoops();
+  llvm::ConstantInt *OP = nullptr;
+  for (auto* BB : L->blocks()){
+  if(std::any_of(AllSubLoops.begin(), AllSubLoops.end(), [&BB](Loop* SL){return SL->contains(BB);})){
+    continue;
+  }
   for (auto &I : *BB) {
     if (I.getMetadata("lavinium.iterloop")) {
       auto *MD = I.getMetadata("lavinium.iterloop");
@@ -679,7 +683,8 @@ unsigned int getLaviniumUpperLoopBound(const llvm::Loop *L,
       break;
     }
   }
-  OP->dump();
+  }
+  assert(OP != nullptr && "lavinium.iterloop not found");
   return OP->getZExtValue();
 }
 

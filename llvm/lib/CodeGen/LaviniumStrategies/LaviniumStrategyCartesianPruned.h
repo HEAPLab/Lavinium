@@ -60,16 +60,20 @@ template <typename Metric> class CartesianElement {
     std::copy(firstPart.begin(), firstPart.end(), std::back_inserter(res));
     const Sequence &secondPart = AllPassSnippet[comparisonIndex];
     std::copy(secondPart.begin(), secondPart.end(), std::back_inserter(res));
-    if (firstPart.size() != secondPart.size() || firstPart.size() > 2 ||
+    if (firstPart.size() != secondPart.size() || 
+        allPassIndex == comparisonIndex ||
+        firstPart.size() > 2 ||
         cachedPassesMetric.find((const Sequence &)res) !=
-            cachedPassesMetric.end() ||
-        std::any_of(firstPart.begin(), firstPart.end(),
-                    [secondPart](csiter iter) {
-                      return std::find_if(secondPart.begin(), secondPart.end(),
-                                          [iter](csiter other) {
-                                            return *iter == *other;
-                                          }) != secondPart.end();
-                    }))
+            cachedPassesMetric.end() 
+        /* || std::any_of(firstPart.begin(), firstPart.end(),*/
+        /*            [secondPart](csiter iter) {*/
+        /*              return std::find_if(secondPart.begin(), secondPart.end(),*/
+        /*                                  [iter](csiter other) {*/
+        /*                                    return *iter == *other;*/
+        /*                                  }) != secondPart.end();*/
+        /*            })*/
+        /*remove duplicates*/
+        )
 
     {
       CS = CartesianState::SKIP;
@@ -142,7 +146,8 @@ template <typename Metric> class CartesianElement {
                cachedPassesMetric.end() &&
            "original not found");
     if (cachedPassesMetric.at((const Sequence &)original) !=
-        cachedPassesMetric.at((const Sequence &)inverted)) {
+        cachedPassesMetric.at((const Sequence &)inverted))
+    {
       original = toStableIterator(original);
       inverted = toStableIterator(inverted);
       AllPassSnippet.push_back(original);

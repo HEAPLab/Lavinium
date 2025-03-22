@@ -1595,6 +1595,7 @@ bool FPPassManager::runOnModule(Module &M) {
       }
     }
     for (Function *F : Funcs) {
+      llvm::dbgs() << "Funct untrack " << F->getName(); 
       Tracker.untrackFunction(F);
     }
   }

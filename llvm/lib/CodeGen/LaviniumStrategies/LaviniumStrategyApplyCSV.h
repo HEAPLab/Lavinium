@@ -15,7 +15,7 @@
 #include <vector>
 #include <chrono>
 #include <fstream>
-#include "llvm/IR/LaviniumTracker.h"
+#include "llvm/IR/LaviniumCurrentFunctionGetter.h"
 
 namespace Lavinium {
 
@@ -83,8 +83,7 @@ public:
   std::optional<std::vector<std::string>> suggestPasses() override {
     if (runned)
       return {};
-    auto &Tracker = Lavinium::LaviniumTracker<uint64_t>::getTrackerInstace();
-    std::string functionName = Tracker.getFunctionToAnalyze()->getName().str();
+    std::string functionName =  getFunctionNameToAnalyze();
     std::string ret = getPass(functionName);
     runned = true;
     return parsePassFromString(ret);

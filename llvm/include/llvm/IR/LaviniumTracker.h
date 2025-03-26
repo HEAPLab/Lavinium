@@ -169,6 +169,12 @@ public:
 
   auto &getCachedFunctions() { return CachedFunctions; }
 
+  auto getFunctionToAnalyze(){
+    assert(CurrentFunction && "CurrentFunction not found use getFunctionToAnalyze(Module)");
+    return CurrentFunction;
+  }
+
+
   auto getFunctionToAnalyze(llvm::Module &Md) {
     // initialize if empty
     if (FunctionsToAnalyze.size() == 0) {
@@ -245,6 +251,7 @@ struct LaviniumTrackerInitializer {
       {"genetic", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyGenetic<uint64_t>>();}},
       {"association", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyAssociation>();}},
       {"random", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyRandom>();}},
+      {"apply-csv", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyApplyCSV>();}},
       {"cartesian-pruned", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyCartesianPruned<uint64_t>>();}},
       {"none", [](){return &LaviniumTracker<uint64_t>::GetTrackerInstanceAndInit<StrategyNone>();}},
     };

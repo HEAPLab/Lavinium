@@ -20,3 +20,5 @@ extern int AssRulePool;
 extern int AssSamples;
 extern bool AssClean;
 extern int RandomSamples;
+extern std::string BenchMarkName;
+extern std::string CSVLaviniumFile;

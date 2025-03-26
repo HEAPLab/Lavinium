@@ -117,6 +117,16 @@ static cl::opt<int, true>
     ransam("rand-sample", cl::desc("Total number of samples of the random alghoritm"),
             cl::location(RandomSamples), cl::init(10000));
 
+std::string CSVLaviniumFile;
+static cl::opt<std::string, true>
+    csvlavfile("csv-file", cl::desc("file containing optimization"),
+            cl::location(CSVLaviniumFile), cl::init("LaviniumCSVPasses.csv"));
+
+std::string BenchMarkName;
+static cl::opt<std::string, true>
+    bench("benchmark-name", cl::desc("Name Of the benchmark only for csv strategy"),
+            cl::location(BenchMarkName), cl::init(""));
+
 static cl::opt<enum PassDebugLevel> PassDebugging(
     "debug-pass", cl::Hidden,
     cl::desc("Print legacy PassManager debugging information"),

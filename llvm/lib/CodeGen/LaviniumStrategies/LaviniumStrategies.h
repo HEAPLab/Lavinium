@@ -1,4 +1,5 @@
 #pragma once
+#include "LaviniumStrategyApplyCSV.h"
 #include "LaviniumStrategyEnum.h"
 #include "LaviniumStrategyCartesian.h"
 #include "LaviniumStrategyGreedy.h"

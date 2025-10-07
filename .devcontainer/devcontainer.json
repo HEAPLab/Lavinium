@@ -1,0 +1,8 @@
+{
+    "name": "lavinium-dev",
+    "build": { "dockerfile": "Dockerfile" },
+    "runArgs": [
+        "--name",
+        "lavinium-dev"
+    ]
+}

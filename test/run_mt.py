@@ -18,13 +18,14 @@ LAVINIUMPASSES = "../../passes"
 CLANG =  LAVINIUM_PATH + "/clang" if LAVINIUM_PATH is not None else None
 OPT =  LAVINIUM_PATH + "/opt" if LAVINIUM_PATH is not None else None
 COMMON_FLAG = f"--target=riscv32 -fno-builtin --sysroot='{SYSROOT}' -march=rv32im" if SYSROOT is not None else None
-PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,loop-simplify,simplifycfg)\""
-PASSES_LLVMTA = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,indvars,loop-simplify,instcombine),globaldce,function(dce)\""
+PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota\""
+PASSES_LLVMTA = "-passes=\"function(mem2reg,loop-simplify,instcombine),loop-annota\""
+#PASSES_LLVMTA = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,indvars,loop-simplify,instcombine),globaldce,function(dce)\""
 TA_MUARCH = "--ta-muarch-type=inorder" 
 TA_MEMORY = "--ta-memory-type=single"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
 SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-restart-after-external=true -mllvm --ta-lpsolver-effort=maximal" 
-
+OPT_LEVEL = 0
 
 def check_env():
     if LAVINIUM_PATH is None:
@@ -73,9 +74,10 @@ def compile_thread(benchmark : Path):
     else: 
         out_string = out_string + (b"\tPost Annota %b \n" % red("ERR"))
         write_to_file(directory + "/post_annota_error",err)
-    
-    code,out,err = run(f"cd {directory}; {CLANG} {stem}-post-annota.ll -o {stem}-lavinium.ll {SECOND_COMPILATION_FLAG} ", True)
-    if b"ld.lld: error:" in err or b"unable to find library -lclang_rt.builtins-arm" in err or b"ld.lld: error: target emulation unknown: -m" in err:
+    run(f"cd {directory}; {OPT} -O{OPT_LEVEL} {stem}-post-annota.ll -o {stem}-post-annota-opt.ll -S {TA_MUARCH} {TA_MEMORY}", False)
+    #code,out,err = run(f"cd {directory}; mv {stem}-post-annota-opt.ll {stem}.c.ll", True)
+    code,out,err = run(f"cd {directory}; {CLANG} {stem}-post-annota-opt.ll -o {stem}-lavinium.ll {SECOND_COMPILATION_FLAG} -mllvm -benchmark-name={stem}", True)
+    if b"Outputting file:" in err or b"ld.lld: error:" in err or b"unable to find library -lclang_rt.builtins-arm" in err or b"ld.lld: error: target emulation unknown: -m" in err:
         if b"18446744073709551615" in err:
             out_string = out_string + (b"\tLavinium    %b \n" % yellow("Unbounded :'("))
             write_to_file(directory + "/lavinium_res",err)
@@ -154,6 +156,7 @@ if __name__ == '__main__':
     parser.add_argument('-cdir', metavar='name', type=str, default=False, nargs='?', help='Path for the benchmarks folder' , const=True)
     parser.add_argument('-enable-llvmta-passes', metavar='bool', type=bool, default=False, nargs='?', help='Run the default LLVMTA preprocessing passes (indvars ,instcombine, globaldce, dce) before launching Lavinium.', const=True)
     parser.add_argument('-custom_args', metavar='custom_args', type=str, default="", help="Add custom arguments to pass to the clang frontend")
+    parser.add_argument('-opt-level', metavar='opt_level', type=int, default=0, help="Run opt with -O<opt-level> before running the exploration (possible values: 0, 1, 2, 3)")
     args = parser.parse_args()
 
     if args.enable_llvmta_passes:
@@ -180,6 +183,8 @@ if __name__ == '__main__':
     if args.clean:
         clean(benchmarks, (".c", ".h", ".lav"))
         
+    OPT_LEVEL = args.opt_level
+
     SECOND_COMPILATION_FLAG += (" " + args.custom_args)
     
     if args.compile:

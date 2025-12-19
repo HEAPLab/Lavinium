@@ -125,21 +125,27 @@ unsigned long LaviniumRescheduler::readWCET() {
 
 void write_module(llvm::Twine filename, const llvm::Module &M)
 {
+  std::cerr << "Outputting file: " << filename.str() << std::endl;
+  std::cerr.flush();
   int file = 0;
   auto err = llvm::sys::fs::openFileForWrite(filename, file);
   assert(!err.value() && "Fail open module");
   llvm::raw_fd_ostream stream{file, false};
   M.print(stream, nullptr);
+  stream.flush();
   llvm::sys::fs::closeFile(file);
 }
 
 void write_module(const char *filename, const llvm::Module &M)
 {
+  std::cerr << "Outputting file: " << filename << std::endl;
+  std::cerr.flush();
   int file = 0;
   auto err = llvm::sys::fs::openFileForWrite(filename, file);
   assert(!err.value() && "Fail open module");
   llvm::raw_fd_ostream stream{file, false};
   M.print(stream, nullptr);
+  stream.flush();
   llvm::sys::fs::closeFile(file);
 }
 
@@ -201,7 +207,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
     F = Tracker.incrementCurrFunction(); // increase the current function
     if (F == nullptr) {
       Tracker.clearScheduled();
-      write_module("out.ll", M); // write the module in output
+      write_module(M.getSourceFileName()+".ll", M); // write the module in output
       _Exit(0);
     }
 
@@ -236,6 +242,7 @@ bool LaviniumRescheduler::runOnMachineFunction(MachineFunction &MF) {
   } else {
 
     Tracker.clearScheduled();
+    write_module(M.getSourceFileName()+".ll", M); // write the module in output
     printResult(M);
     _Exit(0);
   }

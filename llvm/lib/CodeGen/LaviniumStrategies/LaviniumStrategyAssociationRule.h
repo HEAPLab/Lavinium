@@ -620,7 +620,7 @@ class StrategyAssociation : public Strategy<uint64_t> {
   std::optional<std::vector<std::string>> correlation(uint64_t wcet) {
 
     std::vector<std::string> tmp;
-    if (AssClean)
+    if (AssocClean)
       if (cleanCycle < lastGenerated.size()) {
         if (cleanCycle == 0) {
           cleanPassWcet = {lastGenerated[0], wcet};
@@ -640,7 +640,7 @@ class StrategyAssociation : public Strategy<uint64_t> {
     cleanCycle = 0;
 
     double totalWeight = lattice.updateWeight(weightsMap);
-    if (Generated < AssSamples) {
+    if (Generated < AssocSamples) {
       std::uniform_real_distribution<> PassDistribution =
           std::uniform_real_distribution<>(
               0, totalWeight); // used to extract the passes to select
@@ -681,7 +681,7 @@ class StrategyAssociation : public Strategy<uint64_t> {
     };
 
     std::optional<std::vector<std::string>> suggestPasses() override {
-      this->logFile << "Association Progress: " << ((float)Generated / (float)AssRulePool) << std::endl;
+      this->logFile << "Association Progress: " << ((float)Generated / (float)AssocRulePool) << std::endl;
       if (Generated == 0) {
         Generated++;
         lastGenerated = std::vector<std::string>{"no-op-function"};
@@ -699,7 +699,7 @@ class StrategyAssociation : public Strategy<uint64_t> {
       }
 
       std::vector<std::string> tmp;
-      if (Generated < AssRulePool) {
+      if (Generated < AssocRulePool) {
         std::uniform_int_distribution<> PassDistribution =
             std::uniform_int_distribution<>(
                 0, this->availablePasses.size() -

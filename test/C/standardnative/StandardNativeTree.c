@@ -11,20 +11,6 @@ struct StandardNativeTree_Node0 {
                 };
 unsigned int StandardNativeTree_predict0( int  pX[64]);
 
-int main() {
-  int pX[64];
-  unsigned int predCnt[2] = {0, 0};
-  predCnt[StandardNativeTree_predict0(pX)]++;
-  unsigned int pred = 0;
-  unsigned int cnt = predCnt[0];
-  for (unsigned int i = 1; i < 2; ++i) {
-    if (predCnt[i] > cnt) {
-      cnt = predCnt[i];
-      pred = i;
-    }
-  }
-  return pred;
-}
 struct StandardNativeTree_Node0 tree0[2139] = {{63, 41, 1, 2, 0},
                                               {61, 5095, 3, 4, 0},
                                               {50, 0, 5, 6, 0},
@@ -2184,4 +2170,20 @@ unsigned int StandardNativeTree_predict0(int  pX[64]) {
   }
 
   return 0; // Make the compiler happy
+}
+
+
+int main() {
+  int pX[64];
+  unsigned int predCnt[2] = {0, 0};
+  predCnt[StandardNativeTree_predict0(pX)]++;
+  unsigned int pred = 0;
+  unsigned int cnt = predCnt[0];
+  for (unsigned int i = 1; i < 2; ++i) {
+    if (predCnt[i] > cnt) {
+      cnt = predCnt[i];
+      pred = i;
+    }
+  }
+  return pred;
 }

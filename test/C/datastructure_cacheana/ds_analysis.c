@@ -1,7 +1,7 @@
 #include "address_magic.h"
 
 volatile unsigned char a[32*16]; /* 32 sets, 16 bytes per line */
-volatile int *x = ADDRESS(1,3,0);
+volatile int *x = (int*) ADDRESS(1,3,0);
 
 int main(void)
 {

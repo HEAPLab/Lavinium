@@ -25,44 +25,6 @@ unsigned int StandardIfTree_predict22( int const pX[64]);
 unsigned int StandardIfTree_predict23( int const pX[64]);
 unsigned int StandardIfTree_predict24( int const pX[64]);
 
-int main() {
-  int pX[64];
-  unsigned int predCnt[2] = {0, 0};
-  predCnt[StandardIfTree_predict0(pX)]++;
-  predCnt[StandardIfTree_predict1(pX)]++;
-  predCnt[StandardIfTree_predict2(pX)]++;
-  predCnt[StandardIfTree_predict3(pX)]++;
-  predCnt[StandardIfTree_predict4(pX)]++;
-  predCnt[StandardIfTree_predict5(pX)]++;
-  predCnt[StandardIfTree_predict6(pX)]++;
-  predCnt[StandardIfTree_predict7(pX)]++;
-  predCnt[StandardIfTree_predict8(pX)]++;
-  predCnt[StandardIfTree_predict9(pX)]++;
-  predCnt[StandardIfTree_predict10(pX)]++;
-  predCnt[StandardIfTree_predict11(pX)]++;
-  predCnt[StandardIfTree_predict12(pX)]++;
-  predCnt[StandardIfTree_predict13(pX)]++;
-  predCnt[StandardIfTree_predict14(pX)]++;
-  predCnt[StandardIfTree_predict15(pX)]++;
-  predCnt[StandardIfTree_predict16(pX)]++;
-  predCnt[StandardIfTree_predict17(pX)]++;
-  predCnt[StandardIfTree_predict18(pX)]++;
-  predCnt[StandardIfTree_predict19(pX)]++;
-  predCnt[StandardIfTree_predict20(pX)]++;
-  predCnt[StandardIfTree_predict21(pX)]++;
-  predCnt[StandardIfTree_predict22(pX)]++;
-  predCnt[StandardIfTree_predict23(pX)]++;
-  predCnt[StandardIfTree_predict24(pX)]++;
-  unsigned int pred = 0;
-  unsigned int cnt = predCnt[0];
-  for (unsigned int i = 1; i < 2; ++i) {
-    if (predCnt[i] > cnt) {
-      cnt = predCnt[i];
-      pred = i;
-    }
-  }
-  return pred;
-}
 unsigned int StandardIfTree_predict0(int const pX[64]) {
   if (pX[63] <= 43) {
     if (pX[0] <= 33) {
@@ -194841,4 +194803,44 @@ unsigned int StandardIfTree_predict24(int const pX[64]) {
       }
     }
   }
+}
+
+
+int main() {
+  int pX[64];
+  unsigned int predCnt[2] = {0, 0};
+  predCnt[StandardIfTree_predict0(pX)]++;
+  predCnt[StandardIfTree_predict1(pX)]++;
+  predCnt[StandardIfTree_predict2(pX)]++;
+  predCnt[StandardIfTree_predict3(pX)]++;
+  predCnt[StandardIfTree_predict4(pX)]++;
+  predCnt[StandardIfTree_predict5(pX)]++;
+  predCnt[StandardIfTree_predict6(pX)]++;
+  predCnt[StandardIfTree_predict7(pX)]++;
+  predCnt[StandardIfTree_predict8(pX)]++;
+  predCnt[StandardIfTree_predict9(pX)]++;
+  predCnt[StandardIfTree_predict10(pX)]++;
+  predCnt[StandardIfTree_predict11(pX)]++;
+  predCnt[StandardIfTree_predict12(pX)]++;
+  predCnt[StandardIfTree_predict13(pX)]++;
+  predCnt[StandardIfTree_predict14(pX)]++;
+  predCnt[StandardIfTree_predict15(pX)]++;
+  predCnt[StandardIfTree_predict16(pX)]++;
+  predCnt[StandardIfTree_predict17(pX)]++;
+  predCnt[StandardIfTree_predict18(pX)]++;
+  predCnt[StandardIfTree_predict19(pX)]++;
+  predCnt[StandardIfTree_predict20(pX)]++;
+  predCnt[StandardIfTree_predict21(pX)]++;
+  predCnt[StandardIfTree_predict22(pX)]++;
+  predCnt[StandardIfTree_predict23(pX)]++;
+  predCnt[StandardIfTree_predict24(pX)]++;
+  unsigned int pred = 0;
+  unsigned int cnt = predCnt[0];
+  for (unsigned int i = 1; i < 2; ++i) {
+    if (predCnt[i] > cnt) {
+      cnt = predCnt[i];
+      pred = i;
+    }
+  }
+  return pred;
 }

@@ -54,7 +54,6 @@ public:
    std::string ret;
    for(std::string& line : fileContent){
     auto  indexBenchmark = line.find_first_of('/') + 1;
-    llvm::dbgs() << "Pizza bench name " << line.substr(indexBenchmark) << "\n";
     if (line.substr(indexBenchmark).find(BenchMarkName) != 0)
       continue;
     
@@ -63,17 +62,21 @@ public:
     //Skip funcions
 
     std::string currentFunctionName = line.substr(firstQuote+3, firstCommaInPass - (firstQuote + 3));
-    llvm::dbgs() << "Pizza currentFuncName " << currentFunctionName << "\n";
     if(currentFunctionName != functionName)
       continue;
 
     // Extract WCET
-    auto secondQuote = line.substr(firstQuote+1).find_first_of('"');
+    auto secondQuote = line.substr(firstQuote+1).find_first_of('"') + firstQuote+1;
+
     auto WCET = std::atoi(line.substr(secondQuote+2).c_str());
+    llvm::dbgs() << "Pizza Second substring " << line.substr(secondQuote+2).c_str() << "\n";
     llvm::dbgs() << "Pizza WCET " << WCET << "\n";
     if(WCET < minWCET){
       minWCET = WCET;
-      ret = line.substr(firstCommaInPass + 1, (secondQuote - 1) - (firstCommaInPass + 1));
+
+      ret = line.substr(firstCommaInPass + 1, (secondQuote - 1) - (firstCommaInPass + 1));    
+      llvm::dbgs() << "Pizza ret " << ret << "\n";
+
     }    
    }
    return ret;

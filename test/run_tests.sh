@@ -45,13 +45,13 @@ policy=genetic
 
 policy=association
 #apply_csv $policy
-#./run_mt.py -cdir PolyBench -compile -custom_args="-mllvm -lavinium-strategy='$policy' -mllvm -assrule-pool=200 -mllvm -ass-sample=1000 -mllvm -sequence-length=10"
+#./run_mt.py -cdir PolyBench -compile -custom_args="-mllvm -lavinium-strategy='$policy' -mllvm -assocrule-pool=200 -mllvm -assoc-sample=1000 -mllvm -sequence-length=10"
 #build $policy
 
-policy=ass-cleaning
+policy=assoc-cleaning
 #apply_csv $policy
 #echo running $policy
-#./run_mt.py -cdir PolyBench -compile -custom_args="-mllvm -lavinium-strategy='association' -mllvm -assrule-pool=200 -mllvm -ass-sample=1000 -mllvm -sequence-length=10 -mllvm -ass-clean=true"
+#./run_mt.py -cdir PolyBench -compile -custom_args="-mllvm -lavinium-strategy='association' -mllvm -assocrule-pool=200 -mllvm -assoc-sample=1000 -mllvm -sequence-length=10 -mllvm -assoc-clean=true"
 #mv results.csv results_polybench_rtss/results_$policy.csv
 #build $policy
 

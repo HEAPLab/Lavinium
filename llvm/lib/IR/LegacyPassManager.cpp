@@ -96,21 +96,21 @@ static cl::opt<int, true>
     genpool("genetic-pool", cl::desc("Number of samples in the genetic pool"),
             cl::location(GeneticPool), cl::init(200));
 
-int AssRulePool;
+int AssocRulePool;
 static cl::opt<int, true>
-    asspool("assrule-pool", cl::desc("Number of samples in the assrule pool"),
-            cl::location(AssRulePool), cl::init(200));
+    assocpool("assocrule-pool", cl::desc("Number of samples in the assrule pool"),
+            cl::location(AssocRulePool), cl::init(200));
 
-int AssSamples;
+int AssocSamples;
 static cl::opt<int, true>
-    asssam("ass-sample", cl::desc("Total number of samples of the association alghoritm created"),
-            cl::location(AssSamples), cl::init(1000));
+    assocsam("assoc-sample", cl::desc("Total number of samples of the association alghoritm created"),
+            cl::location(AssocSamples), cl::init(1000));
 
 
-bool AssClean;
+bool AssocClean;
 static cl::opt<bool, true>
-    asscln("ass-clean", cl::desc("Use cleaning rules in association"),
-            cl::location(AssClean), cl::init(false));
+    assoccln("assoc-clean", cl::desc("Use cleaning rules in association"),
+            cl::location(AssocClean), cl::init(false));
 
 int RandomSamples;
 static cl::opt<int, true>

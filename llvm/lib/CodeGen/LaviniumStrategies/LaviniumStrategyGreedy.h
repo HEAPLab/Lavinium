@@ -19,9 +19,11 @@ namespace Lavinium {
 
 template <typename Metric> class StrategyGreedy : public Strategy<Metric> {
 
-// Contains a vector of const_iterators of strings. The strings are the passes.
-StrategyDeepTracker<std::vector<std::vector<std::string>::const_iterator>>SDT;
-size_t MaxDepth = 1;
+  // Contains a vector of const_iterators of strings. The strings are the
+  // passes.
+  StrategyDeepTracker<std::vector<std::vector<std::string>::const_iterator>>
+      SDT;
+  size_t MaxDepth = 1;
 
 public:
   StrategyGreedy(const CachedPassesMetric<Metric> *cached)
@@ -29,12 +31,10 @@ public:
     initialize();
   };
 
-  std::optional<std::vector<std::string>>
-  suggestPasses() override {
+  std::optional<std::vector<std::string>> suggestPasses() override {
 
     auto &Its = SDT.Data;    // the vector of iterators
     auto &Depth = SDT.Depth; // the depth of the exploration
-
 
     this->logFile << "Greedy's depth: " << Depth << std::endl;
 
@@ -61,8 +61,10 @@ public:
 private:
   void initialize() {
     MaxDepth = LaviniumDepth;
-    SDT= {  std::vector<typename decltype(this->availablePasses)::const_iterator>(MaxDepth + 1, this->availablePasses.begin()), // Data
-            0 }; 
+    SDT = {
+        std::vector<typename decltype(this->availablePasses)::const_iterator>(
+            MaxDepth + 1, this->availablePasses.begin()), // Data
+        0};
   }
 
   // return true if can continue scheduling
@@ -73,7 +75,7 @@ private:
       return false;
     } else {
       auto IDS = findMinimum(Depth)->getIds();
-      auto &minimum_last = IDS[IDS.size()-1];
+      auto &minimum_last = IDS[IDS.size() - 1];
       Its[Depth] = std::find_if(
           this->availablePasses.begin(), this->availablePasses.end(),
           [&minimum_last](auto &elem) { return elem == minimum_last; });
@@ -94,8 +96,9 @@ private:
 
     while (begin != end) {
       auto &[key, data] = *begin;
-      //LAVINIUM-TODO: -4 is a magic number due to always scheduling mem2reg loopsimplify simplifycfg at the end
-      if (key.size() -1 != (size_t)Depth) {
+      // LAVINIUM-TODO: -4 is a magic number due to always scheduling mem2reg
+      // loopsimplify simplifycfg at the end
+      if (key.size() - 4 != (size_t)Depth) {
         begin++;
         continue;
       }
@@ -107,7 +110,6 @@ private:
     }
     return min_key;
   }
-
 };
 
-}
+} // namespace Lavinium

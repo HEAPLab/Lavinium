@@ -100,7 +100,7 @@ private:
   bool cmpSequences(const Sequence &lft, const Sequence &rgt) const {
     LaviniumScheduledPasses l{lft};
     LaviniumScheduledPasses r{rgt};
-    return this->cachedPassesMetric->find(l)->second >
+    return this->cachedPassesMetric->find(l)->second <
            this->cachedPassesMetric->find(r)->second;
   }
 

@@ -115,7 +115,7 @@ static cl::opt<bool, true>
 int RandomSamples;
 static cl::opt<int, true>
     ransam("rand-sample", cl::desc("Total number of samples of the random alghoritm"),
-            cl::location(RandomSamples), cl::init(10000));
+            cl::location(RandomSamples), cl::init(2));
 
 std::string CSVLaviniumFile;
 static cl::opt<std::string, true>

@@ -18,10 +18,10 @@ LAVINIUMPASSES = "../../passes"
 CLANG =  LAVINIUM_PATH + "/clang" if LAVINIUM_PATH is not None else None
 OPT =  LAVINIUM_PATH + "/opt" if LAVINIUM_PATH is not None else None
 COMMON_FLAG = f"--target=riscv32 -fno-builtin --sysroot='{SYSROOT}' -march=rv32im" if SYSROOT is not None else None
-PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota\""
+PASSES = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,loop-simplify,simplifycfg)\""
 PASSES_LLVMTA = "-passes=\"function(mem2reg,loop-simplify),loop-annota,function(mem2reg,indvars,loop-simplify,instcombine),globaldce,function(dce)\""
 TA_MUARCH = "--ta-muarch-type=inorder" 
-TA_MEMORY = "--ta-memory-type=separatecaches"
+TA_MEMORY = "--ta-memory-type=single"
 FIRST_COMPILATION_FLAG = f"-S -emit-llvm -Xclang -disable-O0-optnone {COMMON_FLAG} " 
 SECOND_COMPILATION_FLAG = f"{COMMON_FLAG} -mllvm {TA_MEMORY} -mllvm {TA_MUARCH} -mllvm -lavinium-enable -mllvm -lavinium-file={LAVINIUMPASSES} -mllvm --ta-strict=false -mllvm --ta-restart-after-external=true -mllvm --ta-lpsolver-effort=maximal" 
 

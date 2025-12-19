@@ -26,7 +26,7 @@ reassociate
 sccp
 slp-vectorizer
 speculative-execution
-#tailcallelim
+##tailcallelim
 loop-mssa(licm)
 mldst-motion
 loop(loop-idiom)
@@ -35,53 +35,3 @@ sroa
 loop(loop-deletion)
 loop-vectorize
 loop(indvars)
-# loop-mssa(licm),mem2reg,loop-unroll<O3>,instcombine,jump-threading,instsimplify
-# loop-mssa(licm),mem2reg,loop-unroll<O3>,instcombine,jump-threading,correlated-propagation
-# loop-mssa(licm),mem2reg,loop-unroll<O3>
-# loop-mssa(licm),mem2reg,loop-unroll<O3>,instcombine,jump-threading
-# loop-mssa(licm),mem2reg,loop-unroll<O3>,gvn
-# loop-mssa(licm),mem2reg,loop-unroll<O3>,instcombine
-# loop-mssa(licm),mem2reg,loop-unroll<O3>,instcombine,reassociate
-# loop(loop-deletion),instcombine,jump-threading
-# loop(loop-deletion),gvn
-# loop(loop-deletion),instcombine,jump-threading,instsimplify
-# loop(loop-deletion),instcombine,jump-threading,correlated-propagation
-# loop(loop-deletion),instcombine
-# loop(loop-deletion),instcombine,reassociate
-# speculative-execution,instcombine
-# speculative-execution,instcombine,reassociate
-# speculative-execution,instcombine,jump-threading
-# speculative-execution,instcombine,jump-threading,instsimplify
-# speculative-execution,instcombine,jump-threading,correlated-propagation
-# lcssa,instcombine,jump-threading,correlated-propagation
-# lcssa,instcombine
-# lcssa,instcombine,reassociate
-# lcssa,instcombine,jump-threading
-# lcssa,instcombine,jump-threading,instsimplify
-# instcombine,reassociate
-# instcombine,jump-threading
-# instcombine,jump-threading,instsimplify
-# instcombine,jump-threading,correlated-propagation
-# loop(loop-idiom),instcombine,jump-threading,correlated-propagation
-# loop(loop-idiom),instcombine
-# loop(loop-idiom),instcombine,reassociate
-# loop(loop-idiom),instcombine,jump-threading
-# loop(loop-idiom),instcombine,jump-threading,instsimplify
-# mem2reg,loop-unroll<O3>,instcombine,jump-threading
-# mem2reg,loop-unroll<O3>,instcombine,jump-threading,instsimplify
-# mem2reg,loop-unroll<O3>,instcombine,jump-threading,correlated-propagation
-# mem2reg,loop-unroll<O3>,gvn
-# mem2reg,loop-unroll<O3>,instcombine
-# mem2reg,loop-unroll<O3>,instcombine,reassociate
-# loop(indvars),instcombine
-# loop(indvars),instcombine,reassociate
-# loop(indvars),instcombine,jump-threading
-# loop(indvars),instcombine,jump-threading,instsimplify
-# loop(indvars),instcombine,jump-threading,correlated-propagation
-# loop-vectorize,instcombine,jump-threading,correlated-propagation
-# loop-vectorize,instcombine
-# loop-vectorize,instcombine,reassociate
-# loop-vectorize,instcombine,jump-threading
-# loop-vectorize,instcombine,jump-threading,instsimplify
-# jump-threading,instsimplify
-# jump-threading,correlated-propagation

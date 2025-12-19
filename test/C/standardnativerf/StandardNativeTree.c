@@ -276,44 +276,6 @@ struct StandardNativeTree_Node24 {
 unsigned int StandardNativeTree_predict24( int const pX[64]);
 
 
-int main() {
-  int pX[64];
-  unsigned int predCnt[2] = {0, 0};
-  predCnt[StandardNativeTree_predict0(pX)]++;
-  predCnt[StandardNativeTree_predict1(pX)]++;
-  predCnt[StandardNativeTree_predict2(pX)]++;
-  predCnt[StandardNativeTree_predict3(pX)]++;
-  predCnt[StandardNativeTree_predict4(pX)]++;
-  predCnt[StandardNativeTree_predict5(pX)]++;
-  predCnt[StandardNativeTree_predict6(pX)]++;
-  predCnt[StandardNativeTree_predict7(pX)]++;
-  predCnt[StandardNativeTree_predict8(pX)]++;
-  predCnt[StandardNativeTree_predict9(pX)]++;
-  predCnt[StandardNativeTree_predict10(pX)]++;
-  predCnt[StandardNativeTree_predict11(pX)]++;
-  predCnt[StandardNativeTree_predict12(pX)]++;
-  predCnt[StandardNativeTree_predict13(pX)]++;
-  predCnt[StandardNativeTree_predict14(pX)]++;
-  predCnt[StandardNativeTree_predict15(pX)]++;
-  predCnt[StandardNativeTree_predict16(pX)]++;
-  predCnt[StandardNativeTree_predict17(pX)]++;
-  predCnt[StandardNativeTree_predict18(pX)]++;
-  predCnt[StandardNativeTree_predict19(pX)]++;
-  predCnt[StandardNativeTree_predict20(pX)]++;
-  predCnt[StandardNativeTree_predict21(pX)]++;
-  predCnt[StandardNativeTree_predict22(pX)]++;
-  predCnt[StandardNativeTree_predict23(pX)]++;
-  predCnt[StandardNativeTree_predict24(pX)]++;
-  unsigned int pred = 0;
-  unsigned int cnt = predCnt[0];
-  for (unsigned int i = 1; i < 2; ++i) {
-    if (predCnt[i] > cnt) {
-      cnt = predCnt[i];
-      pred = i;
-    }
-  }
-  return pred;
-}
 struct StandardNativeTree_Node0 const tree0[2218] = {{63, 43, 1, 2, 0},
                                               {0, 33, 3, 4, 0},
                                               {27, 0, 5, 6, 0},
@@ -49514,4 +49476,44 @@ unsigned int StandardNativeTree_predict24(int const pX[64]) {
   }
 
   return 0; // Make the compiler happy
+}
+
+
+int main() {
+  int pX[64];
+  unsigned int predCnt[2] = {0, 0};
+  predCnt[StandardNativeTree_predict0(pX)]++;
+  predCnt[StandardNativeTree_predict1(pX)]++;
+  predCnt[StandardNativeTree_predict2(pX)]++;
+  predCnt[StandardNativeTree_predict3(pX)]++;
+  predCnt[StandardNativeTree_predict4(pX)]++;
+  predCnt[StandardNativeTree_predict5(pX)]++;
+  predCnt[StandardNativeTree_predict6(pX)]++;
+  predCnt[StandardNativeTree_predict7(pX)]++;
+  predCnt[StandardNativeTree_predict8(pX)]++;
+  predCnt[StandardNativeTree_predict9(pX)]++;
+  predCnt[StandardNativeTree_predict10(pX)]++;
+  predCnt[StandardNativeTree_predict11(pX)]++;
+  predCnt[StandardNativeTree_predict12(pX)]++;
+  predCnt[StandardNativeTree_predict13(pX)]++;
+  predCnt[StandardNativeTree_predict14(pX)]++;
+  predCnt[StandardNativeTree_predict15(pX)]++;
+  predCnt[StandardNativeTree_predict16(pX)]++;
+  predCnt[StandardNativeTree_predict17(pX)]++;
+  predCnt[StandardNativeTree_predict18(pX)]++;
+  predCnt[StandardNativeTree_predict19(pX)]++;
+  predCnt[StandardNativeTree_predict20(pX)]++;
+  predCnt[StandardNativeTree_predict21(pX)]++;
+  predCnt[StandardNativeTree_predict22(pX)]++;
+  predCnt[StandardNativeTree_predict23(pX)]++;
+  predCnt[StandardNativeTree_predict24(pX)]++;
+  unsigned int pred = 0;
+  unsigned int cnt = predCnt[0];
+  for (unsigned int i = 1; i < 2; ++i) {
+    if (predCnt[i] > cnt) {
+      cnt = predCnt[i];
+      pred = i;
+    }
+  }
+  return pred;
 }

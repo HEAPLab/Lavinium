@@ -11,20 +11,6 @@ struct NaiveNativeTree_Node0 {
 
 unsigned int NaiveNativeTree_predict0(int const pX[64]);
 
-int main() {
-  int pX[64];
-  unsigned int predCnt[2] = {0, 0};
-  predCnt[NaiveNativeTree_predict0(pX)]++;
-  unsigned int pred = 0;
-  unsigned int cnt = predCnt[0];
-  for (unsigned int i = 1; i < 2; ++i) {
-    if (predCnt[i] > cnt) {
-      cnt = predCnt[i];
-      pred = i;
-    }
-  }
-  return pred;
-}
 
 struct NaiveNativeTree_Node0 const tree0[4279] = {{0, 0, 63, 41, 1, 2},
                                            {0, 0, 61, 5095, 3, 4},
@@ -4316,4 +4302,20 @@ unsigned int NaiveNativeTree_predict0(int const pX[64]) {
     }
   }
   return tree0[i].prediction;
+}
+
+
+int main() {
+  int pX[64];
+  unsigned int predCnt[2] = {0, 0};
+  predCnt[NaiveNativeTree_predict0(pX)]++;
+  unsigned int pred = 0;
+  unsigned int cnt = predCnt[0];
+  for (unsigned int i = 1; i < 2; ++i) {
+    if (predCnt[i] > cnt) {
+      cnt = predCnt[i];
+      pred = i;
+    }
+  }
+  return pred;
 }
